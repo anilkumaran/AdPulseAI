@@ -1,0 +1,5 @@
+pip install --force-reinstall google-api-core google-generativeai
+
+
+
+python3 -m uvicorn main:app --reload

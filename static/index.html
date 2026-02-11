@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdPulseAI - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .hero-section { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: white; padding: 50px 0; margin-bottom: 30px; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+        #adResult { white-space: pre-wrap; background: #fffdf2; border-left: 5px solid #ffc107; font-style: italic; }
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .dot-online { background-color: #28a745; }
+        .dot-offline { background-color: #dc3545; }
+        .dot-checking { background-color: #ffc107; }
+    </style>
+</head>
+<body>
+
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">AdPulseAI</h1>
+        <p class="lead">AI-Powered Marketing Content Framework</p>
+        <span id="healthBadge" class="badge bg-light text-dark py-2 px-3">
+            <span id="statusDot" class="status-dot dot-checking"></span>
+            System: <span id="statusText">Checking...</span>
+        </span>
+    </div>
+</div>
+
+<div class="container">
+    <div id="errorBanner" class="alert alert-danger d-none alert-dismissible fade show mb-4" role="alert">
+        <h5 class="alert-heading fw-bold">System Error</h5>
+        <p id="errorMessage" class="mb-0"></p>
+        <button type="button" class="btn-close" onclick="hideError()"></button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card p-4">
+                <h4 class="mb-4">Ad Generator</h4>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Product Description</label>
+                    <textarea id="productInfo" class="form-control" rows="4" placeholder="Describe the product or service..."></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Tone/Voice</label>
+                        <select id="voiceSelect" class="form-select">
+                            <option value="Professional">Professional</option>
+                            <option value="Witty">Witty/Humorous</option>
+                            <option value="Urgent">Urgent (Sales)</option>
+                            <option value="Friendly">Friendly & Casual</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-end">
+                        <button id="generateBtn" class="btn btn-primary btn-lg w-100">
+                            Generate Copy
+                        </button>
+                    </div>
+                </div>
+
+                <div id="adResultContainer" class="mt-4 d-none">
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-primary fw-bold mb-0">Gemini Response:</h6>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="copyResult()">Copy Text</button>
+                    </div>
+                    <div id="adResult" class="p-4 rounded shadow-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card p-4 mb-4">
+                <h5 class="fw-bold">Configuration</h5>
+                <hr>
+                <div class="mb-2">
+                    <small class="text-muted d-block">System Persona:</small>
+                    <span id="currentPersona" class="fw-medium text-dark">Loading...</span>
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted d-block">Environment Mode:</small>
+                    <span id="currentMode" class="badge bg-secondary text-uppercase">...</span>
+                </div>
+            </div>
+
+            <div class="card p-4 bg-dark text-white shadow">
+                <h6>Development Status</h6>
+                <p class="small mb-0 text-secondary">
+                    Status: <span class="text-success">V1.2 Stable</span><br>
+                    Engine: <span class="text-info">Gemini 1.5 Flash</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Utility Functions ---
+    function showError(message) {
+        const banner = document.getElementById('errorBanner');
+        document.getElementById('errorMessage').innerText = message;
+        banner.classList.remove('d-none');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideError() {
+        document.getElementById('errorBanner').classList.add('d-none');
+    }
+
+    function copyResult() {
+        const text = document.getElementById('adResult').innerText;
+        navigator.clipboard.writeText(text);
+        alert("Copied to clipboard!");
+    }
+
+    // --- System Synchronization Logic ---
+    async function checkSystemStatus() {
+        console.log("Synchronizing with backend...");
+        try {
+            // 1. Check Health & Mode
+            const healthRes = await fetch('/api/healthcheck');
+            if (!healthRes.ok) throw new Error("Healthcheck unresponsive");
+            const health = await healthRes.json();
+            
+            document.getElementById('statusDot').className = 'status-dot dot-online';
+            document.getElementById('statusText').innerText = 'Online';
+            document.getElementById('currentMode').innerText = health.mode;
+            
+            // 2. Load Admin Settings (Persona)
+            const settingsRes = await fetch('/api/admin/settings');
+            if (settingsRes.ok) {
+                const settings = await settingsRes.json();
+                document.getElementById('currentPersona').innerText = settings.system_persona;
+            }
+
+        } catch (err) {
+            console.error("Initialization error:", err);
+            document.getElementById('statusDot').className = 'status-dot dot-offline';
+            document.getElementById('statusText').innerText = 'Offline';
+            showError("System Offline: Check if the FastAPI server is running.");
+        }
+    }
+
+    // --- Main Entry Point (Fixes the Top-Level Await Error) ---
+    window.addEventListener('DOMContentLoaded', async () => {
+        // Run initial status check
+        await checkSystemStatus();
+
+        // Attach Event Listeners
+        const generateBtn = document.getElementById('generateBtn');
+        generateBtn.addEventListener('click', async () => {
+            const productInfo = document.getElementById('productInfo').value;
+            const voice = document.getElementById('voiceSelect').value;
+            const resultContainer = document.getElementById('adResultContainer');
+
+            if (!productInfo) {
+                showError("Please provide product details.");
+                return;
+            }
+
+            hideError();
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Analyzing...';
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ product_info: productInfo, voice: voice })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === "success") {
+                    resultContainer.classList.remove('d-none');
+                    document.getElementById('adResult').innerText = data.content;
+                } else {
+                    showError(data.detail || "Gemini processing failed.");
+                }
+            } catch (err) {
+                showError("Network error: Could not connect to API.");
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerText = "Generate Copy";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

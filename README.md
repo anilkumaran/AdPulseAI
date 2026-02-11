@@ -9,9 +9,8 @@
    - [Admin Module](#1-admin-module-ownermanager)
    - [User Module](#2-user-module-employeesales-staff)
 4. [Proposed System](#proposed-system-cloud-implementation-with-admin-control)
-5. [Developed By](#developed-by)
-6. [Project Guide](#project-guide)
-
+5. [Project Guide](#project-guide)
+6. [Developed By](#developed-by)
 ---
 
 ## Abstract

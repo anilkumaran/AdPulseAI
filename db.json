@@ -1,0 +1,60 @@
+{
+    "users": {
+        "admin": {
+            "pw": "$2b$12$YEPyCykvCU1Poo3SieiA0e7QliznXLv5om6v6pR5yChWxZKZxfXrO",
+            "role": "admin"
+        },
+        "user1": {
+            "pw": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS",
+            "role": "user"
+        }
+    },
+    "history": [
+        {
+            "user_id": "user1",
+            "timestamp": "2026-02-11 15:53",
+            "prompt_preview": "3",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: 3. Tone: Professional. Output EXACTLY in this format: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
+        },
+        {
+            "user_id": "user1",
+            "timestamp": "2026-02-11 15:51",
+            "prompt_preview": "From uuu",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: From uuu. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
+        },
+        {
+            "user_id": "user1",
+            "timestamp": "2026-02-11 15:50",
+            "prompt_preview": "From user",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: From user. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
+        },
+        {
+            "user_id": "admin",
+            "timestamp": "2026-02-11 15:49",
+            "prompt_preview": "Hello",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: Hello. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
+        },
+        {
+            "user_id": "admin",
+            "timestamp": "2026-02-11 15:46",
+            "prompt_preview": "A Tablet with curved display",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: A Tablet with curved display. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
+        },
+        {
+            "user_id": "admin",
+            "timestamp": "2026-02-11 15:41",
+            "prompt_preview": "A laptop with nice design",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: A laptop with nice design. Tone: Professional. Output: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
+        },
+        {
+            "user_id": "admin",
+            "timestamp": "2026-02-11 15:40",
+            "prompt_preview": "A book on loving animals",
+            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: A book on loving animals. Tone: Professional. Output: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
+        }
+    ],
+    "telemetry": {
+        "total_api_calls": 7,
+        "last_call_timestamp": "2026-02-11 15:53"
+    }
+}

@@ -1,51 +1,56 @@
-from fastapi import FastAPI, HTTPException, Depends
+import os
+from datetime import datetime
+from fastapi import FastAPI, Depends, HTTPException, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+
+from schemas.ad_schemas import AdRequest, AdResponse, SettingsUpdate
+from services.auth_service import auth_svc
+from services.db_service import db_svc
 from services.gemini_service import get_gemini_service, BaseAdService
 from services.settings_service import get_settings_service, SettingsService
-from schemas.ad_schemas import AdRequest, AdResponse, SettingsUpdate
 
-app = FastAPI(title="AdPulseAI", version="1.0")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Permits all origins for development
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI(title="AdPulseAI Framework")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/api/healthcheck")
-async def healthcheck():
-    return {"status": "ok"}
+def healthcheck():
+    return {"status": "online", "mode": os.getenv("ENV_MODE", "production"), "time": str(datetime.now())}
 
-################
-# User
-################
+@app.post("/token")
+async def login(username: str = Form(...), password: str = Form(...)):
+    db = db_svc.get_data()
+    user = db["users"].get(username)
+    if not user or not auth_svc.verify_password(password, user["pw"]):
+        raise HTTPException(status_code=400, detail="Invalid Credentials")
+    token = auth_svc.create_token({"sub": username, "role": user["role"]})
+    return {"access_token": token, "role": user["role"]}
+
 @app.post("/api/generate", response_model=AdResponse)
-async def generate_ad(
-    request: AdRequest,
-    service: BaseAdService = Depends(get_gemini_service)
-):
-    try:
-        content = service.generate_response(request.product_info, request.voice)
-        return AdResponse(status="success", content=content)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
+async def generate_ad(request: AdRequest, user=Depends(auth_svc.get_current_user), service=Depends(get_gemini_service)):
+    prompt = f"Product: {request.product_info}. Tone: {request.voice}. Output EXACTLY in this format: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]"
+    content = service.generate_response(prompt, request.voice)
+    db_svc.log_generation(user["sub"], request.product_info, content)
+    return AdResponse(status="success", content=content)
 
+@app.get("/api/history")
+async def history(user=Depends(auth_svc.get_current_user)):
+    return db_svc.get_user_history(user["sub"], user["role"])
 
-################
-# Admin
-################
+@app.get("/api/admin/telemetry")
+async def telemetry(user=Depends(auth_svc.get_current_user)):
+    if user["role"] != "admin": raise HTTPException(status_code=403)
+    return db_svc.get_data()["telemetry"]
+
 @app.get("/api/admin/settings")
-def get_settings(svc: SettingsService = Depends(get_settings_service)):
+def get_settings(user=Depends(auth_svc.get_current_user), svc: SettingsService = Depends(get_settings_service)):
+    if user["role"] != "admin": raise HTTPException(status_code=403)
     return svc.get_settings()
 
 @app.post("/api/admin/settings")
-def update_settings(data: SettingsUpdate, svc: SettingsService = Depends(get_settings_service)):
+def update_settings(data: SettingsUpdate, user=Depends(auth_svc.get_current_user), svc: SettingsService = Depends(get_settings_service)):
+    if user["role"] != "admin": raise HTTPException(status_code=403)
     svc.save_settings(data.dict())
-    return {"message": "Settings updated successfully"}
-
-
+    return {"message": "Settings Updated"}
 
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

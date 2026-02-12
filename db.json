@@ -1,20 +1,368 @@
 {
     "users": [
-        {"id": 1, "username": "admin", "password_hash": "$2b$12$YEPyCykvCU1Poo3SieiA0e7QliznXLv5om6v6pR5yChWxZKZxfXrO", "role": "super_admin", "merchant_id": null, "name": "Platform Admin", "email": "admin@adpulseai.com", "is_active": true, "created_at": "2026-01-01T10:00:00Z", "updated_at": "2026-01-01T10:00:00Z"},
-        {"id": 2, "username": "merchant2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "merchant_admin", "merchant_id": "MERCH002", "name": "Sagar Ch", "email": "sagar@business.com", "is_active": true, "created_at": "2026-01-20T11:00:00Z", "updated_at": "2026-01-20T11:00:00Z"},
-        {"id": 3, "username": "emp2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Priya Employee", "email": "priya.emp@business.com", "is_active": true, "created_at": "2026-01-21T14:20:00Z", "updated_at": "2026-01-21T14:20:00Z"},
-        {"id": 4, "username": "emp_raj", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Raj Kumar", "email": "raj.kumar@business.com", "is_active": true, "created_at": "2026-01-22T09:15:00Z", "updated_at": "2026-01-22T09:15:00Z"},
-        {"id": 5, "username": "emp_anita", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Anita Sharma", "email": "anita.s@business.com", "is_active": true, "created_at": "2026-01-23T11:30:00Z", "updated_at": "2026-01-23T11:30:00Z"},
-        {"id": 6, "username": "mer_amazon", "password_hash": "$2b$12$Lg8wK7i//KCZ5qzKH8n02eyH4CbVwgIhOPooOWdBfm4JUs6ryGKgy", "role": "merchant_admin", "merchant_id": "MERCH003", "name": "mer_amz", "email": "amz@amazon.com", "is_active": true, "created_at": "2026-02-12T20:18:00.113699", "updated_at": "2026-02-12T20:18:00.113726"},
-        {"id": 7, "username": "admin_flipkart", "password_hash": "$2b$12$OYyatggpnGLRzML9z.uS/.rgxV7Jb3FqOupOKJjetRjeebloriMAS", "role": "merchant_admin", "merchant_id": "MERCH004", "name": "Admin Flipkart", "email": "flipcart.mrcht@gmail.com", "is_active": true, "created_at": "2026-02-12T20:28:41.270187", "updated_at": "2026-02-12T20:28:41.270222"},
-        {"id": 8, "username": "emp_amazon1", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH003", "name": "Amit Patel", "email": "amit.p@amazon.com", "is_active": true, "created_at": "2026-01-25T10:00:00Z", "updated_at": "2026-01-25T10:00:00Z"},
-        {"id": 9, "username": "emp_amazon2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH003", "name": "Neha Gupta", "email": "neha.g@amazon.com", "is_active": true, "created_at": "2026-01-26T14:20:00Z", "updated_at": "2026-01-26T14:20:00Z"},
-        {"id": 10, "username": "emp_flipkart1", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH004", "name": "Rohit Singh", "email": "rohit.s@flipkart.com", "is_active": true, "created_at": "2026-01-27T09:45:00Z", "updated_at": "2026-01-27T09:45:00Z"},
-        {"id": 11, "username": "emp_flipkart2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH004", "name": "Kavita Reddy", "email": "kavita.r@flipkart.com", "is_active": true, "created_at": "2026-01-28T13:10:00Z", "updated_at": "2026-01-28T13:10:00Z"}
+        {
+            "id": 1,
+            "username": "admin",
+            "password_hash": "$2b$12$YEPyCykvCU1Poo3SieiA0e7QliznXLv5om6v6pR5yChWxZKZxfXrO",
+            "role": "super_admin",
+            "merchant_id": null,
+            "name": "Platform Admin",
+            "email": "admin@adpulseai.com",
+            "is_active": true,
+            "created_at": "2026-01-01T10:00:00Z",
+            "updated_at": "2026-01-01T10:00:00Z"
+        },
+        {
+            "id": 2,
+            "username": "merchant2",
+            "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS",
+            "role": "merchant_admin",
+            "merchant_id": "MERCH002",
+            "name": "Sagar Ch",
+            "email": "sagar@business.com",
+            "is_active": true,
+            "created_at": "2026-01-20T11:00:00Z",
+            "updated_at": "2026-01-20T11:00:00Z"
+        },
+        {
+            "id": 3,
+            "username": "emp2",
+            "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS",
+            "role": "employee",
+            "merchant_id": "MERCH002",
+            "name": "Priya Employee",
+            "email": "priya.emp@business.com",
+            "is_active": true,
+            "created_at": "2026-01-21T14:20:00Z",
+            "updated_at": "2026-01-21T14:20:00Z"
+        },
+        {
+            "id": 6,
+            "username": "mer_amazon",
+            "password_hash": "$2b$12$Lg8wK7i//KCZ5qzKH8n02eyH4CbVwgIhOPooOWdBfm4JUs6ryGKgy",
+            "role": "merchant_admin",
+            "merchant_id": "MERCH003",
+            "name": "mer_amz",
+            "email": "amz@amazon.com",
+            "is_active": true,
+            "created_at": "2026-02-12T20:18:00.113699",
+            "updated_at": "2026-02-12T20:18:00.113726"
+        },
+        {
+            "id": 7,
+            "username": "admin_flipkart",
+            "password_hash": "$2b$12$OYyatggpnGLRzML9z.uS/.rgxV7Jb3FqOupOKJjetRjeebloriMAS",
+            "role": "merchant_admin",
+            "merchant_id": "MERCH004",
+            "name": "Admin Flipkart",
+            "email": "flipcart.mrcht@gmail.com",
+            "is_active": true,
+            "created_at": "2026-02-12T20:28:41.270187",
+            "updated_at": "2026-02-12T20:28:41.270222"
+        }
     ],
     "merchants": [
-        {"id": "MERCH002", "business_name": "Sagar Fashion", "admin_user_id": 2, "industry": "Fashion & Lifestyle", "phone": "+919000000002", "address": "Brigade Road, Bangalore, Karnataka", "is_active": true, "subscription_plan": "premium", "subscription_expires_at": "2026-12-31T23:59:59Z", "created_at": "2026-01-20T11:00:00Z", "updated_at": "2026-01-20T11:00:00Z"},
-        {"id": "MERCH003", "business_name": "Amazon", "admin_user_id": 6, "industry": "E-Commerce", "phone": "+919000000003", "address": "12, NFC Road, Seattle, USA", "is_active": true, "subscription_plan": "basic", "subscription_expires_at": "2027-02-12T20:18:00.113729", "created_at": "2026-02-12T20:18:00.113738", "updated_at": "2026-02-12T20:18:00.113739"},
-        {"id": "MERCH004", "business_name": "Flipkart", "admin_user_id": 7, "industry": "E-Commerce", "phone": "+919000000004", "address": "Outer Ring Road, Bangalore, Karnataka", "is_active": true, "subscription_plan": "basic", "subscription_expires_at": "2027-02-12T20:28:41.270225", "created_at": "2026-02-12T20:28:41.270237", "updated_at": "2026-02-12T20:28:41.270238"}
+        {
+            "id": "MERCH002",
+            "business_name": "Sagar Fashion",
+            "admin_user_id": 2,
+            "industry": "Fashion & Lifestyle",
+            "phone": "+919000000002",
+            "address": "Brigade Road, Bangalore, Karnataka",
+            "is_active": true,
+            "subscription_plan": "premium",
+            "subscription_expires_at": "2026-12-31T23:59:59Z",
+            "created_at": "2026-01-20T11:00:00Z",
+            "updated_at": "2026-01-20T11:00:00Z"
+        },
+        {
+            "id": "MERCH003",
+            "business_name": "Amazon",
+            "admin_user_id": 6,
+            "industry": "E-Commerce",
+            "phone": "+919000000003",
+            "address": "12, NFC Road, Seattle, USA",
+            "is_active": true,
+            "subscription_plan": "basic",
+            "subscription_expires_at": "2027-02-12T20:18:00.113729",
+            "created_at": "2026-02-12T20:18:00.113738",
+            "updated_at": "2026-02-12T20:18:00.113739"
+        },
+        {
+            "id": "MERCH004",
+            "business_name": "Flipkart",
+            "admin_user_id": 7,
+            "industry": "E-Commerce",
+            "phone": "+919000000004",
+            "address": "Outer Ring Road, Bangalore, Karnataka",
+            "is_active": true,
+            "subscription_plan": "basic",
+            "subscription_expires_at": "2027-02-12T20:28:41.270225",
+            "created_at": "2026-02-12T20:28:41.270237",
+            "updated_at": "2026-02-12T20:28:41.270238"
+        }
     ],
     "customers": [
+        {
+            "id": "CUST001",
+            "merchant_id": "MERCH002",
+            "name": "Sneha Reddy",
+            "phone": "+919000000021",
+            "email": "sneha.r@example.com",
+            "gender": "Female",
+            "age": 26,
+            "city": "Hyderabad",
+            "state": "Telangana",
+            "purchase_history": "Fashion enthusiast, bought 3 dresses and 2 accessories last month",
+            "total_purchases": 5,
+            "total_spent": 12000,
+            "last_purchase_date": "2026-01-15",
+            "preferences_categories": [
+                "fashion",
+                "accessories",
+                "lifestyle"
+            ],
+            "opt_in_sms": true,
+            "opt_in_whatsapp": true,
+            "opt_in_email": true,
+            "is_active": true,
+            "created_at": "2025-11-10T09:30:00Z",
+            "updated_at": "2026-01-15T18:20:00Z"
+        },
+        {
+            "id": "CUST002",
+            "merchant_id": "MERCH002",
+            "name": "Vikram Singh",
+            "phone": "+919000000022",
+            "email": "vikram.s@example.com",
+            "gender": "Male",
+            "age": 35,
+            "city": "Delhi",
+            "state": "Delhi",
+            "purchase_history": "Book lover, purchased 8 books in last 2 months, interested in self-help",
+            "total_purchases": 8,
+            "total_spent": 4000,
+            "last_purchase_date": "2026-02-05",
+            "preferences_categories": [
+                "books",
+                "education",
+                "self-improvement"
+            ],
+            "opt_in_sms": true,
+            "opt_in_whatsapp": true,
+            "opt_in_email": true,
+            "is_active": true,
+            "created_at": "2025-12-01T13:45:00Z",
+            "updated_at": "2026-02-05T10:30:00Z"
+        },
+        {
+            "id": "CUST003",
+            "merchant_id": "MERCH002",
+            "name": "Arjun Mehta",
+            "phone": "+919000000023",
+            "email": "arjun.m@example.com",
+            "gender": "Male",
+            "age": 29,
+            "city": "Bangalore",
+            "state": "Karnataka",
+            "purchase_history": "Tech enthusiast, purchased 2 gadgets last month",
+            "total_purchases": 2,
+            "total_spent": 8500,
+            "last_purchase_date": "2026-01-28",
+            "preferences_categories": [
+                "electronics",
+                "gadgets",
+                "tech"
+            ],
+            "opt_in_sms": true,
+            "opt_in_whatsapp": false,
+            "opt_in_email": true,
+            "is_active": true,
+            "created_at": "2025-12-15T10:00:00Z",
+            "updated_at": "2026-02-12T19:56:35.914837"
+        }
+    ],
+    "ad_generation_history": [
+        {
+            "id": 9,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Wireless ear buds new deal\n",
+            "prompt_preview": "Wireless e...",
+            "full_content": "SMS Campaign: CAMP20260212223110\nProduct: Wireless ear buds new deal\n\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
+            "created_at": "2026-02-12T22:31:10.782183",
+            "timestamp": "2026-02-12 22:31"
+        },
+        {
+            "id": 8,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Wireless ear buds new deal\n",
+            "prompt_preview": "Wireless e...",
+            "full_content": "SMS Campaign: CAMP20260212223049\nProduct: Wireless ear buds new deal\n\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
+            "created_at": "2026-02-12T22:30:49.705939",
+            "timestamp": "2026-02-12 22:30"
+        },
+        {
+            "id": 7,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop with latest processor",
+            "prompt_preview": "Laptop wit...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop with latest processor - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop with latest processor! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop with latest processor is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with latest processor with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop with latest processor! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T22:29:45.676192",
+            "timestamp": "2026-02-12 22:29"
+        },
+        {
+            "id": 6,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "laptop",
+            "prompt_preview": "laptop",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T20:18:36.042042",
+            "timestamp": "2026-02-12 20:18"
+        },
+        {
+            "id": 5,
+            "user_id": "emp2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T20:09:58.445926",
+            "timestamp": "2026-02-12 20:09"
+        },
+        {
+            "id": 4,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Ear buds",
+            "prompt_preview": "Ear buds",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Ear buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Ear buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Ear buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Ear buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Ear buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T19:56:57.976475",
+            "timestamp": "2026-02-12 19:56"
+        },
+        {
+            "id": 3,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T19:43:23.524521",
+            "timestamp": "2026-02-12 19:43"
+        },
+        {
+            "id": 2,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Wireless ear buds",
+            "prompt_preview": "Wireless e",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Wireless ear buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Wireless ear buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Wireless ear buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Wireless ear buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Wireless ear buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T19:41:43.008955",
+            "timestamp": "2026-02-12 19:41"
+        },
+        {
+            "id": 1,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Ear Buds",
+            "prompt_preview": "Ear Buds",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Ear Buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Ear Buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Ear Buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Ear Buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Ear Buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-12T19:30:56.811896",
+            "timestamp": "2026-02-12 19:30"
+        }
+    ],
+    "sms_history": [],
+    "sms_campaigns": [
+        {
+            "id": 5,
+            "campaign_id": "CAMP20260212223110",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless ear buds new deal\n",
+            "total_generated": 2,
+            "messages_sent": 2,
+            "created_at": "2026-02-12T22:31:10.771378",
+            "timestamp": "2026-02-12 22:31:10"
+        },
+        {
+            "id": 4,
+            "campaign_id": "CAMP20260212223049",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless ear buds new deal\n",
+            "total_generated": 2,
+            "messages_sent": null,
+            "created_at": "2026-02-12T22:30:49.695030",
+            "timestamp": "2026-02-12 22:30:49"
+        },
+        {
+            "id": 3,
+            "campaign_id": "CAMP20260212200936",
+            "user_id": "emp2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Ear buds",
+            "total_generated": 1,
+            "messages_sent": 1,
+            "created_at": "2026-02-12T20:09:36.213263",
+            "timestamp": "2026-02-12 20:09:36"
+        },
+        {
+            "id": 2,
+            "campaign_id": "CAMP20260212194118",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless ear buds",
+            "total_generated": 2,
+            "messages_sent": 2,
+            "created_at": "2026-02-12T19:41:18.586525",
+            "timestamp": "2026-02-12 19:41:18"
+        },
+        {
+            "id": 1,
+            "campaign_id": "CAMP20260212194102",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless ear buds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "created_at": "2026-02-12T19:41:02.357470",
+            "timestamp": "2026-02-12 19:41:02"
+        }
+    ],
+    "system_settings": {
+        "id": 1,
+        "system_persona": "Professional Marketing Expert",
+        "default_voice": "Professional",
+        "gemini_api_key": null,
+        "aws_sns_region": "ap-south-1",
+        "max_api_calls_per_day": 1000,
+        "updated_at": "2026-01-01T10:00:00Z"
+    },
+    "telemetry": {
+        "total_api_calls": 9,
+        "total_sms_sent": 5,
+        "total_campaigns": 5,
+        "total_merchants": 3,
+        "total_customers": 3,
+        "total_users": 5,
+        "last_api_call_timestamp": "2026-02-12T22:31:10.782183",
+        "last_updated": "2026-02-12T22:31:10.782227"
+    }
+}

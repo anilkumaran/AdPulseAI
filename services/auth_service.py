@@ -19,6 +19,13 @@ class AuthService:
         expire = datetime.utcnow() + timedelta(hours=2)
         to_encode.update({"exp": expire})
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    
+    def get_user_merchant_id(self, username):
+        """Get merchant_id for a user from database"""
+        from services.db_service import db_svc
+        db = db_svc.get_data()
+        user = db.get("users", {}).get(username, {})
+        return user.get("merchant_id")
 
     async def get_current_user(self, token: str = Depends(oauth2_scheme)):
         try:

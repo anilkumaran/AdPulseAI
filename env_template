@@ -2,3 +2,8 @@ GEMINI_API_KEY=KEY_HERE
 PORT=8000
 ENV_MODE=test
 # ENV_MODE=prod
+
+# AWS SNS Configuration (for SMS sending)
+AWS_ACCESS_KEY_ID=your_aws_access_key_here
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key_here
+AWS_REGION=ap-south-1

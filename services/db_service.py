@@ -12,12 +12,26 @@ class DBService:
         if needs_init:
             from services.auth_service import auth_svc
             schema = {
-                "users": {
-                    "admin": {"pw": auth_svc.hash_password("admin123"), "role": "admin"},
-                    "user1": {"pw": auth_svc.hash_password("user123"), "role": "user"}
+                "users": [
+                    {"id": 1, "username": "admin", "password_hash": auth_svc.hash_password("admin123"), 
+                     "role": "super_admin", "merchant_id": None, "name": "Platform Admin", 
+                     "email": "admin@adpulseai.com", "is_active": True, 
+                     "created_at": datetime.now().isoformat(), "updated_at": datetime.now().isoformat()}
+                ],
+                "merchants": [],
+                "customers": [],
+                "ad_generation_history": [],
+                "sms_history": [],
+                "sms_campaigns": [],
+                "system_settings": {
+                    "id": 1, "system_persona": "Professional Marketing Expert", 
+                    "default_voice": "Professional", "updated_at": datetime.now().isoformat()
                 },
-                "history": [],
-                "telemetry": {"total_api_calls": 0, "last_call_timestamp": None}
+                "telemetry": {
+                    "total_api_calls": 0, "total_sms_sent": 0, "total_campaigns": 0,
+                    "total_merchants": 0, "total_customers": 0, "total_users": 1,
+                    "last_api_call_timestamp": None, "last_updated": datetime.now().isoformat()
+                }
             }
             self._write_db(schema)
 
@@ -29,26 +43,121 @@ class DBService:
         with open(self.file_path, "w") as f:
             json.dump(data, f, indent=4)
 
-    def get_data(self):
-        return self._read_db()
+    def get_data(self): return self._read_db()
 
-    def log_generation(self, username: str, prompt: str, response: str):
+    def get_user_by_username(self, username):
+        """Get user by username - database-ready lookup"""
         db = self._read_db()
+        for user in db.get("users", []):
+            if user.get("username") == username:
+                return user
+        return None
+
+    def log_generation(self, user_id, product_info, target_user_name, response_content, merchant_id=None):
+        db = self._read_db()
+        # Create preview from first 10 characters of product info
+        preview_text = product_info[:10] if len(product_info) <= 10 else product_info[:10] + "..."
         new_entry = {
-            "user_id": username,
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M"),
-            "prompt_preview": prompt[:40],
-            "full_content": response
+            "id": len(db.get("ad_generation_history", [])) + 1,
+            "user_id": user_id,
+            "merchant_id": merchant_id,
+            "target_customer": target_user_name,
+            "product_info": product_info[:100],
+            "prompt_preview": preview_text,  # First 10 chars of product only
+            "full_content": response_content,
+            "created_at": datetime.now().isoformat(),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
         }
-        db["history"].insert(0, new_entry)
-        db["history"] = db["history"][:50]
+        if "ad_generation_history" not in db:
+            db["ad_generation_history"] = []
+        db["ad_generation_history"].insert(0, new_entry)
+        
+        # Update telemetry
         db["telemetry"]["total_api_calls"] += 1
-        db["telemetry"]["last_call_timestamp"] = new_entry["timestamp"]
+        db["telemetry"]["last_api_call_timestamp"] = new_entry["created_at"]
+        db["telemetry"]["last_updated"] = datetime.now().isoformat()
         self._write_db(db)
 
-    def get_user_history(self, username: str, role: str):
+    def get_user_history(self, username, role, merchant_id=None):
         db = self._read_db()
-        if role == "admin": return db["history"]
-        return [h for h in db["history"] if h["user_id"] == username]
+        history = db.get("ad_generation_history", [])
+        
+        if role == "super_admin":
+            return history
+        elif role in ["merchant_admin", "employee"] and merchant_id:
+            return [h for h in history if h.get("merchant_id") == merchant_id]
+        return []
+
+    def get_customers_for_merchant(self, merchant_id):
+        """Get customers for a specific merchant"""
+        db = self._read_db()
+        if not merchant_id:
+            return []
+        return [c for c in db.get("customers", []) if c.get("merchant_id") == merchant_id]
+
+    def log_sms_send(self, user_id, phone, message, status):
+        """Log single SMS send"""
+        db = self._read_db()
+        if "sms_history" not in db:
+            db["sms_history"] = []
+        
+        db["sms_history"].insert(0, {
+            "id": len(db["sms_history"]) + 1,
+            "user_id": user_id,
+            "phone": phone,
+            "message_preview": message[:50] + "..." if len(message) > 50 else message,
+            "status": status,
+            "created_at": datetime.now().isoformat(),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        
+        # Keep only last 100 SMS logs
+        db["sms_history"] = db["sms_history"][:100]
+        self._write_db(db)
+
+    def log_bulk_sms_send(self, user_id, total, sent, failed):
+        """Log bulk SMS send"""
+        db = self._read_db()
+        if "sms_campaigns" not in db:
+            db["sms_campaigns"] = []
+        
+        db["sms_campaigns"].insert(0, {
+            "id": len(db["sms_campaigns"]) + 1,
+            "user_id": user_id,
+            "type": "bulk_send",
+            "total": total,
+            "sent": sent,
+            "failed": failed,
+            "created_at": datetime.now().isoformat(),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        
+        self._write_db(db)
+
+    def log_sms_campaign(self, user_id, campaign_id, product_info, total_generated, messages_sent, merchant_id=None):
+        """Log SMS campaign with personalization"""
+        db = self._read_db()
+        if "sms_campaigns" not in db:
+            db["sms_campaigns"] = []
+        
+        db["sms_campaigns"].insert(0, {
+            "id": len(db["sms_campaigns"]) + 1,
+            "campaign_id": campaign_id,
+            "user_id": user_id,
+            "merchant_id": merchant_id,
+            "type": "personalized_campaign",
+            "product": product_info[:50],
+            "total_generated": total_generated,
+            "messages_sent": messages_sent,
+            "created_at": datetime.now().isoformat(),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        
+        # Update telemetry
+        db["telemetry"]["total_campaigns"] += 1
+        if messages_sent:
+            db["telemetry"]["total_sms_sent"] += messages_sent
+        
+        self._write_db(db)
 
 db_svc = DBService()

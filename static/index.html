@@ -1,155 +1,1665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>AdPulseAI Dashboard</title>
+    <meta charset="UTF-8"><title>AdPulseAI - Multi-Channel Marketing Platform</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        :root { --sidebar-width: 280px; }
-        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; }
-        #sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; background: #111; color: white; padding: 20px; }
-        #main-content { margin-left: var(--sidebar-width); padding: 40px; }
-        .history-item { padding: 12px; border-bottom: 1px solid #333; cursor: pointer; transition: 0.2s; }
-        .history-item:hover { background: #222; color: #0d6efd; }
-        .tab-pane { padding: 25px; border: 1px solid #dee2e6; border-top: 0; background: white; white-space: pre-wrap; border-radius: 0 0 8px 8px; }
-        .profile-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #0d6efd; cursor: pointer; }
+        :root { --sb-w: 280px; --sb-collapsed: 60px; }
+        body { background: #f8f9fa; font-family: 'Inter', sans-serif; overflow: hidden; }
+        #sidebar { width: var(--sb-w); height: 100vh; position: fixed; background: #111; color: white; padding: 20px; overflow-y: auto; transition: all 0.3s ease; z-index: 1000; }
+        #sidebar.collapsed { width: var(--sb-collapsed); padding: 20px 10px; }
+        #sidebar.collapsed .nav-text, #sidebar.collapsed .history-item, #sidebar.collapsed .fw-bold { display: none; }
+        #sidebar.collapsed .nav-link { justify-content: center; padding: 10px; }
+        #sidebar.collapsed .sidebar-toggle-btn { width: 100%; }
+        #sidebar.collapsed .sidebar-toggle-btn .nav-text { display: none; }
+        #main-content { margin-left: var(--sb-w); padding: 40px; height: 100vh; overflow-y: auto; transition: margin-left 0.3s ease; }
+        #main-content.expanded { margin-left: var(--sb-collapsed); }
+        .history-item { padding: 12px; border-bottom: 1px solid #333; cursor: pointer; border-radius: 5px; margin-bottom: 5px; }
+        .history-item:hover { background: #222; }
+        .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; }
+        .nav-pills .nav-link { color: #fff; display: flex; align-items: center; padding: 10px 15px; border-radius: 6px; margin-bottom: 5px; transition: all 0.2s; }
+        .nav-pills .nav-link:hover { background: #222; }
+        .nav-pills .nav-link.active { background: #0d6efd; color: white; }
+        .customer-card { border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+        .customer-card:hover { border-color: #0d6efd; background: #f8f9ff; }
+        .customer-card.selected { border-color: #0d6efd; background: #e7f1ff; }
+        .badge-custom { padding: 5px 10px; border-radius: 12px; font-size: 0.75rem; }
+        .sidebar-toggle-btn { background: #333; border: 1px solid #444; color: #aaa; padding: 8px; width: 100%; text-align: center; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: all 0.2s; }
+        .sidebar-toggle-btn:hover { background: #444; color: #fff; border-color: #555; }
+        .profile-dropdown { position: relative; }
+        .profile-menu { position: absolute; top: 50px; right: 0; background: white; border: 1px solid #dee2e6; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 200px; display: none; z-index: 1000; }
+        .profile-menu.show { display: block; }
+        .profile-menu-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
+        .profile-menu-item:hover { background: #f8f9fa; }
+        .profile-menu-item:last-child { border-bottom: none; border-radius: 0 0 8px 8px; }
+        .notification-ribbon { position: fixed; top: 0; left: 0; right: 0; padding: 15px 20px; z-index: 2000; display: none; animation: slideDown 0.3s ease; }
+        .notification-ribbon.show { display: block; }
+        .notification-ribbon.error { background: #dc3545; color: white; }
+        .notification-ribbon.success { background: #28a745; color: white; }
+        .notification-ribbon.info { background: #17a2b8; color: white; }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .action-btn { margin-left: 10px; }
+        .pagination { display: flex; justify-content: center; margin-top: 20px; gap: 5px; }
+        .pagination button { padding: 5px 12px; border: 1px solid #dee2e6; background: white; cursor: pointer; border-radius: 4px; }
+        .pagination button:hover { background: #f8f9fa; }
+        .pagination button.active { background: #0d6efd; color: white; border-color: #0d6efd; }
+        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 </head>
 <body>
-
-<div id="login-overlay" style="position:fixed; inset:0; background:#f8f9fa; z-index:2000; display:flex; align-items:center; justify-content:center;">
-    <div class="card p-4 shadow-lg border-0" style="width: 380px;">
-        <h2 class="text-center text-primary fw-bold mb-4">AdPulseAI</h2>
-        <form id="login-form">
-            <input type="text" id="username" class="form-control mb-2" placeholder="Username" required>
-            <input type="password" id="password" class="form-control mb-3" placeholder="Password" required>
-            <button class="btn btn-primary w-100 fw-bold">Sign In</button>
-        </form>
+    <!-- Notification Ribbon -->
+    <div id="notification-ribbon" class="notification-ribbon">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong id="notification-title"></strong>
+                <span id="notification-message"></span>
+            </div>
+            <button onclick="hideNotification()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
     </div>
-</div>
 
-<div id="app-wrapper" style="display: none;">
-    <nav id="sidebar">
-        <h3 class="fw-bold mb-4 text-primary">AdPulseAI</h3>
-        <p class="text-secondary small fw-bold text-uppercase">Activity History</p>
-        <div id="history-list" class="overflow-auto" style="max-height: 80vh;"></div>
-    </nav>
-
-    <main id="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <h2 class="fw-bold">Campaign Suite</h2>
-            <div class="dropdown">
-                <img src="https://ui-avatars.com/api/?background=0D6EFD&color=fff&name=User" class="profile-img dropdown-toggle" id="pMenu" data-bs-toggle="dropdown">
-                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                    <li class="px-3 py-2 border-bottom">
-                        <div id="display-name" class="fw-bold">User</div>
-                        <small id="display-role" class="text-muted text-uppercase">Role</small>
-                    </li>
-                    <li><a class="dropdown-item text-danger mt-2" href="#" onclick="logout()">Logout</a></li>
-                </ul>
+    <!-- Login Overlay -->
+    <div id="login-overlay" style="position:fixed; inset:0; background:#f8f9fa; z-index:2000; display:flex; align-items:center; justify-content:center;">
+        <div class="card p-4 shadow-lg border-0" style="width: 400px;">
+            <div class="text-center mb-4">
+                <i class="bi bi-lightning-charge-fill text-primary" style="font-size: 3rem;"></i>
+                <h2 class="fw-bold text-primary mt-2">AdPulseAI</h2>
+                <p class="text-muted small">Multi-Channel Marketing Platform</p>
             </div>
+            <form id="login-form">
+                <input type="text" id="username" class="form-control mb-3" placeholder="Username" required>
+                <input type="password" id="password" class="form-control mb-4" placeholder="Password" required>
+                <button class="btn btn-primary w-100 fw-bold">Sign In</button>
+                <div class="mt-3 text-center">
+                    <small class="text-muted">Test: admin/admin123 (Super Admin)<br>merchant2/user123 (Merchant)<br>emp2/user123 (Employee)</small>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="card p-4 shadow-sm mb-5 border-0">
-            <textarea id="prod-info" class="form-control mb-3" rows="3" placeholder="Describe product..."></textarea>
-            <button id="gen-btn" class="btn btn-primary fw-bold px-5 py-2 float-end">Generate</button>
-        </div>
-
-        <div id="result-container" class="d-none">
-            <h3 id="current-prompt-heading" class="mb-4 text-primary fw-bold"></h3>
-            <ul class="nav nav-tabs">
-                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fb">Facebook</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ig">Instagram</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tw">Twitter</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wa">WhatsApp</button></li>
+    <!-- Main Application -->
+    <div id="app-wrapper" style="display: none;">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-lightning-charge-fill text-primary me-2" style="font-size: 1.5rem;"></i>
+                <h4 class="fw-bold mb-0 nav-text">AdPulseAI</h4>
+            </div>
+            
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle sidebar">
+                <i class="bi bi-chevron-left" id="toggle-icon" style="font-size: 1.2rem;"></i>
+            </button>
+            
+            <ul class="nav nav-pills flex-column mb-4">
+                <!-- Super Admin Menu Items -->
+                <li class="nav-item super-admin-only" style="display: none;">
+                    <a class="nav-link active" href="#" onclick="showSection('admin-dashboard')">
+                        <i class="bi bi-speedometer2 me-2"></i><span class="nav-text"> Platform Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item super-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('merchants')">
+                        <i class="bi bi-shop me-2"></i><span class="nav-text"> Manage Merchants</span>
+                    </a>
+                </li>
+                <li class="nav-item super-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('settings')">
+                        <i class="bi bi-gear me-2"></i><span class="nav-text"> System Settings</span>
+                    </a>
+                </li>
+                
+                <!-- Merchant Admin Menu Items -->
+                <li class="nav-item merchant-admin-only" style="display: none;">
+                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')">
+                        <i class="bi bi-megaphone me-2"></i><span class="nav-text"> Ad Generator</span>
+                    </a>
+                </li>
+                <li class="nav-item merchant-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')">
+                        <i class="bi bi-chat-dots me-2"></i><span class="nav-text"> SMS Campaign</span>
+                    </a>
+                </li>
+                <li class="nav-item merchant-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('employees')">
+                        <i class="bi bi-person-badge me-2"></i><span class="nav-text"> Manage Employees</span>
+                    </a>
+                </li>
+                <li class="nav-item merchant-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('customers')">
+                        <i class="bi bi-people me-2"></i><span class="nav-text"> My Customers</span>
+                    </a>
+                </li>
+                <li class="nav-item merchant-admin-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('history')">
+                        <i class="bi bi-clock-history me-2"></i><span class="nav-text"> My History</span>
+                    </a>
+                </li>
+                
+                <!-- Employee Menu Items -->
+                <li class="nav-item employee-only" style="display: none;">
+                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')">
+                        <i class="bi bi-megaphone me-2"></i><span class="nav-text"> Ad Generator</span>
+                    </a>
+                </li>
+                <li class="nav-item employee-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')">
+                        <i class="bi bi-chat-dots me-2"></i><span class="nav-text"> SMS Campaign</span>
+                    </a>
+                </li>
+                <li class="nav-item employee-only" style="display: none;">
+                    <a class="nav-link" href="#" onclick="showSection('history')">
+                        <i class="bi bi-clock-history me-2"></i><span class="nav-text"> My History</span>
+                    </a>
+                </li>
             </ul>
-            <div class="tab-content shadow-sm">
-                <div class="tab-pane fade show active" id="fb" role="tabpanel"></div>
-                <div class="tab-pane fade" id="ig" role="tabpanel"></div>
-                <div class="tab-pane fade" id="tw" role="tabpanel"></div>
-                <div class="tab-pane fade" id="wa" role="tabpanel"></div>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-0" id="page-title">Ad Generator</h2>
+                    <p class="text-muted small mb-0">Generate multi-platform marketing content</p>
+                </div>
+                <div class="profile-dropdown">
+                    <div class="d-flex align-items-center" style="cursor: pointer;" onclick="toggleProfileMenu()">
+                        <span class="me-3 text-muted small" id="user-name"></span>
+                        <img id="user-avatar" src="" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </div>
+                    <div class="profile-menu" id="profile-menu">
+                        <div class="profile-menu-item">
+                            <i class="bi bi-person me-2"></i><span id="profile-name"></span>
+                        </div>
+                        <div class="profile-menu-item">
+                            <i class="bi bi-envelope me-2"></i><span id="profile-email"></span>
+                        </div>
+                        <div class="profile-menu-item" onclick="logout()" style="color: #dc3545;">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const getHeaders = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('at'), 'Content-Type': 'application/json' });
+            <!-- Ad Generator Section -->
+            <div id="section-ad-gen">
+                <div class="card p-4 shadow-sm mb-4 border-0">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-stars me-2"></i>Generate Marketing Content
+                    </h5>
+                    <textarea id="prod-info" class="form-control mb-3" rows="4" minlength="10" maxlength="1000" required
+                        placeholder="Enter product details... (e.g., Wireless Earbuds Pro - Noise-cancelling, 30hr battery, ₹2,999)"></textarea>
+                    <small class="text-muted">10-1000 characters</small>
+                    <button id="gen-btn" class="btn btn-primary fw-bold px-5">
+                        <i class="bi bi-magic me-2"></i>Generate Ads
+                    </button>
+                </div>
 
-    function displayContent(rawText, title) {
-        document.getElementById('current-prompt-heading').innerText = "Campaign: " + title;
-        const platforms = ['FACEBOOK', 'INSTAGRAM', 'TWITTER', 'WHATSAPP'];
-        platforms.forEach((p, i) => {
-            const marker = p + ':';
-            const nextMarker = platforms[i+1] ? platforms[i+1] + ':' : null;
-            let start = rawText.indexOf(marker);
-            if(start !== -1) {
-                start += marker.length;
-                let end = nextMarker ? rawText.indexOf(nextMarker) : rawText.length;
-                let content = rawText.substring(start, end).trim();
-                const id = p === 'TWITTER' ? 'tw' : p === 'WHATSAPP' ? 'wa' : p.toLowerCase();
-                document.getElementById(id).innerText = content;
-            }
-        });
-        document.getElementById('result-container').classList.remove('d-none');
-    }
+                <div id="result-container" class="d-none">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fb"><i class="bi bi-facebook me-1"></i>Facebook</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ig"><i class="bi bi-instagram me-1"></i>Instagram</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tw"><i class="bi bi-twitter me-1"></i>Twitter</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wa"><i class="bi bi-whatsapp me-1"></i>WhatsApp</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
+                    </ul>
+                    <div class="tab-content shadow-sm">
+                        <div class="tab-pane fade show active position-relative" id="fb">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('fb')">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                        <div class="tab-pane fade position-relative" id="ig">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('ig')">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                        <div class="tab-pane fade position-relative" id="tw">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('tw')">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                        <div class="tab-pane fade position-relative" id="wa">
+                            <div class="d-flex justify-content-end position-absolute top-0 end-0 m-2" style="gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('wa')">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" id="wa-edit-btn" onclick="editContent('wa')">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-success d-none" id="wa-save-btn" onclick="saveContent('wa')">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                            <div id="wa-display"></div>
+                            <textarea id="wa-edit" class="form-control d-none" rows="6"></textarea>
+                        </div>
+                        <div class="tab-pane fade position-relative" id="tm">
+                            <div class="d-flex justify-content-end position-absolute top-0 end-0 m-2" style="gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tm')">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" id="tm-edit-btn" onclick="editContent('tm')">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-success d-none" id="tm-save-btn" onclick="saveContent('tm')">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary d-none" id="tm-cancel-btn" onclick="cancelEdit('tm')">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                            <div id="tm-display"></div>
+                            <textarea id="tm-edit" class="form-control d-none" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    async function refreshHistory() {
-        const r = await fetch('/api/history', { headers: getHeaders() });
-        if (r.ok) {
-            const history = await r.json();
-            document.getElementById('history-list').innerHTML = history.map(h => `
-                <div class="history-item" onclick="displayContent('${encodeURIComponent(h.full_content)}', '${h.prompt_preview}')">
-                    <div class="fw-bold text-truncate">${h.prompt_preview}</div>
-                    <small class="text-muted">${h.timestamp}</small>
-                </div>`).join('');
-        }
-    }
+            <!-- SMS Campaign Section -->
+            <div id="section-sms-campaign" style="display: none;">
+                <div class="card p-4 shadow-sm mb-4 border-0">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-send me-2"></i>Create SMS Campaign (PMI)
+                    </h5>
+                    <p class="text-muted small mb-3">Generate personalized SMS messages for your customers using AI</p>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Product Information</label>
+                        <textarea id="sms-product" class="form-control" rows="3" minlength="10" maxlength="1000" required
+                            placeholder="e.g., Wireless Earbuds Pro - Noise-cancelling, 30hr battery, ₹2,999"></textarea>
+                        <small class="text-muted">10-1000 characters</small>
+                    </div>
 
-    document.getElementById('gen-btn').onclick = async () => {
-        const btn = document.getElementById('gen-btn');
-        const info = document.getElementById('prod-info').value;
-        if (!info) return;
-        btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Syncing...';
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Customers</label>
+                        <div id="customer-select-list"></div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="send-immediately">
+                        <label class="form-check-label" for="send-immediately">
+                            Send SMS immediately (uncheck to preview only)
+                        </label>
+                    </div>
+
+                    <button id="sms-gen-btn" class="btn btn-primary fw-bold px-5">
+                        <i class="bi bi-magic me-2"></i>Generate Campaign
+                    </button>
+                </div>
+
+                <div id="sms-result-container" class="d-none">
+                    <div class="card p-4 shadow-sm border-0">
+                        <h5 class="fw-bold mb-3">
+                            <i class="bi bi-check-circle text-success me-2"></i>Campaign Generated
+                        </h5>
+                        <div id="sms-campaign-info" class="mb-3"></div>
+                        <div id="sms-preview-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Section -->
+            <div id="section-customers" style="display: none;">
+                <div class="card p-4 shadow-sm border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-primary">
+                            <i class="bi bi-people me-2"></i>Customer Database
+                        </h5>
+                        <button class="btn btn-primary merchant-admin-only" onclick="showAddCustomerForm()" style="display: none;">
+                            <i class="bi bi-plus-circle me-2"></i>Add Customer
+                        </button>
+                    </div>
+                    <div id="customers-list"></div>
+                </div>
+            </div>
+
+            <!-- Manage Employees Section (Merchant Admin Only) -->
+            <div id="section-employees" style="display: none;">
+                <div class="card p-4 shadow-sm border-0 mb-4">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-person-badge me-2"></i>Manage Employees
+                    </h5>
+                    <p class="text-muted small">Create and manage employee accounts for your business</p>
+                    <div id="employees-list"></div>
+                    <button class="btn btn-primary mt-3" onclick="showAddEmployeeForm()">
+                        <i class="bi bi-plus-circle me-2"></i>Add Employee
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manage Merchants Section (Super Admin Only) -->
+            <div id="section-merchants" style="display: none;">
+                <div class="card p-4 shadow-sm border-0 mb-4">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-shop me-2"></i>Manage Merchants
+                    </h5>
+                    <p class="text-muted small">View and manage all merchants on the platform</p>
+                    <div id="merchants-list"></div>
+                    <button class="btn btn-primary mt-3" onclick="showAddMerchantForm()">
+                        <i class="bi bi-plus-circle me-2"></i>Add Merchant
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard Section -->
+            <div id="section-admin" style="display: none;">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card p-3 shadow-sm border-0">
+                            <h6 class="text-muted small mb-1">Total API Calls</h6>
+                            <h3 class="fw-bold mb-0" id="admin-api-calls">0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 shadow-sm border-0">
+                            <h6 class="text-muted small mb-1">SMS Sent</h6>
+                            <h3 class="fw-bold mb-0" id="admin-sms-sent">0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 shadow-sm border-0">
+                            <h6 class="text-muted small mb-1">Total Campaigns</h6>
+                            <h3 class="fw-bold mb-0" id="admin-campaigns">0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 shadow-sm border-0">
+                            <h6 class="text-muted small mb-1">Active Users</h6>
+                            <h3 class="fw-bold mb-0" id="admin-users">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 shadow-sm border-0 mb-4">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-sliders me-2"></i>System Settings
+                    </h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">System Persona</label>
+                        <input type="text" id="admin-persona" class="form-control" placeholder="Professional Marketing Expert">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Default Voice</label>
+                        <select id="admin-voice" class="form-select">
+                            <option value="Professional">Professional</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Quirky">Quirky</option>
+                            <option value="Trustworthy">Trustworthy</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveAdminSettings()">
+                        <i class="bi bi-save me-2"></i>Save Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div id="section-history" style="display: none;">
+                <div class="card p-4 shadow-sm border-0">
+                    <h5 class="fw-bold mb-3 text-primary">
+                        <i class="bi bi-clock-history me-2"></i>Generation History
+                    </h5>
+                    <p class="text-muted small">View all your ad generation and SMS campaign history</p>
+                    <div id="full-history-list"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const getH = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('at'), 'Content-Type': 'application/json' });
+        let allCustomers = [];
+        let selectedCustomers = [];
+        let userRole = localStorage.getItem('role') || 'employee';
+        let merchantId = localStorage.getItem('merchant_id');
         
-        try {
-            const r = await fetch('/api/generate', { method: 'POST', headers: getHeaders(), body: JSON.stringify({ product_info: info, voice: 'Professional' }) });
-            const d = await r.json();
-            if (r.ok) {
-                displayContent(d.content, info.substring(0, 30));
-                setTimeout(async () => { await refreshHistory(); btn.disabled = false; btn.innerText = "Generate"; }, 600);
-            }
-        } catch (e) { btn.disabled = false; btn.innerText = "Generate"; }
-    };
+        // Pagination state
+        let currentPage = {
+            customers: 1,
+            employees: 1,
+            merchants: 1,
+            history: 1
+        };
+        const itemsPerPage = 10;
 
-    document.getElementById('login-form').onsubmit = async (e) => {
-        e.preventDefault();
-        const f = new FormData();
-        f.append('username', document.getElementById('username').value);
-        f.append('password', document.getElementById('password').value);
-        const r = await fetch('/token', { method: 'POST', body: f });
-        if (r.ok) {
-            const d = await r.json();
-            localStorage.setItem('at', d.access_token);
-            localStorage.setItem('role', d.role);
-            localStorage.setItem('user', document.getElementById('username').value);
+        // Pagination helper
+        function paginate(items, page, perPage) {
+            const start = (page - 1) * perPage;
+            const end = start + perPage;
+            return {
+                items: items.slice(start, end),
+                totalPages: Math.ceil(items.length / perPage),
+                currentPage: page,
+                totalItems: items.length
+            };
+        }
+
+        function renderPagination(containerId, totalPages, currentPageNum, onPageChange) {
+            if(totalPages <= 1) return '';
+            
+            let html = '<div class="pagination">';
+            html += `<button ${currentPageNum === 1 ? 'disabled' : ''} onclick="${onPageChange}(${currentPageNum - 1})">Previous</button>`;
+            
+            for(let i = 1; i <= totalPages; i++) {
+                if(i === 1 || i === totalPages || (i >= currentPageNum - 2 && i <= currentPageNum + 2)) {
+                    html += `<button class="${i === currentPageNum ? 'active' : ''}" onclick="${onPageChange}(${i})">${i}</button>`;
+                } else if(i === currentPageNum - 3 || i === currentPageNum + 3) {
+                    html += '<span>...</span>';
+                }
+            }
+            
+            html += `<button ${currentPageNum === totalPages ? 'disabled' : ''} onclick="${onPageChange}(${currentPageNum + 1})">Next</button>`;
+            html += '</div>';
+            
+            return html;
+        }
+
+        // Notification System
+        function showNotification(type, title, message) {
+            const ribbon = document.getElementById('notification-ribbon');
+            const titleEl = document.getElementById('notification-title');
+            const messageEl = document.getElementById('notification-message');
+            
+            ribbon.className = `notification-ribbon ${type} show`;
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => hideNotification(), 5000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notification-ribbon').classList.remove('show');
+        }
+
+        function showError(message, suggestion = '') {
+            showNotification('error', 'Error: ', message + (suggestion ? ' Suggestion: ' + suggestion : ''));
+        }
+
+        function showSuccess(message) {
+            showNotification('success', 'Success: ', message);
+        }
+
+        function showInfo(message) {
+            showNotification('info', 'Info: ', message);
+        }
+
+        // Section Navigation
+        function showSection(section) {
+            document.querySelectorAll('[id^="section-"]').forEach(s => s.style.display = 'none');
+            const sectionEl = document.getElementById('section-' + section);
+            if(sectionEl) {
+                sectionEl.style.display = 'block';
+            }
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            // Find and highlight the clicked nav link
+            const clickedLink = event?.target?.closest('.nav-link');
+            if(clickedLink) {
+                clickedLink.classList.add('active');
+            }
+
+            const titles = {
+                'ad-gen': 'Ad Generator',
+                'sms-campaign': 'SMS Campaign',
+                'customers': 'Customer Database',
+                'employees': 'Manage Employees',
+                'merchants': 'Manage Merchants',
+                'admin-dashboard': 'Platform Dashboard',
+                'settings': 'System Settings',
+                'all-activity': 'All Activity',
+                'history': 'My History'
+            };
+            document.getElementById('page-title').innerText = titles[section] || 'Dashboard';
+
+            if(section === 'sms-campaign') loadCustomersForCampaign();
+            if(section === 'customers') loadCustomersList();
+            if(section === 'admin-dashboard') loadAdminDashboard();
+            if(section === 'employees') loadEmployeesList();
+            if(section === 'merchants') loadMerchantsList();
+            if(section === 'history') loadFullHistory();
+        }
+
+        // Parse Ad Content
+        function parseAd(raw, title) {
+            console.log('[parseAd] Parsing content...');
+            console.log('[parseAd] Raw content length:', raw.length);
+            
+            const p = ['FACEBOOK', 'INSTAGRAM', 'TWITTER', 'WHATSAPP', 'TEXTMESSAGE'];
+            const idMap = {
+                'FACEBOOK': 'fb',
+                'INSTAGRAM': 'ig',
+                'TWITTER': 'tw',
+                'WHATSAPP': 'wa',
+                'TEXTMESSAGE': 'tm'
+            };
+            
+            p.forEach((platform, i) => {
+                const marker = platform + ':';
+                const nextMarker = p[i+1] ? p[i+1] + ':' : null;
+                let startPos = raw.indexOf(marker);
+                
+                if(startPos !== -1) {
+                    startPos += marker.length;
+                    let endPos = nextMarker ? raw.indexOf(nextMarker) : raw.length;
+                    
+                    const elementId = idMap[platform];
+                    const content = raw.substring(startPos, endPos).trim();
+                    
+                    // For WhatsApp and SMS, use display div
+                    if(elementId === 'wa' || elementId === 'tm') {
+                        const displayElement = document.getElementById(elementId + '-display');
+                        const editElement = document.getElementById(elementId + '-edit');
+                        if(displayElement && editElement) {
+                            displayElement.innerText = content;
+                            editElement.value = content;
+                            console.log(`[parseAd] Set ${platform} content (${content.length} chars)`);
+                        }
+                    } else {
+                        const element = document.getElementById(elementId);
+                        if(element) {
+                            element.innerText = content;
+                            console.log(`[parseAd] Set ${platform} content (${content.length} chars)`);
+                        } else {
+                            console.error(`[parseAd] Element not found: ${elementId}`);
+                        }
+                    }
+                } else {
+                    console.warn(`[parseAd] Platform marker not found: ${marker}`);
+                }
+            });
+            
+            document.getElementById('result-container').classList.remove('d-none');
+            console.log('[parseAd] Content displayed successfully');
+        }
+
+        // Edit Content Functions
+        function editContent(platform) {
+            document.getElementById(platform + '-display').classList.add('d-none');
+            document.getElementById(platform + '-edit').classList.remove('d-none');
+            document.getElementById(platform + '-edit-btn').classList.add('d-none');
+            document.getElementById(platform + '-save-btn').classList.remove('d-none');
+            document.getElementById(platform + '-cancel-btn').classList.remove('d-none');
+        }
+
+        function saveContent(platform) {
+            const newContent = document.getElementById(platform + '-edit').value;
+            document.getElementById(platform + '-display').innerText = newContent;
+            cancelEdit(platform);
+            showSuccess('Content updated successfully');
+        }
+
+        function cancelEdit(platform) {
+            document.getElementById(platform + '-display').classList.remove('d-none');
+            document.getElementById(platform + '-edit').classList.add('d-none');
+            document.getElementById(platform + '-edit-btn').classList.remove('d-none');
+            document.getElementById(platform + '-save-btn').classList.add('d-none');
+            document.getElementById(platform + '-cancel-btn').classList.add('d-none');
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(platform) {
+            let text = '';
+            if(platform === 'wa' || platform === 'tm') {
+                text = document.getElementById(platform + '-display').innerText;
+            } else {
+                text = document.getElementById(platform).innerText;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Content copied to clipboard!');
+            }).catch(() => {
+                showError('Failed to copy content', 'Please try selecting and copying manually');
+            });
+        }
+
+        // Load Full History with Pagination
+        async function loadFullHistory(page = 1) {
+            currentPage.history = page;
+            try {
+                const r = await fetch('/api/history', { headers: getH() });
+                if(r.ok) {
+                    const logs = await r.json();
+                    const paginatedData = paginate(logs, page, itemsPerPage);
+                    
+                    let html = paginatedData.items.map(l => {
+                        const productName = l.prompt_preview || (l.product_info || '').substring(0, 10) + '...';
+                        const type = l.campaign_id ? 'SMS Campaign' : 'Ad Generation';
+                        return `
+                        <div class="card mb-3 p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">${productName} <span class="badge bg-primary">${type}</span></h6>
+                                    <p class="text-muted small mb-1"><i class="bi bi-calendar me-1"></i>${l.timestamp || ''}</p>
+                                    <p class="text-muted small mb-0"><i class="bi bi-person me-1"></i>User: ${l.user_id || 'N/A'}</p>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary" onclick="loadHistoryItem('${l.id || ''}', event)">
+                                    <i class="bi bi-eye me-1"></i>View
+                                </button>
+                            </div>
+                        </div>`;
+                    }).join('') || '<p class="text-muted">No history yet. Start generating ads or SMS campaigns!</p>';
+                    
+                    html += renderPagination('full-history-list', paginatedData.totalPages, page, 'loadFullHistory');
+                    
+                    document.getElementById('full-history-list').innerHTML = html;
+                }
+            } catch(error) {
+                showError('Failed to load history', 'Please refresh the page');
+            }
+        }
+
+        // Load history item
+        async function loadHistoryItem(historyId, event) {
+            event?.stopPropagation();
+            try {
+                const r = await fetch('/api/history', { headers: getH() });
+                if(r.ok) {
+                    const logs = await r.json();
+                    const item = logs.find(l => l.id == historyId);
+                    if(item && item.full_content) {
+                        parseAd(item.full_content, item.target_customer || item.target_user || 'Campaign');
+                        showSection('ad-gen');
+                    } else {
+                        showError('History item not found or has no content');
+                    }
+                }
+            } catch(error) {
+                showError('Failed to load history item', 'Please try again');
+            }
+        }
+
+        // Load Customers for Campaign
+        async function loadCustomersForCampaign() {
+            const r = await fetch('/api/customers', { headers: getH() });
+            if(r.ok) {
+                const data = await r.json();
+                allCustomers = data.customers;
+                selectedCustomers = [];
+                
+                document.getElementById('customer-select-list').innerHTML = allCustomers.map(c => `
+                    <div class="customer-card" onclick="toggleCustomer('${c.id}', event)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">${c.name}</div>
+                                <small class="text-muted">${c.phone}</small>
+                                <div class="mt-1">
+                                    <span class="badge bg-light text-dark">${c.gender || 'N/A'}</span>
+                                    <span class="badge bg-light text-dark">${c.age || 'N/A'} yrs</span>
+                                    <span class="badge bg-light text-dark">${c.city || 'N/A'}</span>
+                                </div>
+                            </div>
+                            <input type="checkbox" class="form-check-input" id="check-${c.id}" onclick="event.stopPropagation();">
+                        </div>
+                        <small class="text-muted d-block mt-2">${c.purchase_history || 'No purchase history'}</small>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleCustomer(id, event) {
+            if(event) event.stopPropagation();
+            const checkbox = document.getElementById('check-' + id);
+            if(!checkbox) return;
+            
+            checkbox.checked = !checkbox.checked;
+            
+            if(checkbox.checked) {
+                if(!selectedCustomers.includes(id)) {
+                    selectedCustomers.push(id);
+                }
+                checkbox.closest('.customer-card').classList.add('selected');
+            } else {
+                selectedCustomers = selectedCustomers.filter(c => c !== id);
+                checkbox.closest('.customer-card').classList.remove('selected');
+            }
+        }
+
+        // Load Customers List
+        async function loadCustomersList(page = 1) {
+            currentPage.customers = page;
+            try {
+                const r = await fetch('/api/customers', { headers: getH() });
+                if(r.ok) {
+                    const data = await r.json();
+                    const isMerchantAdmin = userRole === 'merchant_admin';
+                    
+                    const paginatedData = paginate(data.customers, page, itemsPerPage);
+                    
+                    let html = paginatedData.items.map(c => `
+                        <div class="card mb-3 p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="fw-bold mb-1">${c.name} <span class="badge bg-secondary">${c.id}</span></h6>
+                                    <p class="text-muted small mb-2">${c.gender || 'N/A'}, ${c.age || 'N/A'} years, ${c.city || 'N/A'}, ${c.state || 'N/A'}</p>
+                                    <p class="small mb-2"><strong>Phone:</strong> ${c.phone}</p>
+                                    <p class="small mb-2"><strong>Email:</strong> ${c.email}</p>
+                                    <p class="small mb-2"><strong>Total Purchases:</strong> ${c.total_purchases || 0} | <strong>Total Spent:</strong> ₹${c.total_spent || 0}</p>
+                                    <p class="small mb-0"><strong>History:</strong> ${c.purchase_history || 'No history'}</p>
+                                </div>
+                                <div class="d-flex flex-column align-items-end">
+                                    <div class="mb-2">
+                                        ${c.opt_in_sms ? '<span class="badge bg-success">SMS ✓</span>' : '<span class="badge bg-secondary">SMS ✗</span>'}
+                                        ${c.opt_in_whatsapp ? '<span class="badge bg-success">WhatsApp ✓</span>' : '<span class="badge bg-secondary">WhatsApp ✗</span>'}
+                                        ${c.opt_in_email ? '<span class="badge bg-success">Email ✓</span>' : '<span class="badge bg-secondary">Email ✗</span>'}
+                                    </div>
+                                    ${isMerchantAdmin ? `
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary action-btn" onclick="editCustomer('${c.id}')">
+                                                <i class="bi bi-pencil"></i> Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteCustomer('${c.id}', '${c.name}')">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('') || '<p class="text-muted">No customers found.</p>';
+                    
+                    html += renderPagination('customers-list', paginatedData.totalPages, page, 'loadCustomersList');
+                    
+                    document.getElementById('customers-list').innerHTML = html;
+                }
+            } catch(error) {
+                showError('Failed to load customers', 'Please refresh the page');
+            }
+        }
+
+        // Generate Ads
+        document.getElementById('gen-btn').onclick = async () => {
+            const btn = document.getElementById('gen-btn');
+            const info = document.getElementById('prod-info').value;
+            
+            if(!info) { 
+                showError('Please enter product information');
+                document.getElementById('prod-info').focus();
+                return; 
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            
+            try {
+                const r = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: getH(),
+                    body: JSON.stringify({ product_info: info, voice: 'Professional' })
+                });
+                
+                if(!r.ok) {
+                    const errorData = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                    throw new Error(errorData.detail || `HTTP ${r.status}`);
+                }
+                
+                const d = await r.json();
+                
+                if(d.status === 'success' && d.content) {
+                    parseAd(d.content, info.substring(0, 20));
+                    showSuccess('Marketing content generated successfully!');
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch(error) {
+                showError('Failed to generate ads: ' + error.message, 'Check your connection and try again');
+                document.getElementById('prod-info').focus();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-magic me-2"></i>Generate Ads';
+            }
+        };
+
+        // Generate SMS Campaign
+        document.getElementById('sms-gen-btn').onclick = async () => {
+            const btn = document.getElementById('sms-gen-btn');
+            const product = document.getElementById('sms-product').value;
+            const sendNow = document.getElementById('send-immediately').checked;
+            
+            if(!product) { 
+                showError('Please enter product information');
+                document.getElementById('sms-product').focus();
+                return; 
+            }
+            if(selectedCustomers.length === 0) { 
+                showError('Please select at least one customer');
+                return; 
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            
+            try {
+                const r = await fetch('/api/sms/campaign', {
+                    method: 'POST',
+                    headers: getH(),
+                    body: JSON.stringify({
+                        product_info: product,
+                        voice: 'Professional',
+                        customer_ids: selectedCustomers,
+                        send_immediately: sendNow
+                    })
+                });
+                
+                if(!r.ok) {
+                    const d = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                    throw new Error(d.detail || 'Failed to generate campaign');
+                }
+                
+                const d = await r.json();
+                
+                document.getElementById('sms-campaign-info').innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>Campaign ID:</strong> ${d.campaign_id}<br>
+                        <strong>Messages Generated:</strong> ${d.messages_generated}<br>
+                        ${d.messages_sent !== null ? `<strong>Messages Sent:</strong> ${d.messages_sent}` : '<strong>Status:</strong> Preview Only (not sent)'}
+                    </div>
+                `;
+                
+                document.getElementById('sms-preview-list').innerHTML = d.preview.map(p => `
+                    <div class="card mb-2 p-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <strong>${p.name}</strong>
+                            <span class="badge bg-primary">${p.phone}</span>
+                        </div>
+                        <div class="bg-light p-2 rounded">${p.message}</div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('sms-result-container').classList.remove('d-none');
+                showSuccess('SMS campaign generated successfully!');
+            } catch(error) {
+                showError(error.message, 'Check your inputs and try again');
+                document.getElementById('sms-product').focus();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-magic me-2"></i>Generate Campaign';
+            }
+        };
+
+        // Login
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const f = new FormData();
+            f.append('username', document.getElementById('username').value);
+            f.append('password', document.getElementById('password').value);
+            const r = await fetch('/token', { method: 'POST', body: f });
+            if(r.ok) {
+                const d = await r.json();
+                localStorage.setItem('at', d.access_token);
+                localStorage.setItem('user', document.getElementById('username').value);
+                localStorage.setItem('role', d.role);
+                localStorage.setItem('merchant_id', d.merchant_id || '');
+                localStorage.setItem('name', d.name || document.getElementById('username').value);
+                localStorage.setItem('email', d.email || '');
+                location.reload();
+            } else {
+                showError('Invalid credentials', 'Please check your username and password');
+                document.getElementById('username').focus();
+            }
+        };
+
+        // Load Admin Dashboard
+        async function loadAdminDashboard() {
+            try {
+                // Load telemetry
+                const telemetry = await fetch('/api/admin/telemetry', { headers: getH() });
+                if(telemetry.ok) {
+                    const data = await telemetry.json();
+                    document.getElementById('admin-api-calls').innerText = data.total_api_calls || 0;
+                    document.getElementById('admin-sms-sent').innerText = data.total_sms_sent || 0;
+                    document.getElementById('admin-campaigns').innerText = data.total_campaigns || 0;
+                    document.getElementById('admin-users').innerText = data.total_users || 0;
+                }
+
+                // Load settings
+                const settings = await fetch('/api/admin/settings', { headers: getH() });
+                if(settings.ok) {
+                    const data = await settings.json();
+                    document.getElementById('admin-persona').value = data.system_persona || '';
+                    document.getElementById('admin-voice').value = data.default_voice || 'Professional';
+                }
+            } catch(error) {
+                showError('Failed to load dashboard data', 'Please refresh the page');
+            }
+        }
+
+        // Save Admin Settings
+        async function saveAdminSettings() {
+            try {
+                const persona = document.getElementById('admin-persona').value;
+                const voice = document.getElementById('admin-voice').value;
+                
+                const r = await fetch('/api/admin/settings', {
+                    method: 'POST',
+                    headers: getH(),
+                    body: JSON.stringify({ system_persona: persona, default_voice: voice })
+                });
+                
+                if(r.ok) {
+                    showSuccess('Settings saved successfully!');
+                } else {
+                    throw new Error('Failed to save settings');
+                }
+            } catch(error) {
+                showError(error.message, 'Check your inputs and try again');
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            if(localStorage.getItem('at')) {
+                const username = localStorage.getItem('user');
+                const name = localStorage.getItem('name') || username;
+                const email = localStorage.getItem('email') || '';
+                userRole = localStorage.getItem('role') || 'employee';
+                merchantId = localStorage.getItem('merchant_id') || '';
+                
+                document.getElementById('login-overlay').style.display='none';
+                document.getElementById('app-wrapper').style.display='block';
+                document.getElementById('user-name').innerText = name;
+                document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?background=0D6EFD&color=fff&name=${name}`;
+                document.getElementById('profile-name').innerText = name;
+                document.getElementById('profile-email').innerText = email || username + '@adpulseai.com';
+                
+                // Show appropriate menu based on role
+                if(userRole === 'super_admin') {
+                    document.querySelectorAll('.super-admin-only').forEach(el => el.style.display = 'block');
+                    document.querySelectorAll('.merchant-admin-only, .employee-only').forEach(el => el.style.display = 'none');
+                    // Highlight first menu item
+                    setTimeout(() => {
+                        const firstLink = document.querySelector('.super-admin-only .nav-link');
+                        if(firstLink) firstLink.classList.add('active');
+                    }, 100);
+                    showSection('admin-dashboard');
+                } else if(userRole === 'merchant_admin') {
+                    document.querySelectorAll('.merchant-admin-only').forEach(el => el.style.display = 'block');
+                    document.querySelectorAll('.super-admin-only, .employee-only').forEach(el => el.style.display = 'none');
+                    setTimeout(() => {
+                        const firstLink = document.querySelector('.merchant-admin-only .nav-link');
+                        if(firstLink) firstLink.classList.add('active');
+                    }, 100);
+                    showSection('ad-gen');
+                } else if(userRole === 'employee') {
+                    document.querySelectorAll('.employee-only').forEach(el => el.style.display = 'block');
+                    document.querySelectorAll('.super-admin-only, .merchant-admin-only').forEach(el => el.style.display = 'none');
+                    setTimeout(() => {
+                        const firstLink = document.querySelector('.employee-only .nav-link');
+                        if(firstLink) firstLink.classList.add('active');
+                    }, 100);
+                    showSection('ad-gen');
+                }
+            }
+        };
+
+        function logout() {
+            localStorage.clear();
             location.reload();
         }
-    };
 
-    window.onload = () => {
-        const token = localStorage.getItem('at');
-        if (token) {
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('app-wrapper').style.display = 'block';
-            document.getElementById('display-name').innerText = localStorage.getItem('user');
-            document.getElementById('display-role').innerText = localStorage.getItem('role');
-            refreshHistory();
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            if(sidebar.classList.contains('collapsed')) {
+                toggleIcon.classList.remove('bi-chevron-left');
+                toggleIcon.classList.add('bi-chevron-right');
+            } else {
+                toggleIcon.classList.remove('bi-chevron-right');
+                toggleIcon.classList.add('bi-chevron-left');
+            }
         }
-    };
 
-    function logout() { localStorage.clear(); location.reload(); }
-</script>
+        // Profile Menu Toggle
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profile-menu');
+            menu.classList.toggle('show');
+        }
+
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const profileDropdown = document.querySelector('.profile-dropdown');
+            const profileMenu = document.getElementById('profile-menu');
+            if(profileDropdown && !profileDropdown.contains(event.target)) {
+                profileMenu.classList.remove('show');
+            }
+        });
+
+        // Employee Management (Merchant Admin)
+        async function loadEmployeesList(page = 1) {
+            currentPage.employees = page;
+            try {
+                const r = await fetch('/api/merchant/employees', { headers: getH() });
+                if(r.ok) {
+                    const data = await r.json();
+                    const paginatedData = paginate(data.employees, page, itemsPerPage);
+                    
+                    let html = paginatedData.items.map(e => `
+                        <div class="card mb-3 p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="fw-bold mb-1">${e.name}</h6>
+                                    <p class="text-muted small mb-1"><i class="bi bi-person me-1"></i>${e.username}</p>
+                                    <p class="text-muted small mb-0"><i class="bi bi-envelope me-1"></i>${e.email}</p>
+                                </div>
+                                <div class="d-flex align-items-center" style="gap: 10px;">
+                                    <span class="badge ${e.is_active ? 'bg-success' : 'bg-secondary'}">${e.is_active ? 'Active' : 'Inactive'}</span>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editEmployee(${e.id}, '${e.username}', '${e.name}', '${e.email}')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteEmployee(${e.id}, '${e.name}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('') || '<p class="text-muted">No employees yet. Add your first employee below.</p>';
+                    
+                    html += renderPagination('employees-list', paginatedData.totalPages, page, 'loadEmployeesList');
+                    
+                    document.getElementById('employees-list').innerHTML = html;
+                }
+            } catch(error) {
+                showError('Failed to load employees', 'Please refresh the page');
+            }
+        }
+
+        function showAddEmployeeForm() {
+            const html = `
+                <div class="card p-4 mt-3 border-primary">
+                    <h6 class="fw-bold mb-3">Add New Employee</h6>
+                    <form id="add-employee-form">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" id="emp-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" required>
+                            <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="emp-password" minlength="6" maxlength="100" required>
+                            <small class="text-muted">Minimum 6 characters</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="100" required>
+                            <small class="text-muted">2-100 characters</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="emp-email" required>
+                        </div>
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class="bi bi-check-lg me-1"></i>Create Employee
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="loadEmployeesList()">Cancel</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('employees-list').insertAdjacentHTML('beforeend', html);
+            
+            document.getElementById('add-employee-form').onsubmit = async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append('username', document.getElementById('emp-username').value);
+                formData.append('password', document.getElementById('emp-password').value);
+                formData.append('name', document.getElementById('emp-name').value);
+                formData.append('email', document.getElementById('emp-email').value);
+                
+                const r = await fetch('/api/merchant/employees', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                    body: formData
+                });
+                
+                if(r.ok) {
+                    showSuccess('Employee created successfully!');
+                    loadEmployeesList();
+                } else {
+                    const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                    showError(error.detail || 'Failed to create employee');
+                }
+            };
+        }
+
+        // Merchant Management (Super Admin)
+        async function loadMerchantsList(page = 1) {
+            currentPage.merchants = page;
+            try {
+                const r = await fetch('/api/admin/merchants', { headers: getH() });
+                if(r.ok) {
+                    const data = await r.json();
+                    const paginatedData = paginate(data.merchants, page, itemsPerPage);
+                    
+                    let html = paginatedData.items.map(m => `
+                        <div class="card mb-3 p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">${m.business_name} <span class="badge bg-secondary">${m.id}</span></h6>
+                                    <p class="text-muted small mb-1"><i class="bi bi-building me-1"></i>${m.industry}</p>
+                                    <p class="text-muted small mb-1"><i class="bi bi-telephone me-1"></i>${m.phone}</p>
+                                    <p class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>${m.address}</p>
+                                    <p class="text-muted small mb-0"><i class="bi bi-person-circle me-1"></i>Admin: ${m.admin_name} (${m.admin_username})</p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge ${m.is_active ? 'bg-success' : 'bg-secondary'} mb-2">${m.is_active ? 'Active' : 'Inactive'}</span><br>
+                                    <span class="badge bg-primary mb-2">${m.subscription_plan}</span><br>
+                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editMerchant('${m.id}')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMerchant('${m.id}', '${m.business_name}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('') || '<p class="text-muted">No merchants yet. Add your first merchant below.</p>';
+                    
+                    html += renderPagination('merchants-list', paginatedData.totalPages, page, 'loadMerchantsList');
+                    
+                    document.getElementById('merchants-list').innerHTML = html;
+                }
+            } catch(error) {
+                showError('Failed to load merchants', 'Please refresh the page');
+            }
+        }
+
+        function showAddMerchantForm() {
+            const html = `
+                <div class="card p-4 mt-3 border-primary">
+                    <h6 class="fw-bold mb-3">Add New Merchant</h6>
+                    <form id="add-merchant-form">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Business Name</label>
+                                <input type="text" class="form-control" id="merch-business-name" minlength="2" maxlength="100" required>
+                                <small class="text-muted">2-100 characters</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Industry</label>
+                                <input type="text" class="form-control" id="merch-industry" maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="merch-phone" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" id="merch-address" maxlength="200" required>
+                            </div>
+                        </div>
+                        <hr>
+                        <h6 class="fw-bold mb-3">Admin User Details</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Admin Username</label>
+                                <input type="text" class="form-control" id="merch-admin-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" required>
+                                <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Admin Password</label>
+                                <input type="password" class="form-control" id="merch-admin-password" minlength="6" maxlength="100" required>
+                                <small class="text-muted">Minimum 6 characters</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Admin Name</label>
+                                <input type="text" class="form-control" id="merch-admin-name" minlength="2" maxlength="100" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Admin Email</label>
+                                <input type="email" class="form-control" id="merch-admin-email" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class="bi bi-check-lg me-1"></i>Create Merchant
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="loadMerchantsList()">Cancel</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('merchants-list').insertAdjacentHTML('beforeend', html);
+            
+            document.getElementById('add-merchant-form').onsubmit = async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append('business_name', document.getElementById('merch-business-name').value);
+                formData.append('industry', document.getElementById('merch-industry').value);
+                formData.append('phone', document.getElementById('merch-phone').value);
+                formData.append('address', document.getElementById('merch-address').value);
+                formData.append('admin_username', document.getElementById('merch-admin-username').value);
+                formData.append('admin_password', document.getElementById('merch-admin-password').value);
+                formData.append('admin_name', document.getElementById('merch-admin-name').value);
+                formData.append('admin_email', document.getElementById('merch-admin-email').value);
+                
+                const r = await fetch('/api/admin/merchants', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                    body: formData
+                });
+                
+                if(r.ok) {
+                    showSuccess('Merchant created successfully!');
+                    loadMerchantsList();
+                } else {
+                    const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                    showError(error.detail || 'Failed to create merchant');
+                }
+            };
+        }
+
+        function editMerchant(merchantId) {
+            showInfo('Merchant editing feature coming soon!');
+        }
+
+        function deleteMerchant(merchantId, merchantName) {
+            showInfo('Merchant deletion feature coming soon! Contact super admin for assistance.');
+        }
+
+        // Customer Management Functions
+        function showAddCustomerForm() {
+            const html = `
+                <div class="card p-4 mt-3 border-primary" id="customer-form-card">
+                    <h6 class="fw-bold mb-3">Add New Customer</h6>
+                    <form id="add-customer-form">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="100" required>
+                                <small class="text-muted">2-100 characters</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="cust-phone" placeholder="+919000000001" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="cust-email" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" id="cust-gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Age</label>
+                                <input type="number" class="form-control" id="cust-age" min="1" max="120">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">City</label>
+                                <input type="text" class="form-control" id="cust-city" maxlength="50">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">State</label>
+                                <input type="text" class="form-control" id="cust-state" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Purchase History</label>
+                            <textarea class="form-control" id="cust-history" rows="2" maxlength="500"></textarea>
+                            <small class="text-muted">Max 500 characters</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Preferences</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cust-opt-sms" checked>
+                                <label class="form-check-label" for="cust-opt-sms">SMS</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cust-opt-whatsapp" checked>
+                                <label class="form-check-label" for="cust-opt-whatsapp">WhatsApp</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cust-opt-email" checked>
+                                <label class="form-check-label" for="cust-opt-email">Email</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class="bi bi-check-lg me-1"></i>Create Customer
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('customer-form-card').remove(); loadCustomersList();">Cancel</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('customers-list').insertAdjacentHTML('afterbegin', html);
+            
+            document.getElementById('add-customer-form').onsubmit = async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData();
+                formData.append('name', document.getElementById('cust-name').value);
+                formData.append('phone', document.getElementById('cust-phone').value);
+                formData.append('email', document.getElementById('cust-email').value);
+                formData.append('gender', document.getElementById('cust-gender').value);
+                formData.append('age', document.getElementById('cust-age').value || 0);
+                formData.append('city', document.getElementById('cust-city').value);
+                formData.append('state', document.getElementById('cust-state').value);
+                formData.append('purchase_history', document.getElementById('cust-history').value);
+                formData.append('opt_in_sms', document.getElementById('cust-opt-sms').checked);
+                formData.append('opt_in_whatsapp', document.getElementById('cust-opt-whatsapp').checked);
+                formData.append('opt_in_email', document.getElementById('cust-opt-email').checked);
+                
+                try {
+                    const r = await fetch('/api/merchant/customers', {
+                        method: 'POST',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                        body: formData
+                    });
+                    
+                    if(r.ok) {
+                        showSuccess('Customer created successfully!');
+                        document.getElementById('customer-form-card').remove();
+                        loadCustomersList();
+                    } else {
+                        const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                        showError(error.detail || 'Failed to create customer');
+                    }
+                } catch(error) {
+                    showError('Failed to create customer', 'Check your connection and try again');
+                }
+            };
+        }
+
+        function editCustomer(customerId) {
+            // Find customer data
+            fetch('/api/customers', { headers: getH() })
+                .then(r => r.json())
+                .then(data => {
+                    const customer = data.customers.find(c => c.id === customerId);
+                    if(!customer) {
+                        showError('Customer not found');
+                        return;
+                    }
+                    
+                    const html = `
+                        <div class="card p-4 mt-3 border-warning" id="edit-customer-form-card">
+                            <h6 class="fw-bold mb-3">Edit Customer: ${customer.name}</h6>
+                            <form id="edit-customer-form">
+                                <input type="hidden" id="edit-cust-id" value="${customer.id}">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="edit-cust-name" value="${customer.name}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="edit-cust-phone" value="${customer.phone}" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                        <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="edit-cust-email" value="${customer.email}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Gender</label>
+                                        <select class="form-select" id="edit-cust-gender">
+                                            <option value="Male" ${customer.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                            <option value="Female" ${customer.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                            <option value="Other" ${customer.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="edit-cust-age" value="${customer.age || ''}" min="1" max="120">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-control" id="edit-cust-city" value="${customer.city || ''}">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">State</label>
+                                        <input type="text" class="form-control" id="edit-cust-state" value="${customer.state || ''}">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Purchase History</label>
+                                    <textarea class="form-control" id="edit-cust-history" rows="2">${customer.purchase_history || ''}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Preferences</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-sms" ${customer.opt_in_sms ? 'checked' : ''}>
+                                        <label class="form-check-label" for="edit-cust-opt-sms">SMS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-whatsapp" ${customer.opt_in_whatsapp ? 'checked' : ''}>
+                                        <label class="form-check-label" for="edit-cust-opt-whatsapp">WhatsApp</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-email" ${customer.opt_in_email ? 'checked' : ''}>
+                                        <label class="form-check-label" for="edit-cust-opt-email">Email</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning me-2">
+                                    <i class="bi bi-check-lg me-1"></i>Update Customer
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-customer-form-card').remove();">Cancel</button>
+                            </form>
+                        </div>
+                    `;
+                    
+                    // Remove any existing form
+                    const existingForm = document.getElementById('edit-customer-form-card');
+                    if(existingForm) existingForm.remove();
+                    
+                    document.getElementById('customers-list').insertAdjacentHTML('afterbegin', html);
+                    
+                    document.getElementById('edit-customer-form').onsubmit = async (e) => {
+                        e.preventDefault();
+                        
+                        const formData = new FormData();
+                        formData.append('name', document.getElementById('edit-cust-name').value);
+                        formData.append('phone', document.getElementById('edit-cust-phone').value);
+                        formData.append('email', document.getElementById('edit-cust-email').value);
+                        formData.append('gender', document.getElementById('edit-cust-gender').value);
+                        formData.append('age', document.getElementById('edit-cust-age').value || 0);
+                        formData.append('city', document.getElementById('edit-cust-city').value);
+                        formData.append('state', document.getElementById('edit-cust-state').value);
+                        formData.append('purchase_history', document.getElementById('edit-cust-history').value);
+                        formData.append('opt_in_sms', document.getElementById('edit-cust-opt-sms').checked);
+                        formData.append('opt_in_whatsapp', document.getElementById('edit-cust-opt-whatsapp').checked);
+                        formData.append('opt_in_email', document.getElementById('edit-cust-opt-email').checked);
+                        
+                        try {
+                            const r = await fetch(`/api/merchant/customers/${customerId}`, {
+                                method: 'PUT',
+                                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                                body: formData
+                            });
+                            
+                            if(r.ok) {
+                                showSuccess('Customer updated successfully!');
+                                document.getElementById('edit-customer-form-card').remove();
+                                loadCustomersList();
+                            } else {
+                                const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                                showError(error.detail || 'Failed to update customer');
+                            }
+                        } catch(error) {
+                            showError('Failed to update customer', 'Check your connection and try again');
+                        }
+                    };
+                })
+                .catch(() => showError('Failed to load customer data'));
+        }
+
+        function deleteCustomer(customerId, customerName) {
+            // Show confirmation in notification
+            showNotification('error', 'Confirm Delete', `Click delete button again to confirm deletion of ${customerName}`);
+            
+            // Add a temporary confirmation state
+            const deleteBtn = event.target.closest('button');
+            if(deleteBtn.dataset.confirmed === 'true') {
+                // Actually delete
+                fetch(`/api/merchant/customers/${customerId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
+                })
+                .then(r => {
+                    if(r.ok) {
+                        showSuccess(`Customer ${customerName} deleted successfully`);
+                        loadCustomersList();
+                    } else {
+                        return r.json().then(error => {
+                            showError(error.detail || 'Failed to delete customer');
+                        });
+                    }
+                })
+                .catch(() => {
+                    showError('Failed to delete customer', 'Check your connection and try again');
+                })
+                .finally(() => {
+                    delete deleteBtn.dataset.confirmed;
+                });
+            } else {
+                // First click - mark for confirmation
+                deleteBtn.dataset.confirmed = 'true';
+                deleteBtn.classList.add('btn-danger');
+                deleteBtn.classList.remove('btn-outline-danger');
+                setTimeout(() => {
+                    delete deleteBtn.dataset.confirmed;
+                    deleteBtn.classList.remove('btn-danger');
+                    deleteBtn.classList.add('btn-outline-danger');
+                }, 3000);
+            }
+        }
+
+        function editEmployee(employeeId, username, name, email) {
+            const html = `
+                <div class="card p-4 mt-3 border-warning" id="edit-employee-form-card">
+                    <h6 class="fw-bold mb-3">Edit Employee: ${name}</h6>
+                    <form id="edit-employee-form">
+                        <input type="hidden" id="edit-emp-id" value="${employeeId}">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" value="${username}" disabled>
+                            <small class="text-muted">Username cannot be changed</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="edit-emp-name" value="${name}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="edit-emp-email" value="${email}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New Password (leave blank to keep current)</label>
+                            <input type="password" class="form-control" id="edit-emp-password">
+                        </div>
+                        <button type="submit" class="btn btn-warning me-2">
+                            <i class="bi bi-check-lg me-1"></i>Update Employee
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-employee-form-card').remove();">Cancel</button>
+                    </form>
+                </div>
+            `;
+            
+            // Remove any existing form
+            const existingForm = document.getElementById('edit-employee-form-card');
+            if(existingForm) existingForm.remove();
+            
+            document.getElementById('employees-list').insertAdjacentHTML('afterbegin', html);
+            
+            document.getElementById('edit-employee-form').onsubmit = async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData();
+                formData.append('name', document.getElementById('edit-emp-name').value);
+                formData.append('email', document.getElementById('edit-emp-email').value);
+                const password = document.getElementById('edit-emp-password').value;
+                if(password) {
+                    formData.append('password', password);
+                }
+                
+                try {
+                    const r = await fetch(`/api/merchant/employees/${employeeId}`, {
+                        method: 'PUT',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                        body: formData
+                    });
+                    
+                    if(r.ok) {
+                        showSuccess('Employee updated successfully!');
+                        document.getElementById('edit-employee-form-card').remove();
+                        loadEmployeesList();
+                    } else {
+                        const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                        showError(error.detail || 'Failed to update employee');
+                    }
+                } catch(error) {
+                    showError('Failed to update employee', 'Check your connection and try again');
+                }
+            };
+        }
+
+        function deleteEmployee(employeeId, employeeName) {
+            // Show confirmation in notification
+            showNotification('error', 'Confirm Delete', `Click delete button again to confirm deletion of ${employeeName}`);
+            
+            // Add a temporary confirmation state
+            const deleteBtn = event.target.closest('button');
+            if(deleteBtn.dataset.confirmed === 'true') {
+                // Actually delete
+                fetch(`/api/merchant/employees/${employeeId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
+                })
+                .then(r => {
+                    if(r.ok) {
+                        showSuccess(`Employee ${employeeName} deleted successfully`);
+                        loadEmployeesList();
+                    } else {
+                        return r.json().then(error => {
+                            showError(error.detail || 'Failed to delete employee');
+                        });
+                    }
+                })
+                .catch(() => {
+                    showError('Failed to delete employee', 'Check your connection and try again');
+                })
+                .finally(() => {
+                    delete deleteBtn.dataset.confirmed;
+                });
+            } else {
+                // First click - mark for confirmation
+                deleteBtn.dataset.confirmed = 'true';
+                deleteBtn.classList.add('btn-danger');
+                deleteBtn.classList.remove('btn-outline-danger');
+                setTimeout(() => {
+                    delete deleteBtn.dataset.confirmed;
+                    deleteBtn.classList.remove('btn-danger');
+                    deleteBtn.classList.add('btn-outline-danger');
+                }, 3000);
+            }
+        }
+    </script>
 </body>
 </html>

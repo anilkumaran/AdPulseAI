@@ -37,14 +37,126 @@ class GeminiService(BaseAdService):
 
 # --- MOCK SERVICE ---
 class MockGeminiService(BaseAdService):
+    """Mock service for testing without actual Gemini API calls"""
+    
     def generate_response(self, product_info: str, voice: str) -> str:
-        return f"[MOCK MODE] Simulated {voice} ad for: {product_info}."
+        """Generate mock multi-platform ad content"""
+        
+        try:
+            # Extract product name from prompt
+            product_name = "Product"
+            if "PRODUCT:" in product_info:
+                product_line = product_info.split("PRODUCT:")[1].split(".")[0].strip()
+                product_name = product_line.split("-")[0].strip() if "-" in product_line else product_line[:30]
+            else:
+                # If no PRODUCT: marker, use the whole input
+                product_name = product_info[:50].strip()
+            
+            # Check if it's a PMI personalized SMS-only prompt (for SMS campaigns)
+            is_sms_only = "Generate ONLY the SMS text message" in product_info
+            customer_name = "Customer"
+            
+            if "USER:" in product_info:
+                try:
+                    user_section = product_info.split("USER:")[1].split("PMI")[0]
+                    if "Name=" in user_section:
+                        customer_name = user_section.split("Name=")[1].split(",")[0].strip()
+                    elif "," in user_section:
+                        # Format: "Name, Demographics, History"
+                        parts = user_section.split(",")
+                        if len(parts) > 0:
+                            customer_name = parts[0].strip()
+                except Exception as e:
+                    print(f"[MockGemini] Error parsing user info: {e}")
+                    customer_name = "Customer"
+            
+            # Generate mock content based on type
+            if is_sms_only:
+                # PMI-style personalized SMS only (for SMS campaigns)
+                return f"Hi {customer_name}! 🎉 Based on your interests, check out our {product_name}! Special offer just for you. Reply YES for details!"
+            else:
+                # Multi-platform ad content (for regular ad generation)
+                return f"""FACEBOOK:
+🎉 Introducing {product_name} - Your Perfect Choice!
+
+Discover amazing features and unbeatable value. Limited time offer - don't miss out!
+
+💰 Special Price Available
+🚚 Free Delivery
+⭐ Premium Quality
+
+Shop now and experience the difference!
+
+#NewArrival #SpecialOffer #ShopNow
+
+INSTAGRAM:
+✨ Say hello to {product_name}! ✨
+
+Your lifestyle upgrade is here! 🎯
+
+✅ Premium quality
+✅ Best price guaranteed
+✅ Fast delivery
+
+Tag a friend who needs this! 👇
+
+#Shopping #Lifestyle #MustHave #Trending
+
+TWITTER:
+🔥 {product_name} is here!
+
+Premium quality + Great price = Perfect deal! 🎯
+
+Limited stock available. Order now! 🛒
+
+#Deals #Shopping #NewProduct
+
+WHATSAPP:
+Hi there! 👋
+
+Excited to share our new {product_name} with you!
+
+✅ Premium quality
+✅ Special pricing
+✅ FREE delivery
+
+Interested? Let me know! 😊
+
+TEXTMESSAGE:
+New arrival: {product_name}! Premium quality, special price, FREE delivery. Order now! Reply YES for details."""
+        
+        except Exception as e:
+            print(f"[MockGemini] Error generating response: {e}")
+            # Fallback response
+            return """FACEBOOK:
+🎉 New Product Available!
+
+Check out our latest offering with amazing features!
+
+#NewArrival #ShopNow
+
+INSTAGRAM:
+✨ Something special just arrived! ✨
+
+#Shopping #MustHave
+
+TWITTER:
+🔥 New product alert!
+
+#Deals #Shopping
+
+WHATSAPP:
+Hi! Check out our new product!
+
+TEXTMESSAGE:
+New arrival! Order now!"""
 
 
 _instance = None
 def get_gemini_service() -> BaseAdService:
     global _instance
     if _instance is None:
-        return MockGeminiService() if os.getenv("ENV_MODE") == "test" else GeminiService()
+        env_mode = os.getenv("ENV_MODE", "test")
+        _instance = MockGeminiService() if env_mode == "test" else GeminiService()
     return _instance
 

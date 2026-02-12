@@ -1,60 +1,20 @@
 {
-    "users": {
-        "admin": {
-            "pw": "$2b$12$YEPyCykvCU1Poo3SieiA0e7QliznXLv5om6v6pR5yChWxZKZxfXrO",
-            "role": "admin"
-        },
-        "user1": {
-            "pw": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS",
-            "role": "user"
-        }
-    },
-    "history": [
-        {
-            "user_id": "user1",
-            "timestamp": "2026-02-11 15:53",
-            "prompt_preview": "3",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: 3. Tone: Professional. Output EXACTLY in this format: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
-        },
-        {
-            "user_id": "user1",
-            "timestamp": "2026-02-11 15:51",
-            "prompt_preview": "From uuu",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: From uuu. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
-        },
-        {
-            "user_id": "user1",
-            "timestamp": "2026-02-11 15:50",
-            "prompt_preview": "From user",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: From user. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
-        },
-        {
-            "user_id": "admin",
-            "timestamp": "2026-02-11 15:49",
-            "prompt_preview": "Hello",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: Hello. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
-        },
-        {
-            "user_id": "admin",
-            "timestamp": "2026-02-11 15:46",
-            "prompt_preview": "A Tablet with curved display",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: \n    Product: A Tablet with curved display. Tone: Professional.\n    Generate 4 distinct ad copies. \n    Use the EXACT headers below:\n    FACEBOOK:\n    INSTAGRAM:\n    TWITTER:\n    WHATSAPP:\n    ."
-        },
-        {
-            "user_id": "admin",
-            "timestamp": "2026-02-11 15:41",
-            "prompt_preview": "A laptop with nice design",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: A laptop with nice design. Tone: Professional. Output: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
-        },
-        {
-            "user_id": "admin",
-            "timestamp": "2026-02-11 15:40",
-            "prompt_preview": "A book on loving animals",
-            "full_content": "[MOCK MODE] Simulated Professional ad for: Product: A book on loving animals. Tone: Professional. Output: FACEBOOK: [copy] INSTAGRAM: [copy] TWITTER: [copy] WHATSAPP: [copy]."
-        }
+    "users": [
+        {"id": 1, "username": "admin", "password_hash": "$2b$12$YEPyCykvCU1Poo3SieiA0e7QliznXLv5om6v6pR5yChWxZKZxfXrO", "role": "super_admin", "merchant_id": null, "name": "Platform Admin", "email": "admin@adpulseai.com", "is_active": true, "created_at": "2026-01-01T10:00:00Z", "updated_at": "2026-01-01T10:00:00Z"},
+        {"id": 2, "username": "merchant2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "merchant_admin", "merchant_id": "MERCH002", "name": "Sagar Ch", "email": "sagar@business.com", "is_active": true, "created_at": "2026-01-20T11:00:00Z", "updated_at": "2026-01-20T11:00:00Z"},
+        {"id": 3, "username": "emp2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Priya Employee", "email": "priya.emp@business.com", "is_active": true, "created_at": "2026-01-21T14:20:00Z", "updated_at": "2026-01-21T14:20:00Z"},
+        {"id": 4, "username": "emp_raj", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Raj Kumar", "email": "raj.kumar@business.com", "is_active": true, "created_at": "2026-01-22T09:15:00Z", "updated_at": "2026-01-22T09:15:00Z"},
+        {"id": 5, "username": "emp_anita", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH002", "name": "Anita Sharma", "email": "anita.s@business.com", "is_active": true, "created_at": "2026-01-23T11:30:00Z", "updated_at": "2026-01-23T11:30:00Z"},
+        {"id": 6, "username": "mer_amazon", "password_hash": "$2b$12$Lg8wK7i//KCZ5qzKH8n02eyH4CbVwgIhOPooOWdBfm4JUs6ryGKgy", "role": "merchant_admin", "merchant_id": "MERCH003", "name": "mer_amz", "email": "amz@amazon.com", "is_active": true, "created_at": "2026-02-12T20:18:00.113699", "updated_at": "2026-02-12T20:18:00.113726"},
+        {"id": 7, "username": "admin_flipkart", "password_hash": "$2b$12$OYyatggpnGLRzML9z.uS/.rgxV7Jb3FqOupOKJjetRjeebloriMAS", "role": "merchant_admin", "merchant_id": "MERCH004", "name": "Admin Flipkart", "email": "flipcart.mrcht@gmail.com", "is_active": true, "created_at": "2026-02-12T20:28:41.270187", "updated_at": "2026-02-12T20:28:41.270222"},
+        {"id": 8, "username": "emp_amazon1", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH003", "name": "Amit Patel", "email": "amit.p@amazon.com", "is_active": true, "created_at": "2026-01-25T10:00:00Z", "updated_at": "2026-01-25T10:00:00Z"},
+        {"id": 9, "username": "emp_amazon2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH003", "name": "Neha Gupta", "email": "neha.g@amazon.com", "is_active": true, "created_at": "2026-01-26T14:20:00Z", "updated_at": "2026-01-26T14:20:00Z"},
+        {"id": 10, "username": "emp_flipkart1", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH004", "name": "Rohit Singh", "email": "rohit.s@flipkart.com", "is_active": true, "created_at": "2026-01-27T09:45:00Z", "updated_at": "2026-01-27T09:45:00Z"},
+        {"id": 11, "username": "emp_flipkart2", "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS", "role": "employee", "merchant_id": "MERCH004", "name": "Kavita Reddy", "email": "kavita.r@flipkart.com", "is_active": true, "created_at": "2026-01-28T13:10:00Z", "updated_at": "2026-01-28T13:10:00Z"}
     ],
-    "telemetry": {
-        "total_api_calls": 7,
-        "last_call_timestamp": "2026-02-11 15:53"
-    }
-}
+    "merchants": [
+        {"id": "MERCH002", "business_name": "Sagar Fashion", "admin_user_id": 2, "industry": "Fashion & Lifestyle", "phone": "+919000000002", "address": "Brigade Road, Bangalore, Karnataka", "is_active": true, "subscription_plan": "premium", "subscription_expires_at": "2026-12-31T23:59:59Z", "created_at": "2026-01-20T11:00:00Z", "updated_at": "2026-01-20T11:00:00Z"},
+        {"id": "MERCH003", "business_name": "Amazon", "admin_user_id": 6, "industry": "E-Commerce", "phone": "+919000000003", "address": "12, NFC Road, Seattle, USA", "is_active": true, "subscription_plan": "basic", "subscription_expires_at": "2027-02-12T20:18:00.113729", "created_at": "2026-02-12T20:18:00.113738", "updated_at": "2026-02-12T20:18:00.113739"},
+        {"id": "MERCH004", "business_name": "Flipkart", "admin_user_id": 7, "industry": "E-Commerce", "phone": "+919000000004", "address": "Outer Ring Road, Bangalore, Karnataka", "is_active": true, "subscription_plan": "basic", "subscription_expires_at": "2027-02-12T20:28:41.270225", "created_at": "2026-02-12T20:28:41.270237", "updated_at": "2026-02-12T20:28:41.270238"}
+    ],
+    "customers": [

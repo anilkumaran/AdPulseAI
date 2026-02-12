@@ -2,92 +2,19 @@
 
 ## Table of Contents
 1. [Abstract](#abstract)
-2. [PMI Evolution: From Research to Production](#pmi-evolution-from-research-to-production)
-3. [System Specification](#system-specification)
+2. [System Specification](#system-specification)
    - [Hardware Requirements](#hardware-requirements-aws-ec2)
    - [Software Requirements](#software-requirements)
-4. [System Modules](#system-modules)
+3. [System Modules](#system-modules)
    - [Admin Module](#1-admin-module-ownermanager)
    - [User Module](#2-user-module-employeesales-staff)
-5. [Proposed System](#proposed-system-cloud-implementation-with-admin-control)
-6. [Project Guide](#project-guide)
-7. [Developed By](#developed-by)
+4. [Proposed System](#proposed-system-cloud-implementation-with-admin-control)
+5. [Project Guide](#project-guide)
+6. [Developed By](#developed-by)
 ---
 
 ## Abstract
 The AdPulseAI is an innovative, cloud-based framework designed to democratize professional digital marketing and business intelligence for Enterprises by leveraging the transformative power of Generative Artificial Intelligence. Developed as a response to the resource constraints that often hinder small businesses—such as limited marketing budgets and lack of specialized data expertise—the system provides an automated platform for synthesizing multi-channel ad copy, optimizing SEO metadata, and identifying target audience segments. Hosted on Amazon Web Services (AWS) using a scalable EC2 infrastructure, the application utilizes the Google Gemini API to transform unstructured product data into high-converting promotional content with unprecedented speed and precision. By integrating a robust Admin Module for centralized governance and an intuitive user interface for streamlined task execution, AdPulseAI empowers SMEs to enhance their operational efficiency, reduce overhead costs by up to 30%, and maintain a competitive edge in an increasingly digital marketplace.
-
----
-
-## PMI Evolution: From Research to Production
-
-AdPulseAI extends the Persuasive Message Intelligence (PMI) framework introduced by Lee et al. (IEEE Access, 2024) from a research prototype to a production-ready, multi-channel marketing platform.
-
-**Reference Paper:** [Developing Personalized Marketing Service Using Generative AI](https://ieeexplore.ieee.org/document/10419357) (DOI: 10.1109/ACCESS.2024.3361946)
-
-| **Original Paper (PMI)** | **AdPulseAI System** |
-| :--- | :--- |
-| SMS-only delivery | Multi-platform (Facebook, Instagram, Twitter, WhatsApp, SMS) |
-| GPT-4 API | Google Gemini API (more cost-effective) |
-| Aligo SMS API | AWS SNS (scalable cloud messaging) |
-| Single-channel personalization | Omnichannel personalized marketing |
-| Research prototype | Production-ready cloud deployment (AWS) |
-
----
-
-## Quick Start
-
-### Installation
-
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd AdPulseAI
-```
-
-2. **Install dependencies:**
-```bash
-pip install -r requirements.txt
-```
-
-3. **Configure environment:**
-```bash
-cp env_template .env
-# Edit .env and add your API keys
-```
-
-4. **Run the application:**
-```bash
-# Test mode (uses mock services)
-python -m uvicorn main:app --reload --port 8000
-
-# Production mode (requires real API keys)
-# Set ENV_MODE=prod in .env
-python -m uvicorn main:app --host 0.0.0.0 --port 8000
-```
-
-5. **Access the application:**
-```
-http://localhost:8000
-```
-
-### Default Login Credentials
-
-**Admin Account:**
-- Username: `admin`
-- Password: `admin123`
-
-**Merchant Account:**
-- Username: `merchant1`
-- Password: `user123`
-
-### Test Mode Features
-
-When `ENV_MODE=test` in `.env`:
-- ✅ Mock Gemini API responses (no API key needed)
-- ✅ Mock SMS sending (no AWS credentials needed)
-- ✅ Sample customer data pre-loaded
-- ✅ Sample campaign history available
 
 ---
 
@@ -139,29 +66,6 @@ The "AdPulseAI System" introduces a modernized and efficient solution for busine
 
 ---
 
-## API Endpoints
-
-### Authentication
-- `POST /token` - Login and get access token
-
-### Ad Generation
-- `POST /api/generate` - Generate multi-platform ad content
-- `GET /api/history` - Get generation history
-
-### SMS Campaigns (PMI Implementation)
-- `POST /api/sms/send` - Send single SMS
-- `POST /api/sms/bulk` - Send bulk personalized SMS
-- `POST /api/sms/campaign` - Generate & send AI-powered personalized campaign
-- `GET /api/sms/cost-estimate` - Estimate SMS costs
-- `GET /api/customers` - List customers for targeting
-
-### Admin
-- `GET /api/admin/telemetry` - System usage metrics
-- `GET /api/admin/settings` - Get system settings
-- `POST /api/admin/settings` - Update system settings
-
----
-
 ## Project Guide
 **Dr. B. Rama**
 
@@ -172,3 +76,43 @@ The "AdPulseAI System" introduces a modernized and efficient solution for busine
 * **Ch. Sagar**
 * **K. Anil**
 
+
+
+
+
+
+---
+## Architecture 
+
+```
+🏗️ 3-Tier Role Structure:
+┌─────────────────────────────────────────────────────────┐
+│ SUPER ADMIN (AdPulseAI Owner)                           │
+│ - Manage entire platform                                │
+│ - View Gemini API usage across all merchants            │
+│ - Change AI settings (system-wide)                      │
+│ - Add/remove merchants                                  │
+│ - View all merchants' data                              │
+│ - Platform analytics                                    │
+└─────────────────────────────────────────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        ▼                 ▼                 ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ MERCHANT 1   │  │ MERCHANT 2   │  │ MERCHANT 3   │
+│ (Business A) │  │ (Business B) │  │ (Business C) │
+└──────────────┘  └──────────────┘  └──────────────┘
+        │
+        ├─ Merchant Admin (Business Owner)
+        │  - Create employee accounts
+        │  - Generate ads & SMS campaigns
+        │  - View all employees' activity
+        │  - Manage customers
+        │  - View merchant-level analytics
+        │
+        └─ Employees (Staff 1, Staff 2, Staff 3...)
+           - Generate ads only
+           - Send SMS campaigns only
+           - View their own history only
+
+```

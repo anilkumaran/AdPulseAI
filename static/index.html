@@ -347,7 +347,7 @@
             </div>
 
             <!-- Admin Dashboard Section -->
-            <div id="section-admin" style="display: none;">
+            <div id="section-admin-dashboard" style="display: none;">
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <div class="card p-3 shadow-sm border-0">
@@ -374,7 +374,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- System Settings Section -->
+            <div id="section-settings" style="display: none;">
                 <div class="card p-4 shadow-sm border-0 mb-4">
                     <h5 class="fw-bold mb-3 text-primary">
                         <i class="bi bi-sliders me-2"></i>System Settings
@@ -522,6 +525,7 @@
             if(section === 'sms-campaign') loadCustomersForCampaign();
             if(section === 'customers') loadCustomersList();
             if(section === 'admin-dashboard') loadAdminDashboard();
+            if(section === 'settings') loadAdminSettings();
             if(section === 'employees') loadEmployeesList();
             if(section === 'merchants') loadMerchantsList();
             if(section === 'history') loadFullHistory();
@@ -909,16 +913,31 @@
         // Load Admin Dashboard
         async function loadAdminDashboard() {
             try {
-                // Load telemetry
+                console.log('[loadAdminDashboard] Fetching telemetry data...');
                 const telemetry = await fetch('/api/admin/telemetry', { headers: getH() });
+                console.log('[loadAdminDashboard] Response status:', telemetry.status);
+                
                 if(telemetry.ok) {
                     const data = await telemetry.json();
+                    console.log('[loadAdminDashboard] Telemetry data:', data);
                     document.getElementById('admin-api-calls').innerText = data.total_api_calls || 0;
                     document.getElementById('admin-sms-sent').innerText = data.total_sms_sent || 0;
                     document.getElementById('admin-campaigns').innerText = data.total_campaigns || 0;
                     document.getElementById('admin-users').innerText = data.total_users || 0;
+                } else {
+                    const errorData = await telemetry.json().catch(() => ({}));
+                    console.error('[loadAdminDashboard] API error:', errorData);
+                    showError('Failed to load dashboard data', errorData.detail || 'Please refresh the page');
                 }
+            } catch(error) {
+                console.error('[loadAdminDashboard] Exception:', error);
+                showError('Failed to load dashboard data', 'Please refresh the page');
+            }
+        }
 
+        // Load Admin Settings
+        async function loadAdminSettings() {
+            try {
                 // Load settings
                 const settings = await fetch('/api/admin/settings', { headers: getH() });
                 if(settings.ok) {
@@ -927,7 +946,7 @@
                     document.getElementById('admin-voice').value = data.default_voice || 'Professional';
                 }
             } catch(error) {
-                showError('Failed to load dashboard data', 'Please refresh the page');
+                showError('Failed to load settings', 'Please refresh the page');
             }
         }
 

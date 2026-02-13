@@ -38,7 +38,7 @@ AdPulseAI is a multi-channel marketing platform that extends the IEEE paper "Dev
   - Added collapsible sidebar (Jira-style horizontal toggle button)
   - Moved logout to profile dropdown menu
   - Created role-specific UI menus and access controls
-- **FILES**: `db.json`, `main.py`, `services/db_service.py`, `services/auth_service.py`, `static/index.html`
+- **FILES**: `schemas/db.json`, `main.py`, `services/db_service.py`, `services/auth_service.py`, `static/index.html`
 
 ### TASK 4: CRUD Operations for Merchants, Employees, and Customers
 - **STATUS**: ✅ DONE
@@ -71,8 +71,8 @@ AdPulseAI is a multi-channel marketing platform that extends the IEEE paper "Dev
   - Implemented pagination for history list (10 items per page)
   - Updated `log_generation` in `db_service.py` to use `prompt_preview` with first 10 chars
   - Added focus management - cursor returns to input field on errors
-  - Cleaned up old history entries in `db.json`
-- **FILES**: `static/index.html`, `services/db_service.py`, `db.json`
+  - Cleaned up old history entries in `schemas/db.json`
+- **FILES**: `static/index.html`, `services/db_service.py`, `schemas/db.json`
 
 ### TASK 7: History System Overhaul
 - **STATUS**: ✅ DONE
@@ -165,9 +165,9 @@ AdPulseAI is a multi-channel marketing platform that extends the IEEE paper "Dev
     - Customers distributed across all merchants
     - Employees distributed across all merchants
 - **NEXT STEPS**:
-  - Complete db.json rewrite with all 20+ records for each entity
+  - Complete schemas/db.json rewrite with all 20+ records for each entity
   - Update telemetry to reflect new counts
-- **FILES**: `db.json`
+- **FILES**: `schemas/db.json`
 
 ---
 
@@ -179,7 +179,7 @@ None currently identified.
 
 ## TECHNICAL SPECIFICATIONS
 
-### Database Schema (db.json)
+### Database Schema (schemas/db.json)
 - **users**: id, username, password_hash, role, merchant_id, name, email, is_active, created_at, updated_at
 - **merchants**: id, business_name, admin_user_id, industry, phone, address, is_active, subscription_plan, subscription_expires_at, created_at, updated_at
 - **customers**: id, merchant_id, name, phone, email, gender, age, city, state, purchase_history, total_purchases, total_spent, last_purchase_date, preferences_categories, opt_in_sms, opt_in_whatsapp, opt_in_email, is_active, created_at, updated_at
@@ -265,7 +265,7 @@ None currently identified.
 
 ## FILES MODIFIED IN THIS SESSION
 
-1. `db.json` - Started adding mock data (users and merchants updated, customers in progress)
+1. `schemas/db.json` - Started adding mock data (users and merchants updated, customers in progress)
 2. `static/index.html` - All form validations completed, edit employee form validation added
 3. `SESSION_CONTEXT.md` - This file (updated with current status)
 

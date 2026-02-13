@@ -3,7 +3,12 @@ import os
 from datetime import datetime
 
 class DBService:
-    def __init__(self, file_path="db.json"):
+    def __init__(self, file_path=None):
+        if file_path is None:
+            # Get the project root directory (parent of services)
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(current_dir)
+            file_path = os.path.join(project_root, "schemas", "db.json")
         self.file_path = file_path
         self._init_db()
 

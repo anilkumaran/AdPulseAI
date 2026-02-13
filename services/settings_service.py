@@ -2,7 +2,11 @@ import json
 import os
 
 class SettingsService:
-    def __init__(self, file_path="settings.json"):
+    def __init__(self, file_path=None):
+        if file_path is None:
+            # Get the directory where this file is located
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            file_path = os.path.join(current_dir, "settings.json")
         self.file_path = file_path
         self.defaults = {
             "system_persona": "Professional Marketing Expert",

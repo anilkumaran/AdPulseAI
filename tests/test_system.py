@@ -179,7 +179,7 @@ def main():
     print("\n📋 Prerequisites:")
     print("   - Server running on http://localhost:8000")
     print("   - ENV_MODE=test in .env file")
-    print("   - Sample data loaded in db.json")
+    print("   - Sample data loaded in schemas/db.json")
     
     input("\nPress Enter to start tests...")
     

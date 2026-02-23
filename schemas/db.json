@@ -27,14 +27,14 @@
         {
             "id": 3,
             "username": "emp2",
-            "password_hash": "$2b$12$rBFhCde3CMvUg7.YRVTNe.FFVBsNrd8n4SG45hr7UXKddSaBwjwHS",
+            "password_hash": "$2b$12$wDTQn3SsAmY1b2uM28MyfOAm.tKNTecqMVG99NfSUVHBOLenjpS/C",
             "role": "employee",
             "merchant_id": "MERCH002",
             "name": "Priya Employee",
             "email": "priya.emp@business.com",
             "is_active": true,
             "created_at": "2026-01-21T14:20:00Z",
-            "updated_at": "2026-01-21T14:20:00Z"
+            "updated_at": "2026-02-23T15:58:40.949175"
         },
         {
             "id": 6,
@@ -47,18 +47,6 @@
             "is_active": true,
             "created_at": "2026-02-12T20:18:00.113699",
             "updated_at": "2026-02-12T20:18:00.113726"
-        },
-        {
-            "id": 7,
-            "username": "admin_flipkart",
-            "password_hash": "$2b$12$OYyatggpnGLRzML9z.uS/.rgxV7Jb3FqOupOKJjetRjeebloriMAS",
-            "role": "merchant_admin",
-            "merchant_id": "MERCH004",
-            "name": "Admin Flipkart",
-            "email": "flipcart.mrcht@gmail.com",
-            "is_active": true,
-            "created_at": "2026-02-12T20:28:41.270187",
-            "updated_at": "2026-02-12T20:28:41.270222"
         }
     ],
     "merchants": [
@@ -87,19 +75,6 @@
             "subscription_expires_at": "2027-02-12T20:18:00.113729",
             "created_at": "2026-02-12T20:18:00.113738",
             "updated_at": "2026-02-12T20:18:00.113739"
-        },
-        {
-            "id": "MERCH004",
-            "business_name": "Flipkart",
-            "admin_user_id": 7,
-            "industry": "E-Commerce",
-            "phone": "+919000000004",
-            "address": "Outer Ring Road, Bangalore, Karnataka",
-            "is_active": true,
-            "subscription_plan": "basic",
-            "subscription_expires_at": "2027-02-12T20:28:41.270225",
-            "created_at": "2026-02-12T20:28:41.270237",
-            "updated_at": "2026-02-12T20:28:41.270238"
         }
     ],
     "customers": [
@@ -127,7 +102,7 @@
             "opt_in_email": true,
             "is_active": true,
             "created_at": "2025-11-10T09:30:00Z",
-            "updated_at": "2026-01-15T18:20:00Z"
+            "updated_at": "2026-02-23T15:58:53.236208"
         },
         {
             "id": "CUST002",
@@ -158,7 +133,7 @@
         {
             "id": "CUST003",
             "merchant_id": "MERCH002",
-            "name": "Arjun Mehta",
+            "name": "Arjun Mehta Karav",
             "phone": "+919000000023",
             "email": "arjun.m@example.com",
             "gender": "Male",
@@ -175,14 +150,47 @@
                 "tech"
             ],
             "opt_in_sms": true,
-            "opt_in_whatsapp": false,
+            "opt_in_whatsapp": true,
             "opt_in_email": true,
             "is_active": true,
             "created_at": "2025-12-15T10:00:00Z",
-            "updated_at": "2026-02-12T19:56:35.914837"
+            "updated_at": "2026-02-21T23:11:23.826252"
         }
     ],
     "ad_generation_history": [
+        {
+            "id": 12,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Ear buds",
+            "prompt_preview": "Ear buds",
+            "full_content": "SMS Campaign: CAMP20260221230925\nProduct: Ear buds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
+            "created_at": "2026-02-21T23:09:25.549192",
+            "timestamp": "2026-02-21 23:09"
+        },
+        {
+            "id": 11,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Ear buds",
+            "prompt_preview": "Ear buds",
+            "full_content": "SMS Campaign: CAMP20260221230356\nProduct: Ear buds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
+            "created_at": "2026-02-21T23:03:56.850283",
+            "timestamp": "2026-02-21 23:03"
+        },
+        {
+            "id": 10,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "WIreless buds",
+            "prompt_preview": "WIreless b...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing WIreless buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to WIreless buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 WIreless buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new WIreless buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: WIreless buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "created_at": "2026-02-21T23:01:12.793751",
+            "timestamp": "2026-02-21 23:01"
+        },
         {
             "id": 9,
             "user_id": "merchant2",
@@ -286,6 +294,30 @@
     "sms_history": [],
     "sms_campaigns": [
         {
+            "id": 7,
+            "campaign_id": "CAMP20260221230925",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Ear buds",
+            "total_generated": 2,
+            "messages_sent": 2,
+            "created_at": "2026-02-21T23:09:25.542055",
+            "timestamp": "2026-02-21 23:09:25"
+        },
+        {
+            "id": 6,
+            "campaign_id": "CAMP20260221230356",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Ear buds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "created_at": "2026-02-21T23:03:56.842453",
+            "timestamp": "2026-02-21 23:03:56"
+        },
+        {
             "id": 5,
             "campaign_id": "CAMP20260212223110",
             "user_id": "merchant2",
@@ -356,13 +388,13 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 9,
-        "total_sms_sent": 5,
-        "total_campaigns": 5,
-        "total_merchants": 3,
+        "total_api_calls": 12,
+        "total_sms_sent": 7,
+        "total_campaigns": 7,
+        "total_merchants": 2,
         "total_customers": 3,
-        "total_users": 5,
-        "last_api_call_timestamp": "2026-02-12T22:31:10.782183",
-        "last_updated": "2026-02-12T22:31:10.782227"
+        "total_users": 4,
+        "last_api_call_timestamp": "2026-02-21T23:09:25.549192",
+        "last_updated": "2026-02-21T23:09:25.549217"
     }
 }

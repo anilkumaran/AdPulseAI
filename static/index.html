@@ -88,67 +88,67 @@
             </div>
             
             <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle sidebar">
-                <i class="bi bi-chevron-left" id="toggle-icon" style="font-size: 1.2rem;"></i>
+                <i class="bi bi-list" id="toggle-icon" style="font-size: 1.5rem;"></i>
             </button>
             
             <ul class="nav nav-pills flex-column mb-4">
                 <!-- Super Admin Menu Items -->
                 <li class="nav-item super-admin-only" style="display: none;">
-                    <a class="nav-link active" href="#" onclick="showSection('admin-dashboard')">
+                    <a class="nav-link active" href="#" onclick="showSection('admin-dashboard')" title="View platform metrics and statistics">
                         <i class="bi bi-speedometer2 me-2"></i><span class="nav-text"> Platform Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item super-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('merchants')">
+                    <a class="nav-link" href="#" onclick="showSection('merchants')" title="Manage all merchants on the platform">
                         <i class="bi bi-shop me-2"></i><span class="nav-text"> Manage Merchants</span>
                     </a>
                 </li>
                 <li class="nav-item super-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('settings')">
+                    <a class="nav-link" href="#" onclick="showSection('settings')" title="Configure system settings">
                         <i class="bi bi-gear me-2"></i><span class="nav-text"> System Settings</span>
                     </a>
                 </li>
                 
                 <!-- Merchant Admin Menu Items -->
                 <li class="nav-item merchant-admin-only" style="display: none;">
-                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')">
+                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')" title="Generate multi-platform marketing content">
                         <i class="bi bi-megaphone me-2"></i><span class="nav-text"> Ad Generator</span>
                     </a>
                 </li>
                 <li class="nav-item merchant-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')">
+                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')" title="Create personalized SMS campaigns">
                         <i class="bi bi-chat-dots me-2"></i><span class="nav-text"> SMS Campaign</span>
                     </a>
                 </li>
                 <li class="nav-item merchant-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('employees')">
+                    <a class="nav-link" href="#" onclick="showSection('employees')" title="Manage employee accounts">
                         <i class="bi bi-person-badge me-2"></i><span class="nav-text"> Manage Employees</span>
                     </a>
                 </li>
                 <li class="nav-item merchant-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('customers')">
+                    <a class="nav-link" href="#" onclick="showSection('customers')" title="View and manage customer database">
                         <i class="bi bi-people me-2"></i><span class="nav-text"> My Customers</span>
                     </a>
                 </li>
                 <li class="nav-item merchant-admin-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('history')">
+                    <a class="nav-link" href="#" onclick="showSection('history')" title="View generation history">
                         <i class="bi bi-clock-history me-2"></i><span class="nav-text"> My History</span>
                     </a>
                 </li>
                 
                 <!-- Employee Menu Items -->
                 <li class="nav-item employee-only" style="display: none;">
-                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')">
+                    <a class="nav-link active" href="#" onclick="showSection('ad-gen')" title="Generate multi-platform marketing content">
                         <i class="bi bi-megaphone me-2"></i><span class="nav-text"> Ad Generator</span>
                     </a>
                 </li>
                 <li class="nav-item employee-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')">
+                    <a class="nav-link" href="#" onclick="showSection('sms-campaign')" title="Create personalized SMS campaigns">
                         <i class="bi bi-chat-dots me-2"></i><span class="nav-text"> SMS Campaign</span>
                     </a>
                 </li>
                 <li class="nav-item employee-only" style="display: none;">
-                    <a class="nav-link" href="#" onclick="showSection('history')">
+                    <a class="nav-link" href="#" onclick="showSection('history')" title="View generation history">
                         <i class="bi bi-clock-history me-2"></i><span class="nav-text"> My History</span>
                     </a>
                 </li>
@@ -191,70 +191,70 @@
                     <textarea id="prod-info" class="form-control mb-3" rows="4" minlength="10" maxlength="1000" required
                         placeholder="Enter product details... (e.g., Wireless Earbuds Pro - Noise-cancelling, 30hr battery, ₹2,999)"></textarea>
                     <small class="text-muted">10-1000 characters</small>
-                    <button id="gen-btn" class="btn btn-primary fw-bold px-5">
+                    <button id="gen-btn" class="btn btn-primary fw-bold px-5" title="Generate marketing content for all platforms">
                         <i class="bi bi-magic me-2"></i>Generate Ads
                     </button>
                 </div>
 
                 <div id="result-container" class="d-none">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fb"><i class="bi bi-facebook me-1"></i>Facebook</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ig"><i class="bi bi-instagram me-1"></i>Instagram</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tw"><i class="bi bi-twitter me-1"></i>Twitter</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wa"><i class="bi bi-whatsapp me-1"></i>WhatsApp</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
+                    <ul class="nav nav-tabs" id="platform-tabs">
+                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fb" title="View Facebook ad copy" data-platform="fb"><i class="bi bi-facebook me-1"></i>Facebook</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ig" title="View Instagram ad copy" data-platform="ig"><i class="bi bi-instagram me-1"></i>Instagram</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tw" title="View Twitter ad copy" data-platform="tw"><i class="bi bi-twitter me-1"></i>Twitter</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wa" title="View WhatsApp message" data-platform="wa"><i class="bi bi-whatsapp me-1"></i>WhatsApp</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tm" title="View SMS text message" data-platform="tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
                     </ul>
                     <div class="tab-content shadow-sm">
                         <div class="tab-pane fade show active position-relative" id="fb">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('fb')">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('fb')" title="Copy to clipboard">
                                 <i class="bi bi-clipboard"></i> Copy
                             </button>
                         </div>
                         <div class="tab-pane fade position-relative" id="ig">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('ig')">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('ig')" title="Copy to clipboard">
                                 <i class="bi bi-clipboard"></i> Copy
                             </button>
                         </div>
                         <div class="tab-pane fade position-relative" id="tw">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('tw')">
+                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('tw')" title="Copy to clipboard">
                                 <i class="bi bi-clipboard"></i> Copy
                             </button>
                         </div>
                         <div class="tab-pane fade position-relative" id="wa">
-                            <div class="d-flex justify-content-end position-absolute top-0 end-0 m-2" style="gap: 5px;">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('wa')">
-                                    <i class="bi bi-clipboard"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" id="wa-edit-btn" onclick="editContent('wa')">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-success d-none" id="wa-save-btn" onclick="saveContent('wa')">
-                                    <i class="bi bi-check-lg"></i>
-                                </button>
-                                <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
                             <div id="wa-display"></div>
                             <textarea id="wa-edit" class="form-control d-none" rows="6"></textarea>
-                        </div>
-                        <div class="tab-pane fade position-relative" id="tm">
-                            <div class="d-flex justify-content-end position-absolute top-0 end-0 m-2" style="gap: 5px;">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tm')">
-                                    <i class="bi bi-clipboard"></i>
+                            <div class="position-absolute top-0 end-0 m-2" style="display: flex; gap: 8px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('wa')" title="Copy to clipboard">
+                                    <i class="bi bi-clipboard"></i> Copy
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary" id="tm-edit-btn" onclick="editContent('tm')">
-                                    <i class="bi bi-pencil"></i>
+                                <button class="btn btn-sm btn-outline-primary" id="wa-edit-btn" onclick="editContent('wa')" title="Edit message">
+                                    <i class="bi bi-pencil"></i> Edit
                                 </button>
-                                <button class="btn btn-sm btn-success d-none" id="tm-save-btn" onclick="saveContent('tm')">
-                                    <i class="bi bi-check-lg"></i>
+                                <button class="btn btn-sm btn-success d-none" id="wa-save-btn" onclick="saveContent('wa')" title="Save changes">
+                                    <i class="bi bi-check-lg"></i> Save
                                 </button>
-                                <button class="btn btn-sm btn-secondary d-none" id="tm-cancel-btn" onclick="cancelEdit('tm')">
-                                    <i class="bi bi-x-lg"></i>
+                                <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')" title="Cancel editing">
+                                    <i class="bi bi-x-lg"></i> Cancel
                                 </button>
                             </div>
+                        </div>
+                        <div class="tab-pane fade position-relative" id="tm">
                             <div id="tm-display"></div>
                             <textarea id="tm-edit" class="form-control d-none" rows="4"></textarea>
+                            <div class="position-absolute top-0 end-0 m-2" style="display: flex; gap: 8px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tm')" title="Copy to clipboard">
+                                    <i class="bi bi-clipboard"></i> Copy
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" id="tm-edit-btn" onclick="editContent('tm')" title="Edit message">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </button>
+                                <button class="btn btn-sm btn-success d-none" id="tm-save-btn" onclick="saveContent('tm')" title="Save changes">
+                                    <i class="bi bi-check-lg"></i> Save
+                                </button>
+                                <button class="btn btn-sm btn-secondary d-none" id="tm-cancel-btn" onclick="cancelEdit('tm')" title="Cancel editing">
+                                    <i class="bi bi-x-lg"></i> Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -287,7 +287,7 @@
                         </label>
                     </div>
 
-                    <button id="sms-gen-btn" class="btn btn-primary fw-bold px-5">
+                    <button id="sms-gen-btn" class="btn btn-primary fw-bold px-5" title="Generate personalized SMS for selected customers">
                         <i class="bi bi-magic me-2"></i>Generate Campaign
                     </button>
                 </div>
@@ -310,7 +310,7 @@
                         <h5 class="fw-bold mb-0 text-primary">
                             <i class="bi bi-people me-2"></i>Customer Database
                         </h5>
-                        <button class="btn btn-primary merchant-admin-only" onclick="showAddCustomerForm()" style="display: none;">
+                        <button class="btn btn-primary merchant-admin-only" onclick="showAddCustomerForm()" style="display: none;" title="Add a new customer to your database">
                             <i class="bi bi-plus-circle me-2"></i>Add Customer
                         </button>
                     </div>
@@ -326,7 +326,7 @@
                     </h5>
                     <p class="text-muted small">Create and manage employee accounts for your business</p>
                     <div id="employees-list"></div>
-                    <button class="btn btn-primary mt-3" onclick="showAddEmployeeForm()">
+                    <button class="btn btn-primary mt-3" onclick="showAddEmployeeForm()" title="Add a new employee account">
                         <i class="bi bi-plus-circle me-2"></i>Add Employee
                     </button>
                 </div>
@@ -340,7 +340,7 @@
                     </h5>
                     <p class="text-muted small">View and manage all merchants on the platform</p>
                     <div id="merchants-list"></div>
-                    <button class="btn btn-primary mt-3" onclick="showAddMerchantForm()">
+                    <button class="btn btn-primary mt-3" onclick="showAddMerchantForm()" title="Add a new merchant to the platform">
                         <i class="bi bi-plus-circle me-2"></i>Add Merchant
                     </button>
                 </div>
@@ -395,7 +395,7 @@
                             <option value="Trustworthy">Trustworthy</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary" onclick="saveAdminSettings()">
+                    <button class="btn btn-primary" onclick="saveAdminSettings()" title="Save system settings">
                         <i class="bi bi-save me-2"></i>Save Settings
                     </button>
                 </div>
@@ -414,6 +414,40 @@
         </main>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirm Deletion</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="delete-modal-message"></p>
+                    <p class="text-muted small mb-0">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-modal-title">Edit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="edit-modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const getH = () => ({ 'Authorization': 'Bearer ' + localStorage.getItem('at'), 'Content-Type': 'application/json' });
@@ -421,6 +455,9 @@
         let selectedCustomers = [];
         let userRole = localStorage.getItem('role') || 'employee';
         let merchantId = localStorage.getItem('merchant_id');
+        let deleteModal;
+        let editModal;
+        let deleteCallback = null;
         
         // Pagination state
         let currentPage = {
@@ -533,9 +570,6 @@
 
         // Parse Ad Content
         function parseAd(raw, title) {
-            console.log('[parseAd] Parsing content...');
-            console.log('[parseAd] Raw content length:', raw.length);
-            
             const p = ['FACEBOOK', 'INSTAGRAM', 'TWITTER', 'WHATSAPP', 'TEXTMESSAGE'];
             const idMap = {
                 'FACEBOOK': 'fb',
@@ -545,43 +579,49 @@
                 'TEXTMESSAGE': 'tm'
             };
             
+            let firstPlatform = null;
+            
             p.forEach((platform, i) => {
                 const marker = platform + ':';
                 const nextMarker = p[i+1] ? p[i+1] + ':' : null;
                 let startPos = raw.indexOf(marker);
                 
                 if(startPos !== -1) {
+                    if(!firstPlatform) firstPlatform = idMap[platform];
                     startPos += marker.length;
                     let endPos = nextMarker ? raw.indexOf(nextMarker) : raw.length;
                     
                     const elementId = idMap[platform];
                     const content = raw.substring(startPos, endPos).trim();
                     
-                    // For WhatsApp and SMS, use display div
                     if(elementId === 'wa' || elementId === 'tm') {
                         const displayElement = document.getElementById(elementId + '-display');
                         const editElement = document.getElementById(elementId + '-edit');
                         if(displayElement && editElement) {
                             displayElement.innerText = content;
                             editElement.value = content;
-                            console.log(`[parseAd] Set ${platform} content (${content.length} chars)`);
                         }
                     } else {
                         const element = document.getElementById(elementId);
-                        if(element) {
-                            element.innerText = content;
-                            console.log(`[parseAd] Set ${platform} content (${content.length} chars)`);
-                        } else {
-                            console.error(`[parseAd] Element not found: ${elementId}`);
-                        }
+                        if(element) element.innerText = content;
                     }
-                } else {
-                    console.warn(`[parseAd] Platform marker not found: ${marker}`);
                 }
             });
             
+            // Activate first platform tab
+            if(firstPlatform) {
+                document.querySelectorAll('#platform-tabs .nav-link').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('show', 'active');
+                });
+                
+                const targetBtn = document.querySelector(`[data-platform="${firstPlatform}"]`);
+                const targetPane = document.getElementById(firstPlatform);
+                if(targetBtn) targetBtn.classList.add('active');
+                if(targetPane) targetPane.classList.add('show', 'active');
+            }
+            
             document.getElementById('result-container').classList.remove('d-none');
-            console.log('[parseAd] Content displayed successfully');
         }
 
         // Edit Content Functions
@@ -631,6 +671,7 @@
                 const r = await fetch('/api/history', { headers: getH() });
                 if(r.ok) {
                     const logs = await r.json();
+                    console.log('History loaded:', logs.length, 'items');
                     const paginatedData = paginate(logs, page, itemsPerPage);
                     
                     let html = paginatedData.items.map(l => {
@@ -644,7 +685,7 @@
                                     <p class="text-muted small mb-1"><i class="bi bi-calendar me-1"></i>${l.timestamp || ''}</p>
                                     <p class="text-muted small mb-0"><i class="bi bi-person me-1"></i>User: ${l.user_id || 'N/A'}</p>
                                 </div>
-                                <button class="btn btn-sm btn-outline-primary" onclick="loadHistoryItem('${l.id || ''}', event)">
+                                <button class="btn btn-sm btn-outline-primary" onclick="loadHistoryItem('${l.id || ''}', event)" title="View generated content">
                                     <i class="bi bi-eye me-1"></i>View
                                 </button>
                             </div>
@@ -733,6 +774,7 @@
                 const r = await fetch('/api/customers', { headers: getH() });
                 if(r.ok) {
                     const data = await r.json();
+                    console.log('Customers loaded:', data.customers.length, 'customers');
                     const isMerchantAdmin = userRole === 'merchant_admin';
                     
                     const paginatedData = paginate(data.customers, page, itemsPerPage);
@@ -756,10 +798,10 @@
                                     </div>
                                     ${isMerchantAdmin ? `
                                         <div>
-                                            <button class="btn btn-sm btn-outline-primary action-btn" onclick="editCustomer('${c.id}')">
+                                            <button class="btn btn-sm btn-outline-primary action-btn" onclick="editCustomer('${c.id}')" title="Edit customer details">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteCustomer('${c.id}', '${c.name}')">
+                                            <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteCustomer('${c.id}', '${c.name}')" title="Delete customer">
                                                 <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </div>
@@ -879,6 +921,16 @@
                 
                 document.getElementById('sms-result-container').classList.remove('d-none');
                 showSuccess('SMS campaign generated successfully!');
+                
+                // Clear form
+                document.getElementById('sms-product').value = '';
+                selectedCustomers = [];
+                document.querySelectorAll('.customer-card').forEach(card => {
+                    card.classList.remove('selected');
+                    const checkbox = card.querySelector('.form-check-input');
+                    if(checkbox) checkbox.checked = false;
+                });
+                document.getElementById('send-immediately').checked = false;
             } catch(error) {
                 showError(error.message, 'Check your inputs and try again');
                 document.getElementById('sms-product').focus();
@@ -910,27 +962,68 @@
             }
         };
 
+        // Update Dashboard Metrics Dynamically
+        async function updateDashboardMetrics() {
+            if(userRole === 'super_admin') {
+                loadAdminDashboard();
+            }
+        }
+
         // Load Admin Dashboard
         async function loadAdminDashboard() {
             try {
-                console.log('[loadAdminDashboard] Fetching telemetry data...');
-                const telemetry = await fetch('/api/admin/telemetry', { headers: getH() });
-                console.log('[loadAdminDashboard] Response status:', telemetry.status);
+                const [telemetryRes, merchantsRes, customersRes] = await Promise.all([
+                    fetch('/api/admin/telemetry', { headers: getH() }),
+                    fetch('/api/admin/merchants', { headers: getH() }),
+                    fetch('/api/customers', { headers: getH() })
+                ]);
                 
-                if(telemetry.ok) {
-                    const data = await telemetry.json();
-                    console.log('[loadAdminDashboard] Telemetry data:', data);
-                    document.getElementById('admin-api-calls').innerText = data.total_api_calls || 0;
-                    document.getElementById('admin-sms-sent').innerText = data.total_sms_sent || 0;
-                    document.getElementById('admin-campaigns').innerText = data.total_campaigns || 0;
-                    document.getElementById('admin-users').innerText = data.total_users || 0;
-                } else {
-                    const errorData = await telemetry.json().catch(() => ({}));
-                    console.error('[loadAdminDashboard] API error:', errorData);
-                    showError('Failed to load dashboard data', errorData.detail || 'Please refresh the page');
+                if(telemetryRes.ok) {
+                    const telemetry = await telemetryRes.json();
+                    document.getElementById('admin-api-calls').innerText = telemetry.total_api_calls || 0;
+                    document.getElementById('admin-sms-sent').innerText = telemetry.total_sms_sent || 0;
+                    document.getElementById('admin-campaigns').innerText = telemetry.total_campaigns || 0;
+                    document.getElementById('admin-users').innerText = telemetry.total_users || 0;
+                }
+                
+                // Update merchants count
+                if(merchantsRes.ok) {
+                    const merchants = await merchantsRes.json();
+                    const merchantsCard = document.querySelector('#section-admin-dashboard .row');
+                    if(merchantsCard && !document.getElementById('admin-merchants')) {
+                        const newCard = `
+                            <div class="col-md-3">
+                                <div class="card p-3 shadow-sm border-0">
+                                    <h6 class="text-muted small mb-1">Total Merchants</h6>
+                                    <h3 class="fw-bold mb-0" id="admin-merchants">${merchants.merchants?.length || 0}</h3>
+                                </div>
+                            </div>
+                        `;
+                        merchantsCard.insertAdjacentHTML('beforeend', newCard);
+                    } else if(document.getElementById('admin-merchants')) {
+                        document.getElementById('admin-merchants').innerText = merchants.merchants?.length || 0;
+                    }
+                }
+                
+                // Update customers count
+                if(customersRes.ok) {
+                    const customers = await customersRes.json();
+                    const merchantsCard = document.querySelector('#section-admin-dashboard .row');
+                    if(merchantsCard && !document.getElementById('admin-customers-count')) {
+                        const newCard = `
+                            <div class="col-md-3">
+                                <div class="card p-3 shadow-sm border-0">
+                                    <h6 class="text-muted small mb-1">Total Customers</h6>
+                                    <h3 class="fw-bold mb-0" id="admin-customers-count">${customers.customers?.length || 0}</h3>
+                                </div>
+                            </div>
+                        `;
+                        merchantsCard.insertAdjacentHTML('beforeend', newCard);
+                    } else if(document.getElementById('admin-customers-count')) {
+                        document.getElementById('admin-customers-count').innerText = customers.customers?.length || 0;
+                    }
                 }
             } catch(error) {
-                console.error('[loadAdminDashboard] Exception:', error);
                 showError('Failed to load dashboard data', 'Please refresh the page');
             }
         }
@@ -974,7 +1067,36 @@
 
         // Initialize
         window.onload = () => {
+            deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            
+            document.getElementById('confirm-delete-btn').onclick = () => {
+                if(deleteCallback) {
+                    deleteCallback();
+                    deleteModal.hide();
+                    deleteCallback = null;
+                }
+            };
+            
             if(localStorage.getItem('at')) {
+                // Check token expiration every minute
+                setInterval(() => {
+                    const token = localStorage.getItem('at');
+                    if(token) {
+                        try {
+                            const payload = JSON.parse(atob(token.split('.')[1]));
+                            const exp = payload.exp * 1000;
+                            if(Date.now() >= exp) {
+                                showError('Session expired. Please login again.');
+                                setTimeout(() => {
+                                    localStorage.clear();
+                                    location.reload();
+                                }, 2000);
+                            }
+                        } catch(e) {}
+                    }
+                }, 60000);
+                
                 const username = localStorage.getItem('user');
                 const name = localStorage.getItem('name') || username;
                 const email = localStorage.getItem('email') || '';
@@ -1033,11 +1155,9 @@
             mainContent.classList.toggle('expanded');
             
             if(sidebar.classList.contains('collapsed')) {
-                toggleIcon.classList.remove('bi-chevron-left');
-                toggleIcon.classList.add('bi-chevron-right');
+                toggleIcon.className = 'bi bi-chevron-double-right';
             } else {
-                toggleIcon.classList.remove('bi-chevron-right');
-                toggleIcon.classList.add('bi-chevron-left');
+                toggleIcon.className = 'bi bi-list';
             }
         }
 
@@ -1063,6 +1183,7 @@
                 const r = await fetch('/api/merchant/employees', { headers: getH() });
                 if(r.ok) {
                     const data = await r.json();
+                    console.log('Employees loaded:', data.employees.length, 'employees');
                     const paginatedData = paginate(data.employees, page, itemsPerPage);
                     
                     let html = paginatedData.items.map(e => `
@@ -1075,10 +1196,10 @@
                                 </div>
                                 <div class="d-flex align-items-center" style="gap: 10px;">
                                     <span class="badge ${e.is_active ? 'bg-success' : 'bg-secondary'}">${e.is_active ? 'Active' : 'Inactive'}</span>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="editEmployee(${e.id}, '${e.username}', '${e.name}', '${e.email}')">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editEmployee(${e.id}, '${e.username}', '${e.name}', '${e.email}')" title="Edit employee details">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteEmployee(${e.id}, '${e.name}')">
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteEmployee(${e.id}, '${e.name}')" title="Delete employee">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -1102,27 +1223,27 @@
                     <form id="add-employee-form">
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="text" class="form-control" id="emp-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" required>
+                            <input type="text" class="form-control" id="emp-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers and underscore allowed" required>
                             <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-control" id="emp-password" minlength="6" maxlength="100" required>
+                            <input type="password" class="form-control" id="emp-password" minlength="6" maxlength="100" title="Minimum 6 characters required" required>
                             <small class="text-muted">Minimum 6 characters</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="100" required>
+                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
                             <small class="text-muted">2-100 characters</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emp-email" required>
+                            <input type="email" class="form-control" id="emp-email" title="Enter a valid email address" required>
                         </div>
-                        <button type="submit" class="btn btn-success me-2">
+                        <button type="submit" class="btn btn-success me-2" title="Create new employee account">
                             <i class="bi bi-check-lg me-1"></i>Create Employee
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="loadEmployeesList()">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadEmployeesList()" title="Cancel and close form">Cancel</button>
                     </form>
                 </div>
             `;
@@ -1145,6 +1266,7 @@
                 if(r.ok) {
                     showSuccess('Employee created successfully!');
                     loadEmployeesList();
+                    updateDashboardMetrics();
                 } else {
                     const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
                     showError(error.detail || 'Failed to create employee');
@@ -1174,10 +1296,10 @@
                                 <div class="text-end">
                                     <span class="badge ${m.is_active ? 'bg-success' : 'bg-secondary'} mb-2">${m.is_active ? 'Active' : 'Inactive'}</span><br>
                                     <span class="badge bg-primary mb-2">${m.subscription_plan}</span><br>
-                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editMerchant('${m.id}')">
+                                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editMerchant('${m.id}')" title="Edit merchant details">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMerchant('${m.id}', '${m.business_name}')">
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteMerchant('${m.id}', '${m.business_name}')" title="Delete merchant">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -1202,23 +1324,23 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Business Name</label>
-                                <input type="text" class="form-control" id="merch-business-name" minlength="2" maxlength="100" required>
+                                <input type="text" class="form-control" id="merch-business-name" minlength="2" maxlength="100" pattern="[a-zA-Z0-9\s&.,-]+" title="Only letters, numbers and basic punctuation allowed" required>
                                 <small class="text-muted">2-100 characters</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Industry</label>
-                                <input type="text" class="form-control" id="merch-industry" maxlength="50" required>
+                                <input type="text" class="form-control" id="merch-industry" minlength="2" maxlength="50" pattern="[a-zA-Z\s-]+" title="Only letters, spaces and hyphens allowed" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="merch-phone" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                <input type="tel" class="form-control" id="merch-phone" pattern="\+91[0-9]{10}" maxlength="13" title="Format: +91XXXXXXXXXX" required>
                                 <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Address</label>
-                                <input type="text" class="form-control" id="merch-address" maxlength="200" required>
+                                <input type="text" class="form-control" id="merch-address" minlength="5" maxlength="200" title="Minimum 5 characters required" required>
                             </div>
                         </div>
                         <hr>
@@ -1226,29 +1348,29 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Admin Username</label>
-                                <input type="text" class="form-control" id="merch-admin-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" required>
+                                <input type="text" class="form-control" id="merch-admin-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers and underscore allowed" required>
                                 <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Admin Password</label>
-                                <input type="password" class="form-control" id="merch-admin-password" minlength="6" maxlength="100" required>
+                                <input type="password" class="form-control" id="merch-admin-password" minlength="6" maxlength="100" title="Minimum 6 characters required" required>
                                 <small class="text-muted">Minimum 6 characters</small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" id="merch-admin-name" minlength="2" maxlength="100" required>
+                                <input type="text" class="form-control" id="merch-admin-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Admin Email</label>
-                                <input type="email" class="form-control" id="merch-admin-email" required>
+                                <input type="email" class="form-control" id="merch-admin-email" title="Enter a valid email address" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success me-2">
+                        <button type="submit" class="btn btn-success me-2" title="Create new merchant account">
                             <i class="bi bi-check-lg me-1"></i>Create Merchant
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="loadMerchantsList()">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadMerchantsList()" title="Cancel and close form">Cancel</button>
                     </form>
                 </div>
             `;
@@ -1275,6 +1397,7 @@
                 if(r.ok) {
                     showSuccess('Merchant created successfully!');
                     loadMerchantsList();
+                    updateDashboardMetrics();
                 } else {
                     const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
                     showError(error.detail || 'Failed to create merchant');
@@ -1282,12 +1405,135 @@
             };
         }
 
-        function editMerchant(merchantId) {
-            showInfo('Merchant editing feature coming soon!');
+        async function editMerchant(merchantId) {
+            try {
+                const r = await fetch('/api/admin/merchants', { headers: getH() });
+                if(!r.ok) throw new Error('Failed to fetch merchants');
+                
+                const data = await r.json();
+                const merchant = data.merchants.find(m => m.id === merchantId);
+                if(!merchant) {
+                    showError('Merchant not found');
+                    return;
+                }
+                
+                const html = `
+                    <div class="card p-4 mt-3 border-warning" id="edit-merchant-form-card">
+                        <h6 class="fw-bold mb-3">Edit Merchant: ${merchant.business_name}</h6>
+                        <form id="edit-merchant-form">
+                            <input type="hidden" id="edit-merch-id" value="${merchant.id}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Business Name</label>
+                                    <input type="text" class="form-control" id="edit-merch-business-name" value="${merchant.business_name}" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Industry</label>
+                                    <input type="text" class="form-control" id="edit-merch-industry" value="${merchant.industry}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="edit-merch-phone" value="${merchant.phone}" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="edit-merch-address" value="${merchant.address}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select" id="edit-merch-status">
+                                        <option value="true" ${merchant.is_active ? 'selected' : ''}>Active</option>
+                                        <option value="false" ${!merchant.is_active ? 'selected' : ''}>Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Subscription Plan</label>
+                                    <select class="form-select" id="edit-merch-plan">
+                                        <option value="basic" ${merchant.subscription_plan === 'basic' ? 'selected' : ''}>Basic</option>
+                                        <option value="premium" ${merchant.subscription_plan === 'premium' ? 'selected' : ''}>Premium</option>
+                                        <option value="enterprise" ${merchant.subscription_plan === 'enterprise' ? 'selected' : ''}>Enterprise</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning me-2" title="Save merchant changes">
+                                <i class="bi bi-check-lg me-1"></i>Update Merchant
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-merchant-form-card').remove();" title="Cancel editing">Cancel</button>
+                        </form>
+                    </div>
+                `;
+                
+                const existingForm = document.getElementById('edit-merchant-form-card');
+                if(existingForm) existingForm.remove();
+                
+                document.getElementById('merchants-list').insertAdjacentHTML('afterbegin', html);
+                
+                document.getElementById('edit-merchant-form').onsubmit = async (e) => {
+                    e.preventDefault();
+                    
+                    const formData = new FormData();
+                    formData.append('business_name', document.getElementById('edit-merch-business-name').value);
+                    formData.append('industry', document.getElementById('edit-merch-industry').value);
+                    formData.append('phone', document.getElementById('edit-merch-phone').value);
+                    formData.append('address', document.getElementById('edit-merch-address').value);
+                    formData.append('is_active', document.getElementById('edit-merch-status').value);
+                    formData.append('subscription_plan', document.getElementById('edit-merch-plan').value);
+                    
+                    try {
+                        const r = await fetch(`/api/admin/merchants/${merchantId}`, {
+                            method: 'PUT',
+                            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                            body: formData
+                        });
+                        
+                        if(r.ok) {
+                            showSuccess('Merchant updated successfully!');
+                            document.getElementById('edit-merchant-form-card').remove();
+                            loadMerchantsList();
+                            updateDashboardMetrics();
+                        } else {
+                            const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                            showError(error.detail || 'Failed to update merchant');
+                        }
+                    } catch(error) {
+                        showError('Failed to update merchant', 'Check your connection and try again');
+                    }
+                };
+            } catch(error) {
+                showError('Failed to load merchant data');
+            }
         }
 
         function deleteMerchant(merchantId, merchantName) {
-            showInfo('Merchant deletion feature coming soon! Contact super admin for assistance.');
+            showDeleteModal(`Are you sure you want to delete merchant "${merchantName}"? This will also delete all associated employees and customers.`, async () => {
+                try {
+                    const r = await fetch(`/api/admin/merchants/${merchantId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
+                    });
+                    
+                    if(r.ok) {
+                        showSuccess(`Merchant ${merchantName} deleted successfully`);
+                        loadMerchantsList();
+                        updateDashboardMetrics();
+                    } else {
+                        const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                        showError(error.detail || 'Failed to delete merchant');
+                    }
+                } catch(error) {
+                    showError('Failed to delete merchant', 'Check your connection and try again');
+                }
+            });
+        }
+
+        function showDeleteModal(message, onConfirm) {
+            document.getElementById('delete-modal-message').textContent = message;
+            deleteCallback = onConfirm;
+            deleteModal.show();
         }
 
         // Customer Management Functions
@@ -1299,19 +1545,19 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="100" required>
+                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
                                 <small class="text-muted">2-100 characters</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="cust-phone" placeholder="+919000000001" pattern="\+91[0-9]{10}" maxlength="13" required>
+                                <input type="tel" class="form-control" id="cust-phone" placeholder="+919000000001" pattern="\+91[0-9]{10}" maxlength="13" title="Format: +91XXXXXXXXXX" required>
                                 <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" id="cust-email" required>
+                                <input type="email" class="form-control" id="cust-email" title="Enter a valid email address" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Gender</label>
@@ -1325,15 +1571,46 @@
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Age</label>
-                                <input type="number" class="form-control" id="cust-age" min="1" max="120">
+                                <input type="number" class="form-control" id="cust-age" min="1" max="120" title="Age must be between 1 and 120" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" id="cust-city" maxlength="50">
+                                <input type="text" class="form-control" id="cust-city" minlength="2" maxlength="50" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">State</label>
-                                <input type="text" class="form-control" id="cust-state" maxlength="50">
+                                <select class="form-select" id="cust-state" required>
+                                    <option value="">Select State</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Delhi">Delhi</option>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -1356,10 +1633,10 @@
                                 <label class="form-check-label" for="cust-opt-email">Email</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success me-2">
+                        <button type="submit" class="btn btn-success me-2" title="Create new customer">
                             <i class="bi bi-check-lg me-1"></i>Create Customer
                         </button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('customer-form-card').remove(); loadCustomersList();">Cancel</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('customer-form-card').remove(); loadCustomersList();" title="Cancel and close form">Cancel</button>
                     </form>
                 </div>
             `;
@@ -1392,6 +1669,7 @@
                         showSuccess('Customer created successfully!');
                         document.getElementById('customer-form-card').remove();
                         loadCustomersList();
+                        updateDashboardMetrics();
                     } else {
                         const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
                         showError(error.detail || 'Failed to create customer');
@@ -1403,7 +1681,6 @@
         }
 
         function editCustomer(customerId) {
-            // Find customer data
             fetch('/api/customers', { headers: getH() })
                 .then(r => r.json())
                 .then(data => {
@@ -1413,86 +1690,69 @@
                         return;
                     }
                     
-                    const html = `
-                        <div class="card p-4 mt-3 border-warning" id="edit-customer-form-card">
-                            <h6 class="fw-bold mb-3">Edit Customer: ${customer.name}</h6>
-                            <form id="edit-customer-form">
-                                <input type="hidden" id="edit-cust-id" value="${customer.id}">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="edit-cust-name" value="${customer.name}" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Phone</label>
-                                        <input type="tel" class="form-control" id="edit-cust-phone" value="${customer.phone}" pattern="\+91[0-9]{10}" maxlength="13" required>
-                                        <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
-                                    </div>
+                    document.getElementById('edit-modal-title').textContent = `Edit Customer: ${customer.name}`;
+                    document.getElementById('edit-modal-body').innerHTML = `
+                        <form id="edit-customer-form">
+                            <input type="hidden" id="edit-cust-id" value="${customer.id}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="edit-cust-name" value="${customer.name}" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="edit-cust-email" value="${customer.email}" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Gender</label>
-                                        <select class="form-select" id="edit-cust-gender">
-                                            <option value="Male" ${customer.gender === 'Male' ? 'selected' : ''}>Male</option>
-                                            <option value="Female" ${customer.gender === 'Female' ? 'selected' : ''}>Female</option>
-                                            <option value="Other" ${customer.gender === 'Other' ? 'selected' : ''}>Other</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" id="edit-cust-phone" value="${customer.phone}" pattern="\+91[0-9]{10}" title="Format: +91XXXXXXXXXX" required>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Age</label>
-                                        <input type="number" class="form-control" id="edit-cust-age" value="${customer.age || ''}" min="1" max="120">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">City</label>
-                                        <input type="text" class="form-control" id="edit-cust-city" value="${customer.city || ''}">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">State</label>
-                                        <input type="text" class="form-control" id="edit-cust-state" value="${customer.state || ''}">
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="edit-cust-email" value="${customer.email}" required>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Purchase History</label>
-                                    <textarea class="form-control" id="edit-cust-history" rows="2">${customer.purchase_history || ''}</textarea>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Gender</label>
+                                    <select class="form-select" id="edit-cust-gender">
+                                        <option value="Male" ${customer.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                        <option value="Female" ${customer.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                        <option value="Other" ${customer.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                    </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Preferences</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-sms" ${customer.opt_in_sms ? 'checked' : ''}>
-                                        <label class="form-check-label" for="edit-cust-opt-sms">SMS</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-whatsapp" ${customer.opt_in_whatsapp ? 'checked' : ''}>
-                                        <label class="form-check-label" for="edit-cust-opt-whatsapp">WhatsApp</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="edit-cust-opt-email" ${customer.opt_in_email ? 'checked' : ''}>
-                                        <label class="form-check-label" for="edit-cust-opt-email">Email</label>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="edit-cust-age" value="${customer.age || ''}" min="1" max="120" required>
                                 </div>
-                                <button type="submit" class="btn btn-warning me-2">
-                                    <i class="bi bi-check-lg me-1"></i>Update Customer
-                                </button>
-                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-customer-form-card').remove();">Cancel</button>
-                            </form>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">City</label>
+                                    <input type="text" class="form-control" id="edit-cust-city" value="${customer.city || ''}" pattern="[a-zA-Z\\s]+" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">State</label>
+                                    <select class="form-select" id="edit-cust-state" required>
+                                        <option value="">Select State</option>
+                                        <option value="Andhra Pradesh" ${customer.state === 'Andhra Pradesh' ? 'selected' : ''}>Andhra Pradesh</option>
+                                        <option value="Karnataka" ${customer.state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
+                                        <option value="Telangana" ${customer.state === 'Telangana' ? 'selected' : ''}>Telangana</option>
+                                        <option value="Tamil Nadu" ${customer.state === 'Tamil Nadu' ? 'selected' : ''}>Tamil Nadu</option>
+                                        <option value="Maharashtra" ${customer.state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
+                                        <option value="Delhi" ${customer.state === 'Delhi' ? 'selected' : ''}>Delhi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Purchase History</label>
+                                <textarea class="form-control" id="edit-cust-history" rows="2">${customer.purchase_history || ''}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning me-2">Update Customer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </form>
                     `;
                     
-                    // Remove any existing form
-                    const existingForm = document.getElementById('edit-customer-form-card');
-                    if(existingForm) existingForm.remove();
-                    
-                    document.getElementById('customers-list').insertAdjacentHTML('afterbegin', html);
+                    editModal.show();
                     
                     document.getElementById('edit-customer-form').onsubmit = async (e) => {
                         e.preventDefault();
-                        
                         const formData = new FormData();
                         formData.append('name', document.getElementById('edit-cust-name').value);
                         formData.append('phone', document.getElementById('edit-cust-phone').value);
@@ -1502,9 +1762,9 @@
                         formData.append('city', document.getElementById('edit-cust-city').value);
                         formData.append('state', document.getElementById('edit-cust-state').value);
                         formData.append('purchase_history', document.getElementById('edit-cust-history').value);
-                        formData.append('opt_in_sms', document.getElementById('edit-cust-opt-sms').checked);
-                        formData.append('opt_in_whatsapp', document.getElementById('edit-cust-opt-whatsapp').checked);
-                        formData.append('opt_in_email', document.getElementById('edit-cust-opt-email').checked);
+                        formData.append('opt_in_sms', true);
+                        formData.append('opt_in_whatsapp', true);
+                        formData.append('opt_in_email', true);
                         
                         try {
                             const r = await fetch(`/api/merchant/customers/${customerId}`, {
@@ -1515,8 +1775,9 @@
                             
                             if(r.ok) {
                                 showSuccess('Customer updated successfully!');
-                                document.getElementById('edit-customer-form-card').remove();
+                                editModal.hide();
                                 loadCustomersList();
+                                updateDashboardMetrics();
                             } else {
                                 const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
                                 showError(error.detail || 'Failed to update customer');
@@ -1530,93 +1791,62 @@
         }
 
         function deleteCustomer(customerId, customerName) {
-            // Show confirmation in notification
-            showNotification('error', 'Confirm Delete', `Click delete button again to confirm deletion of ${customerName}`);
-            
-            // Add a temporary confirmation state
-            const deleteBtn = event.target.closest('button');
-            if(deleteBtn.dataset.confirmed === 'true') {
-                // Actually delete
-                fetch(`/api/merchant/customers/${customerId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
-                })
-                .then(r => {
+            showDeleteModal(`Are you sure you want to delete customer "${customerName}"?`, async () => {
+                try {
+                    const r = await fetch(`/api/merchant/customers/${customerId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
+                    });
+                    
                     if(r.ok) {
                         showSuccess(`Customer ${customerName} deleted successfully`);
                         loadCustomersList();
+                        updateDashboardMetrics();
                     } else {
-                        return r.json().then(error => {
-                            showError(error.detail || 'Failed to delete customer');
-                        });
+                        const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                        showError(error.detail || 'Failed to delete customer');
                     }
-                })
-                .catch(() => {
+                } catch(error) {
                     showError('Failed to delete customer', 'Check your connection and try again');
-                })
-                .finally(() => {
-                    delete deleteBtn.dataset.confirmed;
-                });
-            } else {
-                // First click - mark for confirmation
-                deleteBtn.dataset.confirmed = 'true';
-                deleteBtn.classList.add('btn-danger');
-                deleteBtn.classList.remove('btn-outline-danger');
-                setTimeout(() => {
-                    delete deleteBtn.dataset.confirmed;
-                    deleteBtn.classList.remove('btn-danger');
-                    deleteBtn.classList.add('btn-outline-danger');
-                }, 3000);
-            }
+                }
+            });
         }
 
         function editEmployee(employeeId, username, name, email) {
-            const html = `
-                <div class="card p-4 mt-3 border-warning" id="edit-employee-form-card">
-                    <h6 class="fw-bold mb-3">Edit Employee: ${name}</h6>
-                    <form id="edit-employee-form">
-                        <input type="hidden" id="edit-emp-id" value="${employeeId}">
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" value="${username}" disabled>
-                            <small class="text-muted">Username cannot be changed</small>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="edit-emp-name" value="${name}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="edit-emp-email" value="${email}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">New Password (leave blank to keep current)</label>
-                            <input type="password" class="form-control" id="edit-emp-password">
-                        </div>
-                        <button type="submit" class="btn btn-warning me-2">
-                            <i class="bi bi-check-lg me-1"></i>Update Employee
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-employee-form-card').remove();">Cancel</button>
-                    </form>
-                </div>
+            document.getElementById('edit-modal-title').textContent = `Edit Employee: ${name}`;
+            document.getElementById('edit-modal-body').innerHTML = `
+                <form id="edit-employee-form">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="${username}" disabled>
+                        <small class="text-muted">Username cannot be changed</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="edit-emp-name" value="${name}" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edit-emp-email" value="${email}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Password (leave blank to keep current)</label>
+                        <input type="password" class="form-control" id="edit-emp-password" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-warning me-2">Update Employee</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
             `;
             
-            // Remove any existing form
-            const existingForm = document.getElementById('edit-employee-form-card');
-            if(existingForm) existingForm.remove();
-            
-            document.getElementById('employees-list').insertAdjacentHTML('afterbegin', html);
+            editModal.show();
             
             document.getElementById('edit-employee-form').onsubmit = async (e) => {
                 e.preventDefault();
-                
                 const formData = new FormData();
                 formData.append('name', document.getElementById('edit-emp-name').value);
                 formData.append('email', document.getElementById('edit-emp-email').value);
                 const password = document.getElementById('edit-emp-password').value;
-                if(password) {
-                    formData.append('password', password);
-                }
+                if(password) formData.append('password', password);
                 
                 try {
                     const r = await fetch(`/api/merchant/employees/${employeeId}`, {
@@ -1627,8 +1857,9 @@
                     
                     if(r.ok) {
                         showSuccess('Employee updated successfully!');
-                        document.getElementById('edit-employee-form-card').remove();
+                        editModal.hide();
                         loadEmployeesList();
+                        updateDashboardMetrics();
                     } else {
                         const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
                         showError(error.detail || 'Failed to update employee');
@@ -1640,44 +1871,25 @@
         }
 
         function deleteEmployee(employeeId, employeeName) {
-            // Show confirmation in notification
-            showNotification('error', 'Confirm Delete', `Click delete button again to confirm deletion of ${employeeName}`);
-            
-            // Add a temporary confirmation state
-            const deleteBtn = event.target.closest('button');
-            if(deleteBtn.dataset.confirmed === 'true') {
-                // Actually delete
-                fetch(`/api/merchant/employees/${employeeId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
-                })
-                .then(r => {
+            showDeleteModal(`Are you sure you want to delete employee "${employeeName}"?`, async () => {
+                try {
+                    const r = await fetch(`/api/merchant/employees/${employeeId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') }
+                    });
+                    
                     if(r.ok) {
                         showSuccess(`Employee ${employeeName} deleted successfully`);
                         loadEmployeesList();
+                        updateDashboardMetrics();
                     } else {
-                        return r.json().then(error => {
-                            showError(error.detail || 'Failed to delete employee');
-                        });
+                        const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                        showError(error.detail || 'Failed to delete employee');
                     }
-                })
-                .catch(() => {
+                } catch(error) {
                     showError('Failed to delete employee', 'Check your connection and try again');
-                })
-                .finally(() => {
-                    delete deleteBtn.dataset.confirmed;
-                });
-            } else {
-                // First click - mark for confirmation
-                deleteBtn.dataset.confirmed = 'true';
-                deleteBtn.classList.add('btn-danger');
-                deleteBtn.classList.remove('btn-outline-danger');
-                setTimeout(() => {
-                    delete deleteBtn.dataset.confirmed;
-                    deleteBtn.classList.remove('btn-danger');
-                    deleteBtn.classList.add('btn-outline-danger');
-                }, 3000);
-            }
+                }
+            });
         }
     </script>
 </body>

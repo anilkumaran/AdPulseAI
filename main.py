@@ -389,6 +389,81 @@ async def create_merchant(
     return {"message": "Merchant created successfully", "merchant_id": merchant_id}
 
 
+@app.put("/api/admin/merchants/{merchant_id}")
+async def update_merchant(
+    merchant_id: str,
+    business_name: str = Form(...),
+    industry: str = Form(...),
+    phone: str = Form(...),
+    address: str = Form(...),
+    is_active: str = Form(...),
+    subscription_plan: str = Form(...),
+    user=Depends(auth_svc.get_current_user)
+):
+    """Update merchant (Super Admin only)"""
+    if user["role"] != "super_admin":
+        raise HTTPException(status_code=403, detail="Super Admin access required")
+    
+    db = db_svc.get_data()
+    
+    # Find merchant
+    merchant = next((m for m in db.get("merchants", []) if m["id"] == merchant_id), None)
+    if not merchant:
+        raise HTTPException(status_code=404, detail="Merchant not found")
+    
+    # Update merchant
+    merchant["business_name"] = business_name
+    merchant["industry"] = industry
+    merchant["phone"] = phone
+    merchant["address"] = address
+    merchant["is_active"] = is_active.lower() == 'true'
+    merchant["subscription_plan"] = subscription_plan
+    merchant["updated_at"] = datetime.now().isoformat()
+    
+    db_svc._write_db(db)
+    
+    return {"message": "Merchant updated successfully"}
+
+
+@app.delete("/api/admin/merchants/{merchant_id}")
+async def delete_merchant(
+    merchant_id: str,
+    user=Depends(auth_svc.get_current_user)
+):
+    """Delete merchant (Super Admin only)"""
+    if user["role"] != "super_admin":
+        raise HTTPException(status_code=403, detail="Super Admin access required")
+    
+    db = db_svc.get_data()
+    
+    # Find merchant
+    merchant_index = next((i for i, m in enumerate(db.get("merchants", [])) if m["id"] == merchant_id), None)
+    if merchant_index is None:
+        raise HTTPException(status_code=404, detail="Merchant not found")
+    
+    merchant = db["merchants"][merchant_index]
+    
+    # Delete all users associated with this merchant
+    users_to_delete = [i for i, u in enumerate(db["users"]) if u.get("merchant_id") == merchant_id]
+    for i in sorted(users_to_delete, reverse=True):
+        db["users"].pop(i)
+        db["telemetry"]["total_users"] -= 1
+    
+    # Delete all customers associated with this merchant
+    customers_to_delete = [i for i, c in enumerate(db.get("customers", [])) if c.get("merchant_id") == merchant_id]
+    for i in sorted(customers_to_delete, reverse=True):
+        db["customers"].pop(i)
+        db["telemetry"]["total_customers"] -= 1
+    
+    # Delete merchant
+    db["merchants"].pop(merchant_index)
+    db["telemetry"]["total_merchants"] -= 1
+    
+    db_svc._write_db(db)
+    
+    return {"message": "Merchant deleted successfully"}
+
+
 @app.get("/api/merchant/employees")
 async def get_employees(user=Depends(auth_svc.get_current_user)):
     """Get employees for merchant (Merchant Admin only)"""

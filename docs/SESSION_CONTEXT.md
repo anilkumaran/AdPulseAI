@@ -1,282 +1,222 @@
-# AdPulseAI - Session Context
+# AdPulseAI - AI Agent Context Document
 
-## Project Overview
-AdPulseAI is a multi-channel marketing platform that extends the IEEE paper "Developing Personalized Marketing Service Using Generative AI" from SMS-only to multi-platform (Facebook, Instagram, Twitter, WhatsApp, SMS). It implements a 3-tier role-based access control system with Super Admin, Merchant Admin, and Employee roles.
+## What This Project Is
 
-## Current Status: ACTIVE DEVELOPMENT
+AdPulseAI is a **multi-channel marketing automation platform** that uses Google Gemini AI to generate personalized advertising content across Facebook, Instagram, Twitter, WhatsApp, and SMS. It extends the IEEE paper "Developing Personalized Marketing Service Using Generative AI" from SMS-only to multi-platform.
 
-### Last Updated: 2026-02-13
+**Core Features:**
+- AI-powered ad generation for 5 platforms (Facebook, Instagram, Twitter, WhatsApp, SMS)
+- Personalized SMS campaigns using customer demographics and purchase history
+- 3-tier role-based access: Super Admin (platform owner), Merchant Admin (business owner), Employee (staff)
+- Multi-tenant architecture with merchant isolation
+- AWS SNS integration for SMS delivery
+- Mock mode for testing without API keys (ENV_MODE=test)
 
----
-
-## COMPLETED TASKS
-
-### TASK 1: Initial Project Setup and IEEE Paper Analysis
-- **STATUS**: ✅ DONE
-- **DETAILS**: 
-  - Fetched and analyzed IEEE paper on "Developing Personalized Marketing Service Using Generative AI"
-  - Compared paper with `abstract.md` - project extends PMI from SMS-only to multi-channel
-  - Added comparison table to `README.md` showing evolution from research to production
-- **FILES**: `README.md`, `abstract.md`, `bin/paper_overview.txt`
-
-### TASK 2: SMS Feature Implementation
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Created SMS delivery system with AWS SNS integration
-  - Added 5 SMS endpoints: send, bulk, campaign, cost-estimate, customers
-  - Implemented mock mode for testing (ENV_MODE=test)
-  - SMS campaigns now log to both `sms_campaigns` and `ad_generation_history` for unified history
-- **FILES**: `services/sns_service.py`, `schemas/sms_schemas.py`, `main.py`, `services/db_service.py`
-
-### TASK 3: 3-Tier Role-Based Access Control System
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Implemented 3 roles: Super Admin (platform owner), Merchant Admin (business owner), Employee (staff)
-  - Updated database schema with users, merchants, customers separation
-  - Removed merchant1, kept only merchant2 (MERCH002) with id=2
-  - Updated phone numbers to pattern: +91XXXXXXXXXX
-  - Added collapsible sidebar (Jira-style horizontal toggle button)
-  - Moved logout to profile dropdown menu
-  - Created role-specific UI menus and access controls
-- **FILES**: `schemas/db.json`, `main.py`, `services/db_service.py`, `services/auth_service.py`, `static/index.html`
-
-### TASK 4: CRUD Operations for Merchants, Employees, and Customers
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Added API endpoints for creating merchants (Super Admin)
-  - Added API endpoints for creating/updating/deleting employees (Merchant Admin)
-  - Added API endpoints for creating/updating/deleting customers (Merchant Admin)
-  - Implemented forms with proper validation
-  - Auto-generates IDs (MERCH003, CUST004, etc.)
-- **FILES**: `main.py`, `static/index.html`
-
-### TASK 5: UI/UX Improvements - Notifications, Copy Buttons, Edit Features
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Replaced all alert() calls with notification ribbon system (showError, showSuccess, showInfo)
-  - Added copy buttons to all social media tabs
-  - Simplified edit buttons to icon-only (pencil, checkmark, X)
-  - Fixed ad generation to show "Social Media Campaign" instead of specific customer names
-  - Added edit/delete capabilities for customers and employees
-  - Fixed SMS campaign checkbox errors with proper event handling
-  - Implemented double-click confirmation for delete operations (button turns red)
-- **FILES**: `static/index.html`, `main.py`, `services/db_service.py`
-
-### TASK 6: Pagination Implementation
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Implemented pagination for customers list (10 items per page)
-  - Implemented pagination for employees list (10 items per page)
-  - Implemented pagination for merchants list (10 items per page)
-  - Implemented pagination for history list (10 items per page)
-  - Updated `log_generation` in `db_service.py` to use `prompt_preview` with first 10 chars
-  - Added focus management - cursor returns to input field on errors
-  - Cleaned up old history entries in `schemas/db.json`
-- **FILES**: `static/index.html`, `services/db_service.py`, `schemas/db.json`
-
-### TASK 7: History System Overhaul
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Removed "Recent History" section from sidebar completely
-  - Created dedicated "History" section with full pagination (10 items per page)
-  - History now shows user-specific data (filtered by merchant_id and role on backend)
-  - Added `loadFullHistory()` function with pagination support
-  - SMS campaigns now appear in unified history alongside ad generations
-  - Updated `main.py` to log SMS campaigns to `ad_generation_history` table
-  - Removed `fetchHistory()` function and all its calls
-  - History displays product name (first 10 chars) and type badge (Ad Generation or SMS Campaign)
-- **FILES**: `static/index.html`, `main.py`
-
-### TASK 8: Sidebar Toggle Button Improvements
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - First iteration: Removed text, made icon-only, changed to blue color for better visibility
-  - Second iteration: Made less visible - changed to dark gray (#333) background with subtle border
-  - Added hover effect (lighter gray #444)
-  - Icon size increased to 1.2rem
-  - Added title attribute for accessibility
-- **FILES**: `static/index.html`
-
-### TASK 9: Admin Dashboard and "All Activity" Section
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - Removed "All Activity" section from admin dashboard
-  - Removed "All Activity" menu item from super admin navigation
-  - Updated `loadAdminDashboard()` to only load telemetry and settings
-  - Dashboard now shows: Total API Calls, SMS Sent, Total Campaigns, Active Users
-  - System Settings section with persona and voice configuration
-- **FILES**: `static/index.html`
-
-### TASK 10: Merchant Edit/Delete Options
-- **STATUS**: ✅ DONE (placeholder implementation)
-- **DETAILS**:
-  - Added edit and delete buttons to merchant cards
-  - Added `editMerchant()` function (placeholder - shows "coming soon" message)
-  - Added `deleteMerchant()` function (placeholder - shows "coming soon" message)
-  - Buttons styled consistently with employees/customers sections
-  - Full implementation would require additional backend endpoints
-- **FILES**: `static/index.html`
-
-### TASK 11: Comprehensive Form Validation
-- **STATUS**: ✅ DONE
-- **DETAILS**:
-  - **COMPLETED**:
-    - Phone validation: pattern="\+91[0-9]{10}", maxlength="13" for all phone inputs
-    - Customer name: minlength="2", maxlength="100"
-    - Customer city/state: maxlength="50"
-    - Customer purchase history: maxlength="500"
-    - Employee username: minlength="3", maxlength="50", pattern="[a-zA-Z0-9_]+"
-    - Employee password: minlength="6", maxlength="100"
-    - Employee name: minlength="2", maxlength="100"
-    - Merchant business name: minlength="2", maxlength="100"
-    - Merchant industry: maxlength="50"
-    - Merchant address: maxlength="200"
-    - Merchant admin username: minlength="3", maxlength="50", pattern="[a-zA-Z0-9_]+"
-    - Merchant admin password: minlength="6", maxlength="100"
-    - Merchant admin name: minlength="2", maxlength="100"
-    - Product info textareas: minlength="10", maxlength="1000"
-    - Edit customer form validation added
-    - Edit employee form validation added (name, email, password fields)
-  - **NOTE**: Email validation exists (type="email") but no additional pattern constraints
-- **FILES**: `static/index.html`
+**Tech Stack:**
+- Backend: FastAPI (Python 3.10+)
+- Frontend: HTML5, CSS3, Vanilla JavaScript, Bootstrap 5
+- AI: Google Gemini API
+- SMS: AWS SNS
+- Database: JSON file (schemas/db.json)
+- Auth: JWT tokens with bcrypt password hashing
 
 ---
 
-## IN-PROGRESS TASKS
+## Current System State
 
-### TASK 12: Mock Data Generation (20+ Records)
-- **STATUS**: 🔄 IN PROGRESS (PAUSED)
-- **DETAILS**:
-  - User requested at least 20 records for each entity type (customers, employees, merchants, history)
-  - **COMPLETED SO FAR**:
-    - Users: 11 records (1 super_admin, 3 merchant_admins, 7 employees)
-    - Merchants: 3 records (MERCH002, MERCH003, MERCH004)
-    - Fixed merchant phone numbers to proper format (+91XXXXXXXXXX)
-  - **REMAINING WORK**:
-    - Add 17+ more customers (currently 3, need 20+) with varied merchant_ids
-    - Add 17+ more merchants (currently 3, need 20+) with admin users
-    - Add 14+ more ad_generation_history entries (currently 6, need 20+)
-    - Add 17+ more SMS campaigns (currently 3, need 20+)
-    - Update telemetry counts to match new totals
-  - **REQUIREMENTS**:
-    - Mock data should only be visible when ENV_MODE=test
-    - Phone numbers must follow +91XXXXXXXXXX pattern (13 digits total)
-    - Realistic data: varied names, cities, ages, purchase histories
-    - Customers distributed across all merchants
-    - Employees distributed across all merchants
-- **NEXT STEPS**:
-  - Complete schemas/db.json rewrite with all 20+ records for each entity
-  - Update telemetry to reflect new counts
-- **FILES**: `schemas/db.json`
+### Test Credentials
+- **Super Admin**: admin / admin123
+- **Merchant Admin**: merchant2 / user123 (MERCH002)
+- **Employee**: emp2 / user123 (MERCH002)
+
+### Database Contents (schemas/db.json)
+- **4 users**: 1 super_admin, 2 merchant_admins, 1 employee
+- **2 merchants**: MERCH002 (merchant2), MERCH003 (mer_amazon)
+- **4 customers**: All belong to MERCH002 (Sneha Reddy, Vikram Singh, Arjun Mehta Karav, Blah)
+- **12 ad_generation_history**: All belong to MERCH002
+- **7 sms_campaigns**: Mixed across merchants
+
+### Key Files
+- `main.py` - FastAPI backend with all API endpoints
+- `static/index.html` - Single-page application (SPA) with all frontend logic
+- `schemas/db.json` - JSON database
+- `services/gemini_service.py` - AI content generation
+- `services/sns_service.py` - SMS delivery (mock mode available)
+- `services/auth_service.py` - JWT authentication
+- `services/db_service.py` - Database operations
 
 ---
 
-## PENDING TASKS
+## What Works (Completed Features)
 
-None currently identified.
+### ✅ Authentication & Authorization
+- JWT token-based login with role-based access control
+- Password hashing with bcrypt
+- Role-specific UI menus (super_admin, merchant_admin, employee)
+- Merchant isolation (users only see their own data)
 
----
+### ✅ Ad Generation
+- Multi-platform content generation (Facebook, Instagram, Twitter, WhatsApp, SMS)
+- Tabbed interface with copy-to-clipboard buttons
+- Edit functionality for WhatsApp and SMS content
+- Auto-highlights first platform with content
 
-## TECHNICAL SPECIFICATIONS
+### ✅ SMS Campaigns (PMI Implementation)
+- Personalized SMS generation using customer demographics
+- Bulk SMS sending via AWS SNS
+- Preview mode (generate without sending)
+- Cost estimation
+- Customer selection interface
 
-### Database Schema (schemas/db.json)
-- **users**: id, username, password_hash, role, merchant_id, name, email, is_active, created_at, updated_at
-- **merchants**: id, business_name, admin_user_id, industry, phone, address, is_active, subscription_plan, subscription_expires_at, created_at, updated_at
-- **customers**: id, merchant_id, name, phone, email, gender, age, city, state, purchase_history, total_purchases, total_spent, last_purchase_date, preferences_categories, opt_in_sms, opt_in_whatsapp, opt_in_email, is_active, created_at, updated_at
-- **ad_generation_history**: id, user_id, merchant_id, target_customer, product_info, prompt_preview, full_content, created_at, timestamp
-- **sms_history**: id, user_id, phone, message_preview, status, created_at, timestamp
-- **sms_campaigns**: id, campaign_id, user_id, merchant_id, type, product, total_generated, messages_sent, created_at, timestamp
-- **system_settings**: id, system_persona, default_voice, updated_at
-- **telemetry**: total_api_calls, total_sms_sent, total_campaigns, total_merchants, total_customers, total_users, last_api_call_timestamp, last_updated
+### ✅ CRUD Operations
+- **Merchants** (Super Admin): Create, Read, Update, Delete with cascade delete
+- **Employees** (Merchant Admin): Create, Read, Update, Delete
+- **Customers** (Merchant Admin): Create, Read, Update, Delete
+- All operations update dashboard metrics dynamically
 
-### Roles & Permissions
-1. **Super Admin**: Platform owner, manages all merchants, views all data
-2. **Merchant Admin**: Business owner, manages employees and customers for their merchant
-3. **Employee**: Staff member, can generate ads and SMS campaigns for their merchant
+### ✅ UI/UX Features
+- Notification ribbon system (success/error/info messages)
+- Collapsible sidebar with hamburger/chevron icons
+- Profile dropdown menu with logout
+- Bootstrap modals for delete confirmations and edit forms
+- Pagination (10 items per page) for all lists
+- Tooltips on all action buttons
+- Form validation with HTML5 patterns and constraints
+- Indian state dropdown (30+ states)
 
-### API Endpoints
-- **Auth**: POST /token
-- **Ad Generation**: POST /api/generate, GET /api/history
-- **SMS**: POST /api/sms/send, POST /api/sms/bulk, POST /api/sms/campaign, GET /api/sms/cost-estimate
-- **Customers**: GET /api/customers, POST /api/merchant/customers, PUT /api/merchant/customers/{id}, DELETE /api/merchant/customers/{id}
-- **Employees**: GET /api/merchant/employees, POST /api/merchant/employees, PUT /api/merchant/employees/{id}, DELETE /api/merchant/employees/{id}
-- **Merchants**: GET /api/admin/merchants, POST /api/admin/merchants
-- **Admin**: GET /api/admin/telemetry, GET /api/admin/settings, POST /api/admin/settings
-
-### Default Credentials
-- **Super Admin**: admin/admin123
-- **Merchant Admin**: merchant2/user123
-- **Employee**: emp2/user123
-
-### Phone Number Format
-- Pattern: +91XXXXXXXXXX (13 digits total)
-- Example: +919000000001
-
-### Environment Modes
-- **test**: Mock mode, no API keys needed, uses mock data
-- **production**: Real mode, requires API keys
+### ✅ History System
+- Unified history showing both ad generations and SMS campaigns
+- Filtered by merchant_id and role
+- Pagination support
+- View historical content by clicking "View" button
 
 ---
 
-## USER CORRECTIONS AND INSTRUCTIONS
+## Known Issues & Debugging
 
-1. Use test mode (ENV_MODE=test) for development - no API keys needed
-2. Default credentials: admin/admin123 (Super Admin), merchant2/user123 (Merchant Admin), emp2/user123 (Employee)
-3. Phone numbers must follow pattern: +91XXXXXXXXXX (13 digits total)
-4. NEVER use alert() or confirm() - always use notification ribbon system
-5. History should show first 10 characters of product name, not customer names
-6. Ad generation is for social media platforms, not individual customers
-7. Cursor must return to input field when validation errors occur
-8. Implement pagination wherever lists can grow large (10 items per page)
-9. Delete operations require double-click confirmation (button turns red on first click)
-10. Sidebar toggle button should be less visible than primary actions
-11. Remove redundant sections (Recent History in sidebar, All Activity in admin dashboard)
-12. Add comprehensive validation to ALL form fields, not just phone numbers
-13. Add at least 20 mock records for each entity type (customers, employees, merchants, history)
-14. Mock data should only be visible when ENV_MODE=test
+### Current Issue: Data Not Displaying
+**Symptom**: User reports not seeing employees or history data  
+**Root Cause**: Browser cache holding old JavaScript  
+**Solution**: Hard refresh browser (Cmd+Shift+R on Mac, Ctrl+Shift+R on Windows)  
+**Verification**: Check browser console for logs like "History loaded: 12 items", "Employees loaded: 1 employees"
+
+### Debug Tools Added
+- Console logging in `loadFullHistory()`, `loadEmployeesList()`, `loadCustomersList()`
+- Browser console (F12) shows data loading status
 
 ---
 
-## KNOWN ISSUES
+## API Endpoints Reference
 
-None currently identified.
+### Authentication
+- `POST /token` - Login (returns JWT token, role, merchant_id)
+
+### Ad Generation
+- `POST /api/generate` - Generate multi-platform ads
+- `GET /api/history` - Get user's generation history (filtered by merchant_id)
+
+### SMS Campaigns
+- `POST /api/sms/send` - Send single SMS
+- `POST /api/sms/bulk` - Send bulk SMS
+- `POST /api/sms/campaign` - Generate & send personalized campaign
+- `GET /api/sms/cost-estimate` - Estimate SMS costs
+- `GET /api/customers` - List customers (filtered by merchant_id)
+
+### Merchant Management (Super Admin)
+- `GET /api/admin/merchants` - List all merchants
+- `POST /api/admin/merchants` - Create merchant
+- `PUT /api/admin/merchants/{merchant_id}` - Update merchant
+- `DELETE /api/admin/merchants/{merchant_id}` - Delete merchant (cascades)
+
+### Employee Management (Merchant Admin)
+- `GET /api/merchant/employees` - List employees
+- `POST /api/merchant/employees` - Create employee
+- `PUT /api/merchant/employees/{employee_id}` - Update employee
+- `DELETE /api/merchant/employees/{employee_id}` - Delete employee
+
+### Customer Management (Merchant Admin)
+- `POST /api/merchant/customers` - Create customer
+- `PUT /api/merchant/customers/{customer_id}` - Update customer
+- `DELETE /api/merchant/customers/{customer_id}` - Delete customer
+
+### Admin
+- `GET /api/admin/telemetry` - System metrics
+- `GET /api/admin/settings` - Get settings
+- `POST /api/admin/settings` - Update settings
 
 ---
 
-## NEXT SESSION PRIORITIES
+## Form Validation Rules
 
-1. **HIGH PRIORITY**: Complete mock data generation (20+ records for each entity)
-   - Add 17+ more customers with realistic data
-   - Add 17+ more merchants with admin users
-   - Add 14+ more history entries
-   - Add 17+ more SMS campaigns
-   - Update telemetry counts
+### Phone Numbers
+- Pattern: `\+91[0-9]{10}` (exactly 13 characters)
+- Example: +919876543210
 
-2. **MEDIUM PRIORITY**: Test all features with mock data
-   - Verify pagination works correctly with 20+ records
-   - Test role-based access control with multiple merchants
-   - Verify history filtering by merchant_id
+### Names (Customer/Employee)
+- Pattern: `[a-zA-Z\s]+` (letters and spaces only)
+- Length: 2-100 characters
 
-3. **LOW PRIORITY**: Performance optimization
-   - Consider database indexing for large datasets
-   - Optimize frontend rendering for large lists
+### Usernames
+- Pattern: `[a-zA-Z0-9_]+` (alphanumeric and underscore)
+- Length: 3-50 characters
+
+### Passwords
+- Minimum: 6 characters
+- Maximum: 100 characters
+
+### Age
+- Range: 1-120
+
+### Product Info
+- Length: 10-1000 characters
+
+### States
+- Dropdown with 30+ Indian states (Andhra Pradesh, Karnataka, Telangana, etc.)
 
 ---
 
-## FILES MODIFIED IN THIS SESSION
+## What to Do Next (For AI Agents)
 
-1. `schemas/db.json` - Started adding mock data (users and merchants updated, customers in progress)
-2. `static/index.html` - All form validations completed, edit employee form validation added
-3. `SESSION_CONTEXT.md` - This file (updated with current status)
+### If User Reports Missing Data
+1. Check browser console (F12) for JavaScript errors
+2. Verify console.log output shows data loading
+3. Instruct user to hard refresh (Cmd+Shift+R or Ctrl+Shift+R)
+4. Verify server is running: `python -m uvicorn main:app --reload --port 8000`
+5. Check database integrity: `python3 -c "import json; print(json.load(open('schemas/db.json'))['users'])"`
+
+### If User Wants New Features
+1. Check if feature requires backend endpoint (add to `main.py`)
+2. Check if feature requires frontend UI (add to `static/index.html`)
+3. Check if feature requires database schema changes (`schemas/db.json`)
+4. Update this document after completing feature
+
+### If User Reports Bugs
+1. Check browser console for JavaScript errors
+2. Check server logs for Python exceptions
+3. Verify API endpoint returns correct data (use curl or Postman)
+4. Check if issue is frontend (UI) or backend (API)
+
+### Common Patterns
+- **Add new CRUD entity**: Create endpoints in `main.py`, add UI in `static/index.html`, update `db.json` schema
+- **Add new role**: Update `auth_service.py`, add role checks in endpoints, add UI menu items
+- **Add new platform**: Update `parseAd()` function, add new tab in UI, update Gemini prompt
 
 ---
 
-## DEVELOPMENT NOTES
+## Important Notes for AI Agents
 
-- The project uses FastAPI for backend and vanilla JavaScript for frontend
-- No framework dependencies for frontend (Bootstrap for styling only)
-- All state management is client-side using localStorage
-- JWT tokens for authentication
-- Mock mode allows testing without external API dependencies
-- Pagination implemented client-side for simplicity
-- Form validation uses HTML5 native validation attributes
+1. **Single-Page Application**: All frontend code is in `static/index.html` (no separate JS files)
+2. **No Database Migrations**: Changes to `schemas/db.json` require manual updates
+3. **Mock Mode**: Set `ENV_MODE=test` in `.env` to use mock services (no API keys needed)
+4. **Phone Format**: Always use `+91XXXXXXXXXX` (13 digits total)
+5. **Merchant Isolation**: Always filter by `merchant_id` for merchant_admin and employee roles
+6. **Cascade Deletes**: Deleting merchant deletes all associated users and customers
+7. **History Logging**: Both ad generation and SMS campaigns log to `ad_generation_history`
+8. **Bootstrap 5**: Use Bootstrap classes and components (modals, cards, badges, etc.)
+9. **No jQuery**: Pure vanilla JavaScript only
+10. **Hard Refresh**: Always instruct users to hard refresh after code changes
+
+---
+
+## Last Updated
+2026-02-21 - Added console logging for debugging data display issues

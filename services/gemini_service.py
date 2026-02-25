@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 from services.settings_service import get_settings_service
 
 load_dotenv()
@@ -17,8 +17,7 @@ class GeminiService(BaseAdService):
         self.api_key = os.getenv("GEMINI_API_KEY")
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY is not set in environment variables.")
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.client = genai.Client(api_key=self.api_key)
         self.settings_svc = get_settings_service()
 
     def generate_response(self, product_info: str, voice: str = "Professional") -> str:
@@ -32,7 +31,10 @@ class GeminiService(BaseAdService):
             f"System Instruction: Act as a {persona}. "
             f"Task: Generate a {voice} ad copy for: {product_info}"
         )
-        response = self.model.generate_content(prompt)
+        response = self.client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
         return response.text.strip()
 
 # --- MOCK SERVICE ---

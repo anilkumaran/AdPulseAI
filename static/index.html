@@ -17,7 +17,7 @@
         #main-content.expanded { margin-left: var(--sb-collapsed); }
         .history-item { padding: 12px; border-bottom: 1px solid #333; cursor: pointer; border-radius: 5px; margin-bottom: 5px; }
         .history-item:hover { background: #222; }
-        .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; }
+        .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; position: relative; }
         .nav-pills .nav-link { color: #fff; display: flex; align-items: center; padding: 10px 15px; border-radius: 6px; margin-bottom: 5px; transition: all 0.2s; }
         .nav-pills .nav-link:hover { background: #222; }
         .nav-pills .nav-link.active { background: #0d6efd; color: white; }
@@ -45,6 +45,14 @@
         .pagination button:hover { background: #f8f9fa; }
         .pagination button.active { background: #0d6efd; color: white; border-color: #0d6efd; }
         .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .history-item { border: 1px solid #dee2e6; border-radius: 6px; padding: 10px 14px; margin-bottom: 8px; background: #f8f9fa; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .history-item:hover { background: #e7f1ff; border-color: #0d6efd; box-shadow: 0 3px 8px rgba(13,110,253,0.2); transform: translateY(-1px); }
+        .history-tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #dee2e6; padding-bottom: 10px; }
+        .history-tab { padding: 8px 16px; background: #e9ecef; border-radius: 6px 6px 0 0; cursor: pointer; transition: all 0.2s; border: none; font-size: 0.9rem; }
+        .history-tab.active { background: #0d6efd; color: white; }
+        .history-tab:hover { background: #0d6efd; color: white; opacity: 0.9; }
+        .tab-content-custom { display: none; }
+        .tab-content-custom.active { display: block; }
     </style>
 </head>
 <body>
@@ -82,7 +90,7 @@
     <div id="app-wrapper" style="display: none;">
         <!-- Sidebar -->
         <nav id="sidebar">
-            <div class="d-flex align-items-center mb-4">
+            <div class="d-flex align-items-center mb-4" style="cursor: pointer;" onclick="showHomeScreen()" title="Go to home screen">
                 <i class="bi bi-lightning-charge-fill text-primary me-2" style="font-size: 1.5rem;"></i>
                 <h4 class="fw-bold mb-0 nav-text">AdPulseAI</h4>
             </div>
@@ -205,55 +213,54 @@
                         <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tm" title="View SMS text message" data-platform="tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
                     </ul>
                     <div class="tab-content shadow-sm">
-                        <div class="tab-pane fade show active position-relative" id="fb">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('fb')" title="Copy to clipboard">
-                                <i class="bi bi-clipboard"></i> Copy
-                            </button>
-                        </div>
-                        <div class="tab-pane fade position-relative" id="ig">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('ig')" title="Copy to clipboard">
-                                <i class="bi bi-clipboard"></i> Copy
-                            </button>
-                        </div>
-                        <div class="tab-pane fade position-relative" id="tw">
-                            <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" onclick="copyToClipboard('tw')" title="Copy to clipboard">
-                                <i class="bi bi-clipboard"></i> Copy
-                            </button>
-                        </div>
-                        <div class="tab-pane fade position-relative" id="wa">
-                            <div id="wa-display"></div>
-                            <textarea id="wa-edit" class="form-control d-none" rows="6"></textarea>
-                            <div class="position-absolute top-0 end-0 m-2" style="display: flex; gap: 8px;">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('wa')" title="Copy to clipboard">
-                                    <i class="bi bi-clipboard"></i> Copy
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" id="wa-edit-btn" onclick="editContent('wa')" title="Edit message">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
-                                <button class="btn btn-sm btn-success d-none" id="wa-save-btn" onclick="saveContent('wa')" title="Save changes">
-                                    <i class="bi bi-check-lg"></i> Save
-                                </button>
-                                <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')" title="Cancel editing">
-                                    <i class="bi bi-x-lg"></i> Cancel
-                                </button>
+                        <div class="tab-pane fade show active" id="fb">
+                            <div id="fb-display"></div>
+                            <textarea id="fb-edit" class="form-control d-none" rows="6"></textarea>
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('fb')" title="Copy"><i class="bi bi-clipboard"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="fb-edit-btn" onclick="editContent('fb')" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-success d-none" id="fb-save-btn" onclick="saveContent('fb')" title="Save"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-secondary d-none" id="fb-cancel-btn" onclick="cancelEdit('fb')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
-                        <div class="tab-pane fade position-relative" id="tm">
+                        <div class="tab-pane fade" id="ig">
+                            <div id="ig-display"></div>
+                            <textarea id="ig-edit" class="form-control d-none" rows="6"></textarea>
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('ig')" title="Copy"><i class="bi bi-clipboard"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="ig-edit-btn" onclick="editContent('ig')" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-success d-none" id="ig-save-btn" onclick="saveContent('ig')" title="Save"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-secondary d-none" id="ig-cancel-btn" onclick="cancelEdit('ig')" title="Cancel"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tw">
+                            <div id="tw-display"></div>
+                            <textarea id="tw-edit" class="form-control d-none" rows="4"></textarea>
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tw')" title="Copy"><i class="bi bi-clipboard"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="tw-edit-btn" onclick="editContent('tw')" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-success d-none" id="tw-save-btn" onclick="saveContent('tw')" title="Save"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-secondary d-none" id="tw-cancel-btn" onclick="cancelEdit('tw')" title="Cancel"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="wa">
+                            <div id="wa-display"></div>
+                            <textarea id="wa-edit" class="form-control d-none" rows="6"></textarea>
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('wa')" title="Copy"><i class="bi bi-clipboard"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="wa-edit-btn" onclick="editContent('wa')" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-success d-none" id="wa-save-btn" onclick="saveContent('wa')" title="Save"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')" title="Cancel"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tm">
                             <div id="tm-display"></div>
                             <textarea id="tm-edit" class="form-control d-none" rows="4"></textarea>
-                            <div class="position-absolute top-0 end-0 m-2" style="display: flex; gap: 8px;">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tm')" title="Copy to clipboard">
-                                    <i class="bi bi-clipboard"></i> Copy
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" id="tm-edit-btn" onclick="editContent('tm')" title="Edit message">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
-                                <button class="btn btn-sm btn-success d-none" id="tm-save-btn" onclick="saveContent('tm')" title="Save changes">
-                                    <i class="bi bi-check-lg"></i> Save
-                                </button>
-                                <button class="btn btn-sm btn-secondary d-none" id="tm-cancel-btn" onclick="cancelEdit('tm')" title="Cancel editing">
-                                    <i class="bi bi-x-lg"></i> Cancel
-                                </button>
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('tm')" title="Copy"><i class="bi bi-clipboard"></i></button>
+                                <button class="btn btn-sm btn-outline-primary" id="tm-edit-btn" onclick="editContent('tm')" title="Edit"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-sm btn-success d-none" id="tm-save-btn" onclick="saveContent('tm')" title="Save"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-secondary d-none" id="tm-cancel-btn" onclick="cancelEdit('tm')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
                     </div>
@@ -411,6 +418,54 @@
                     <div id="full-history-list"></div>
                 </div>
             </div>
+
+            <!-- Home Screen Section -->
+            <div id="section-home" style="display: none;">
+                <div class="card p-5 shadow-sm border-0">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-lightning-charge-fill text-primary" style="font-size: 4rem;"></i>
+                        <h2 class="fw-bold text-primary mt-3" id="home-business-name">Welcome to AdPulseAI</h2>
+                    </div>
+                    
+                    <div class="card p-4 bg-light mb-4" id="merchant-info-card">
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-building me-2"></i>Business Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Industry:</strong> <span id="home-industry">-</span></p>
+                                <p class="mb-2"><strong>Phone:</strong> <a href="#" id="home-phone-link" class="text-primary" style="text-decoration: none;"><span id="home-phone">-</span></a></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Website:</strong> <a href="#" id="home-website" target="_blank" class="text-primary" style="text-decoration: none;">-</a></p>
+                                <p class="mb-2"><strong>Address:</strong> <span id="home-address">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card p-4 h-100 border-0 bg-light">
+                                <i class="bi bi-megaphone text-primary" style="font-size: 2.5rem;"></i>
+                                <h5 class="fw-bold mt-3">Multi-Channel Marketing</h5>
+                                <p class="text-muted">Generate professional ad content for Facebook, Instagram, Twitter, WhatsApp, and SMS in seconds using AI.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card p-4 h-100 border-0 bg-light">
+                                <i class="bi bi-chat-dots text-primary" style="font-size: 2.5rem;"></i>
+                                <h5 class="fw-bold mt-3">Personalized SMS Campaigns</h5>
+                                <p class="text-muted">Create targeted, personalized SMS campaigns using customer data and AI-powered message generation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card p-4 h-100 border-0 bg-light">
+                                <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;"></i>
+                                <h5 class="fw-bold mt-3">Business Intelligence</h5>
+                                <p class="text-muted">Leverage AI to identify target audiences, optimize messaging, and drive business growth.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -531,19 +586,27 @@
         }
 
         // Section Navigation
-        function showSection(section) {
+        function showSection(section, event) {
             document.querySelectorAll('[id^="section-"]').forEach(s => s.style.display = 'none');
             const sectionEl = document.getElementById('section-' + section);
             if(sectionEl) {
                 sectionEl.style.display = 'block';
             }
             
+            // Clear ad generator content when switching away
+            if(section !== 'ad-gen') {
+                document.getElementById('result-container').classList.add('d-none');
+                document.getElementById('prod-info').value = '';
+            }
+            
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             
             // Find and highlight the clicked nav link
-            const clickedLink = event?.target?.closest('.nav-link');
-            if(clickedLink) {
-                clickedLink.classList.add('active');
+            if(event) {
+                const clickedLink = event.target?.closest('.nav-link');
+                if(clickedLink) {
+                    clickedLink.classList.add('active');
+                }
             }
 
             const titles = {
@@ -555,7 +618,8 @@
                 'admin-dashboard': 'Platform Dashboard',
                 'settings': 'System Settings',
                 'all-activity': 'All Activity',
-                'history': 'My History'
+                'history': 'My History',
+                'home': 'Home'
             };
             document.getElementById('page-title').innerText = titles[section] || 'Dashboard';
 
@@ -566,6 +630,55 @@
             if(section === 'employees') loadEmployeesList();
             if(section === 'merchants') loadMerchantsList();
             if(section === 'history') loadFullHistory();
+            if(section === 'home') loadMerchantInfo();
+        }
+
+        function showHomeScreen() {
+            showSection('home');
+        }
+
+        async function loadMerchantInfo() {
+            console.log('loadMerchantInfo called, userRole:', userRole, 'merchantId:', merchantId);
+            if(userRole === 'super_admin') return;
+            
+            try {
+                let r = await fetch('/api/merchant/info', { headers: getH() });
+                console.log('API response status:', r.status);
+                if(r.ok) {
+                    const data = await r.json();
+                    console.log('Merchant data received:', data);
+                    const merchant = data.merchant;
+                    if(merchant) {
+                        document.getElementById('home-business-name').textContent = merchant.business_name;
+                        document.getElementById('home-industry').textContent = merchant.industry || '-';
+                        document.getElementById('home-phone').textContent = merchant.phone || '-';
+                        const phoneLink = document.getElementById('home-phone-link');
+                        if(merchant.phone) {
+                            phoneLink.href = 'tel:' + merchant.phone;
+                        } else {
+                            phoneLink.removeAttribute('href');
+                        }
+                        document.getElementById('home-address').textContent = merchant.address || '-';
+                        const websiteEl = document.getElementById('home-website');
+                        if(merchant.company_website) {
+                            let website = merchant.company_website;
+                            if(!website.startsWith('http://') && !website.startsWith('https://')) {
+                                website = 'https://' + website;
+                            }
+                            websiteEl.textContent = merchant.company_website;
+                            websiteEl.href = website;
+                        } else {
+                            websiteEl.textContent = '-';
+                            websiteEl.removeAttribute('href');
+                        }
+                        console.log('Merchant info loaded successfully');
+                    }
+                } else {
+                    console.error('API error:', r.status, await r.text());
+                }
+            } catch(e) {
+                console.error('Failed to load merchant info:', e);
+            }
         }
 
         // Parse Ad Content
@@ -578,6 +691,11 @@
                 'WHATSAPP': 'wa',
                 'TEXTMESSAGE': 'tm'
             };
+            
+            // Reset all edit states first
+            ['fb', 'ig', 'tw', 'wa', 'tm'].forEach(platform => {
+                cancelEdit(platform);
+            });
             
             let firstPlatform = null;
             
@@ -594,31 +712,31 @@
                     const elementId = idMap[platform];
                     const content = raw.substring(startPos, endPos).trim();
                     
-                    if(elementId === 'wa' || elementId === 'tm') {
-                        const displayElement = document.getElementById(elementId + '-display');
-                        const editElement = document.getElementById(elementId + '-edit');
-                        if(displayElement && editElement) {
-                            displayElement.innerText = content;
-                            editElement.value = content;
-                        }
-                    } else {
-                        const element = document.getElementById(elementId);
-                        if(element) element.innerText = content;
+                    const displayElement = document.getElementById(elementId + '-display');
+                    const editElement = document.getElementById(elementId + '-edit');
+                    if(displayElement && editElement) {
+                        displayElement.innerText = content;
+                        editElement.value = content;
                     }
                 }
             });
             
+            // Reset all tabs first
+            document.querySelectorAll('#platform-tabs .nav-link').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('show', 'active');
+            });
+            
             // Activate first platform tab
             if(firstPlatform) {
-                document.querySelectorAll('#platform-tabs .nav-link').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(pane => {
-                    pane.classList.remove('show', 'active');
-                });
-                
                 const targetBtn = document.querySelector(`[data-platform="${firstPlatform}"]`);
                 const targetPane = document.getElementById(firstPlatform);
                 if(targetBtn) targetBtn.classList.add('active');
-                if(targetPane) targetPane.classList.add('show', 'active');
+                if(targetPane) {
+                    targetPane.classList.add('show', 'active');
+                }
             }
             
             document.getElementById('result-container').classList.remove('d-none');
@@ -650,12 +768,7 @@
 
         // Copy to Clipboard
         function copyToClipboard(platform) {
-            let text = '';
-            if(platform === 'wa' || platform === 'tm') {
-                text = document.getElementById(platform + '-display').innerText;
-            } else {
-                text = document.getElementById(platform).innerText;
-            }
+            const text = document.getElementById(platform + '-display').innerText;
             
             navigator.clipboard.writeText(text).then(() => {
                 showSuccess('Content copied to clipboard!');
@@ -671,34 +784,59 @@
                 const r = await fetch('/api/history', { headers: getH() });
                 if(r.ok) {
                     const logs = await r.json();
-                    console.log('History loaded:', logs.length, 'items');
-                    const paginatedData = paginate(logs, page, itemsPerPage);
                     
-                    let html = paginatedData.items.map(l => {
-                        const productName = l.prompt_preview || (l.product_info || '').substring(0, 10) + '...';
-                        const type = l.campaign_id ? 'SMS Campaign' : 'Ad Generation';
+                    const adLogs = logs.filter(l => !l.campaign_id);
+                    const smsLogs = logs.filter(l => l.campaign_id);
+                    
+                    let html = '<div class="history-tabs">';
+                    html += '<button class="history-tab active" onclick="switchHistoryTab(\'ads\')">Ads</button>';
+                    html += '<button class="history-tab" onclick="switchHistoryTab(\'sms\')">SMS</button>';
+                    html += '</div>';
+                    
+                    // Ad Generator Tab
+                    html += '<div class="tab-content-custom active" id="history-ads">';
+                    const paginatedAds = paginate(adLogs, page, itemsPerPage);
+                    html += paginatedAds.items.map(l => {
+                        const preview = l.product_info || 'Untitled';
                         return `
-                        <div class="card mb-3 p-3">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1">${productName} <span class="badge bg-primary">${type}</span></h6>
-                                    <p class="text-muted small mb-1"><i class="bi bi-calendar me-1"></i>${l.timestamp || ''}</p>
-                                    <p class="text-muted small mb-0"><i class="bi bi-person me-1"></i>User: ${l.user_id || 'N/A'}</p>
-                                </div>
-                                <button class="btn btn-sm btn-outline-primary" onclick="loadHistoryItem('${l.id || ''}', event)" title="View generated content">
-                                    <i class="bi bi-eye me-1"></i>View
-                                </button>
+                        <div class="history-item" onclick="loadHistoryItem('${l.id || ''}', event)">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="me-2">${preview}</span>
+                                <small class="text-muted text-nowrap">${l.timestamp || ''}</small>
                             </div>
                         </div>`;
-                    }).join('') || '<p class="text-muted">No history yet. Start generating ads or SMS campaigns!</p>';
+                    }).join('') || '<p class="text-muted">No ad generation history yet.</p>';
+                    html += renderPagination('history-ads', paginatedAds.totalPages, page, 'loadFullHistory');
+                    html += '</div>';
                     
-                    html += renderPagination('full-history-list', paginatedData.totalPages, page, 'loadFullHistory');
+                    // SMS Campaign Tab
+                    html += '<div class="tab-content-custom" id="history-sms">';
+                    const paginatedSms = paginate(smsLogs, page, itemsPerPage);
+                    html += paginatedSms.items.map(l => {
+                        const preview = l.product_info || 'Untitled';
+                        return `
+                        <div class="history-item" onclick="loadSmsHistoryItem('${l.id || ''}', event)">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="me-2">${preview}</span>
+                                <small class="text-muted text-nowrap">${l.timestamp || ''}</small>
+                            </div>
+                        </div>`;
+                    }).join('') || '<p class="text-muted">No SMS campaign history yet.</p>';
+                    html += renderPagination('history-sms', paginatedSms.totalPages, page, 'loadFullHistory');
+                    html += '</div>';
                     
                     document.getElementById('full-history-list').innerHTML = html;
                 }
             } catch(error) {
                 showError('Failed to load history', 'Please refresh the page');
             }
+        }
+
+        function switchHistoryTab(tab) {
+            document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content-custom').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('history-' + tab).classList.add('active');
         }
 
         // Load history item
@@ -710,6 +848,9 @@
                     const logs = await r.json();
                     const item = logs.find(l => l.id == historyId);
                     if(item && item.full_content) {
+                        // Set product info
+                        document.getElementById('prod-info').value = item.product_info || '';
+                        // Parse and display content
                         parseAd(item.full_content, item.target_customer || item.target_user || 'Campaign');
                         showSection('ad-gen');
                     } else {
@@ -719,6 +860,13 @@
             } catch(error) {
                 showError('Failed to load history item', 'Please try again');
             }
+        }
+
+        // Load SMS history item
+        async function loadSmsHistoryItem(historyId, event) {
+            event?.stopPropagation();
+            showSection('sms-campaign');
+            showInfo('SMS campaign history loaded. You can view the details in the SMS Campaign section.');
         }
 
         // Load Customers for Campaign
@@ -783,7 +931,7 @@
                         <div class="card mb-3 p-3">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="fw-bold mb-1">${c.name} <span class="badge bg-secondary">${c.id}</span></h6>
+                                    <h6 class="fw-bold mb-1">${c.name} <span class="badge bg-info text-dark">${c.id}</span></h6>
                                     <p class="text-muted small mb-2">${c.gender || 'N/A'}, ${c.age || 'N/A'} years, ${c.city || 'N/A'}, ${c.state || 'N/A'}</p>
                                     <p class="small mb-2"><strong>Phone:</strong> ${c.phone}</p>
                                     <p class="small mb-2"><strong>Email:</strong> ${c.email}</p>
@@ -799,10 +947,10 @@
                                     ${isMerchantAdmin ? `
                                         <div>
                                             <button class="btn btn-sm btn-outline-primary action-btn" onclick="editCustomer('${c.id}')" title="Edit customer details">
-                                                <i class="bi bi-pencil"></i> Edit
+                                                <i class="bi bi-pencil"></i> 
                                             </button>
                                             <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteCustomer('${c.id}', '${c.name}')" title="Delete customer">
-                                                <i class="bi bi-trash"></i> Delete
+                                                <i class="bi bi-trash"></i> 
                                             </button>
                                         </div>
                                     ` : ''}
@@ -1127,7 +1275,8 @@
                         const firstLink = document.querySelector('.merchant-admin-only .nav-link');
                         if(firstLink) firstLink.classList.add('active');
                     }, 100);
-                    showSection('ad-gen');
+                    showSection('home');
+                    setTimeout(() => loadMerchantInfo(), 200);
                 } else if(userRole === 'employee') {
                     document.querySelectorAll('.employee-only').forEach(el => el.style.display = 'block');
                     document.querySelectorAll('.super-admin-only, .merchant-admin-only').forEach(el => el.style.display = 'none');
@@ -1135,7 +1284,8 @@
                         const firstLink = document.querySelector('.employee-only .nav-link');
                         if(firstLink) firstLink.classList.add('active');
                     }, 100);
-                    showSection('ad-gen');
+                    showSection('home');
+                    setTimeout(() => loadMerchantInfo(), 200);
                 }
             }
         };
@@ -1571,7 +1721,7 @@
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Age</label>
-                                <input type="number" class="form-control" id="cust-age" min="1" max="120" title="Age must be between 1 and 120" required>
+                                <input type="number" class="form-control" id="cust-age" min="1" max="999" maxlength="3" oninput="if(this.value.length>3)this.value=this.value.slice(0,3);" title="Age must be between 1 and 999" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">City</label>
@@ -1721,7 +1871,7 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Age</label>
-                                    <input type="number" class="form-control" id="edit-cust-age" value="${customer.age || ''}" min="1" max="120" required>
+                                    <input type="number" class="form-control" id="edit-cust-age" value="${customer.age || ''}" min="1" max="999" maxlength="3" oninput="if(this.value.length>3)this.value=this.value.slice(0,3);" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">City</label>

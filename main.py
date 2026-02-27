@@ -53,6 +53,12 @@ async def generate_personalized_ad(
     db = db_svc.get_data()
     merchant_id = merchant.get("merchant_id")
     
+    # Get merchant info for company details
+    merchant_info = next((m for m in db.get("merchants", []) if m["id"] == merchant_id), None)
+    company_name = merchant_info.get("business_name", "Our Store") if merchant_info else "Our Store"
+    company_website = merchant_info.get("company_website", "") if merchant_info else ""
+    company_phone = merchant_info.get("phone", "") if merchant_info else ""
+    
     # Get first customer for this merchant (for demographic context only)
     customers = [c for c in db.get("customers", []) if c.get("merchant_id") == merchant_id]
     
@@ -67,6 +73,9 @@ async def generate_personalized_ad(
 
     # PMI Prompt logic - for social media platforms (not personalized to individual)
     pmi_prompt = f"""
+    COMPANY: {company_name}
+    WEBSITE: {company_website}
+    PHONE: {company_phone}
     PRODUCT: {request.product_info}. TONE: {request.voice}.
     TARGET AUDIENCE: {demographics}, CONTEXT: {purchase_context}.
 
@@ -75,6 +84,7 @@ async def generate_personalized_ad(
     - Use persuasive marketing language
     - Human-like persona (Don't reveal AI).
     - DO NOT use specific customer names - this is for social media platforms
+    - ALWAYS include company name, website, and phone in the ad copy
 
     FORMAT HEADERS:
     FACEBOOK:
@@ -174,6 +184,13 @@ async def create_sms_campaign(
     - Optionally sends via AWS SNS
     """
     db = db_svc.get_data()
+    merchant_id = user.get("merchant_id")
+    
+    # Get merchant info for company details
+    merchant_info = next((m for m in db.get("merchants", []) if m["id"] == merchant_id), None)
+    company_name = merchant_info.get("business_name", "Our Store") if merchant_info else "Our Store"
+    company_website = merchant_info.get("company_website", "") if merchant_info else ""
+    company_phone = merchant_info.get("phone", "") if merchant_info else ""
     
     # Get customers by IDs
     customers = [c for c in db.get("customers", []) if c["id"] in request.customer_ids]
@@ -185,26 +202,20 @@ async def create_sms_campaign(
     generated_messages = []
     
     for customer in customers:
-        # Build demographics string
-        demographics = f"Name={customer['name']}, Gender={customer.get('gender', 'N/A')}, Age={customer.get('age', 'N/A')}, City={customer.get('city', 'N/A')}"
+        # Build data string for service
+        customer_data = f"""
+COMPANY: {company_name}
+WEBSITE: {company_website}
+PHONE: {company_phone}
+PRODUCT: {request.product_info}
+CUSTOMER: {customer['name']}
+GENDER: {customer.get('gender', 'N/A')}
+AGE: {customer.get('age', 'N/A')}
+CITY: {customer.get('city', 'N/A')}
+PURCHASE HISTORY: {customer.get('purchase_history', 'No history')}
+"""
         
-        # PMI Prompt Engineering (from the paper)
-        pmi_prompt = f"""
-        PRODUCT: {request.product_info}. TONE: {request.voice}.
-        USER: {demographics}, Purchase History={customer.get('purchase_history', 'No history')}.
-        
-        PMI CONSTRAINTS (Based on IEEE Paper):
-        1. Personalize with customer name: {customer['name']}
-        2. Reference purchase history naturally (don't be invasive)
-        3. Provide specific reason for recommending this product
-        4. Use human-like, conversational tone (Don't reveal AI generation)
-        5. Keep it under 160 characters for single SMS
-        6. Include emojis if appropriate for the tone
-        
-        Generate ONLY the SMS text message. No headers, no labels, just the message.
-        """
-        
-        message_content = service.generate_response(pmi_prompt, request.voice)
+        message_content = service.generate_response(customer_data, request.voice, prompt_type="sms_campaign")
         
         generated_messages.append({
             "customer_id": customer["id"],
@@ -229,10 +240,7 @@ async def create_sms_campaign(
             send_result = sns_service.send_bulk_sms(recipients)
             messages_sent = send_result["sent"]
     
-    # Log campaign to both sms_campaigns and ad_generation_history
-    merchant_id = user.get("merchant_id")
-    
-    # Log to sms_campaigns table
+    # Log campaign to sms_campaigns table
     db_svc.log_sms_campaign(
         user["sub"],
         campaign_id,
@@ -242,22 +250,22 @@ async def create_sms_campaign(
         merchant_id
     )
     
-    # Also log to ad_generation_history for unified history view
-    # Create a summary of the SMS campaign
+    # Also log to ad_generation_history with campaign_id for unified history view
     sms_summary = f"SMS Campaign: {campaign_id}\n"
     sms_summary += f"Product: {request.product_info}\n"
     sms_summary += f"Customers: {len(customers)}\n"
     sms_summary += f"Messages: {len(generated_messages)}\n\n"
     sms_summary += "Sample Messages:\n"
     for msg in generated_messages[:3]:
-        sms_summary += f"- {msg['name']}: {msg['message'][:50]}...\n"
+        sms_summary += f"- {msg['name']}: {msg['message'][:100]}...\n"
     
     db_svc.log_generation(
         user["sub"],
         request.product_info,
         f"SMS Campaign ({len(customers)} customers)",
         sms_summary,
-        merchant_id
+        merchant_id,
+        campaign_id=campaign_id
     )
     
     return CampaignSMSResponse(
@@ -321,6 +329,22 @@ async def get_merchants(user=Depends(auth_svc.get_current_user)):
             merchant["admin_name"] = admin_user["name"]
     
     return {"merchants": merchants}
+
+
+@app.get("/api/merchant/info")
+async def get_merchant_info(user=Depends(auth_svc.get_current_user)):
+    """Get merchant's own info (Merchant Admin and Employee)"""
+    merchant_id = user.get("merchant_id")
+    if not merchant_id:
+        raise HTTPException(status_code=400, detail="No merchant associated with user")
+    
+    db = db_svc.get_data()
+    merchant = next((m for m in db.get("merchants", []) if m["id"] == merchant_id), None)
+    
+    if not merchant:
+        raise HTTPException(status_code=404, detail="Merchant not found")
+    
+    return {"merchant": merchant}
 
 
 @app.post("/api/admin/merchants")

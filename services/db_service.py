@@ -58,7 +58,7 @@ class DBService:
                 return user
         return None
 
-    def log_generation(self, user_id, product_info, target_user_name, response_content, merchant_id=None):
+    def log_generation(self, user_id, product_info, target_user_name, response_content, merchant_id=None, campaign_id=None):
         db = self._read_db()
         # Create preview from first 10 characters of product info
         preview_text = product_info[:10] if len(product_info) <= 10 else product_info[:10] + "..."
@@ -70,6 +70,7 @@ class DBService:
             "product_info": product_info[:100],
             "prompt_preview": preview_text,  # First 10 chars of product only
             "full_content": response_content,
+            "campaign_id": campaign_id,
             "created_at": datetime.now().isoformat(),
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
         }

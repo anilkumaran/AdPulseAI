@@ -205,15 +205,15 @@
                 </div>
 
                 <div id="result-container" class="d-none">
-                    <ul class="nav nav-tabs" id="platform-tabs">
-                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#fb" title="View Facebook ad copy" data-platform="fb"><i class="bi bi-facebook me-1"></i>Facebook</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ig" title="View Instagram ad copy" data-platform="ig"><i class="bi bi-instagram me-1"></i>Instagram</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tw" title="View Twitter ad copy" data-platform="tw"><i class="bi bi-twitter me-1"></i>Twitter</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#wa" title="View WhatsApp message" data-platform="wa"><i class="bi bi-whatsapp me-1"></i>WhatsApp</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tm" title="View SMS text message" data-platform="tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
+                    <ul class="nav nav-tabs" id="platform-tabs" role="tablist">
+                        <li class="nav-item" role="presentation"><button class="nav-link" id="fb-tab" onclick="switchTab('fb')" type="button" role="tab" aria-controls="fb" title="View Facebook ad copy" data-platform="fb"><i class="bi bi-facebook me-1"></i>Facebook</button></li>
+                        <li class="nav-item" role="presentation"><button class="nav-link" id="ig-tab" onclick="switchTab('ig')" type="button" role="tab" aria-controls="ig" title="View Instagram ad copy" data-platform="ig"><i class="bi bi-instagram me-1"></i>Instagram</button></li>
+                        <li class="nav-item" role="presentation"><button class="nav-link" id="tw-tab" onclick="switchTab('tw')" type="button" role="tab" aria-controls="tw" title="View Twitter ad copy" data-platform="tw"><i class="bi bi-twitter me-1"></i>Twitter</button></li>
+                        <li class="nav-item" role="presentation"><button class="nav-link" id="wa-tab" onclick="switchTab('wa')" type="button" role="tab" aria-controls="wa" title="View WhatsApp message" data-platform="wa"><i class="bi bi-whatsapp me-1"></i>WhatsApp</button></li>
+                        <li class="nav-item" role="presentation"><button class="nav-link" id="tm-tab" onclick="switchTab('tm')" type="button" role="tab" aria-controls="tm" title="View SMS text message" data-platform="tm"><i class="bi bi-chat-text me-1"></i>SMS</button></li>
                     </ul>
-                    <div class="tab-content shadow-sm">
-                        <div class="tab-pane fade show active" id="fb">
+                    <div class="tab-content shadow-sm" id="platformTabContent">
+                        <div class="tab-pane fade" id="fb" role="tabpanel" aria-labelledby="fb-tab">
                             <div id="fb-display"></div>
                             <textarea id="fb-edit" class="form-control d-none" rows="6"></textarea>
                             <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
@@ -223,7 +223,7 @@
                                 <button class="btn btn-sm btn-secondary d-none" id="fb-cancel-btn" onclick="cancelEdit('fb')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="ig">
+                        <div class="tab-pane fade" id="ig" role="tabpanel" aria-labelledby="ig-tab">
                             <div id="ig-display"></div>
                             <textarea id="ig-edit" class="form-control d-none" rows="6"></textarea>
                             <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
@@ -233,7 +233,7 @@
                                 <button class="btn btn-sm btn-secondary d-none" id="ig-cancel-btn" onclick="cancelEdit('ig')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tw">
+                        <div class="tab-pane fade" id="tw" role="tabpanel" aria-labelledby="tw-tab">
                             <div id="tw-display"></div>
                             <textarea id="tw-edit" class="form-control d-none" rows="4"></textarea>
                             <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
@@ -243,7 +243,7 @@
                                 <button class="btn btn-sm btn-secondary d-none" id="tw-cancel-btn" onclick="cancelEdit('tw')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="wa">
+                        <div class="tab-pane fade" id="wa" role="tabpanel" aria-labelledby="wa-tab">
                             <div id="wa-display"></div>
                             <textarea id="wa-edit" class="form-control d-none" rows="6"></textarea>
                             <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
@@ -253,7 +253,7 @@
                                 <button class="btn btn-sm btn-secondary d-none" id="wa-cancel-btn" onclick="cancelEdit('wa')" title="Cancel"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tm">
+                        <div class="tab-pane fade" id="tm" role="tabpanel" aria-labelledby="tm-tab">
                             <div id="tm-display"></div>
                             <textarea id="tm-edit" class="form-control d-none" rows="4"></textarea>
                             <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
@@ -681,21 +681,19 @@
             }
         }
 
+        function switchTab(platform) {
+            document.querySelectorAll('#platform-tabs .nav-link').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+            document.getElementById(platform + '-tab').classList.add('active');
+            document.getElementById(platform).classList.add('show', 'active');
+        }
+
         // Parse Ad Content
         function parseAd(raw, title) {
             const p = ['FACEBOOK', 'INSTAGRAM', 'TWITTER', 'WHATSAPP', 'TEXTMESSAGE'];
-            const idMap = {
-                'FACEBOOK': 'fb',
-                'INSTAGRAM': 'ig',
-                'TWITTER': 'tw',
-                'WHATSAPP': 'wa',
-                'TEXTMESSAGE': 'tm'
-            };
+            const idMap = {'FACEBOOK': 'fb', 'INSTAGRAM': 'ig', 'TWITTER': 'tw', 'WHATSAPP': 'wa', 'TEXTMESSAGE': 'tm'};
             
-            // Reset all edit states first
-            ['fb', 'ig', 'tw', 'wa', 'tm'].forEach(platform => {
-                cancelEdit(platform);
-            });
+            ['fb', 'ig', 'tw', 'wa', 'tm'].forEach(platform => cancelEdit(platform));
             
             let firstPlatform = null;
             
@@ -712,34 +710,16 @@
                     const elementId = idMap[platform];
                     const content = raw.substring(startPos, endPos).trim();
                     
-                    const displayElement = document.getElementById(elementId + '-display');
-                    const editElement = document.getElementById(elementId + '-edit');
-                    if(displayElement && editElement) {
-                        displayElement.innerText = content;
-                        editElement.value = content;
-                    }
+                    document.getElementById(elementId + '-display').innerText = content;
+                    document.getElementById(elementId + '-edit').value = content;
                 }
             });
-            
-            // Reset all tabs first
-            document.querySelectorAll('#platform-tabs .nav-link').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-pane').forEach(pane => {
-                pane.classList.remove('show', 'active');
-            });
-            
-            // Activate first platform tab
-            if(firstPlatform) {
-                const targetBtn = document.querySelector(`[data-platform="${firstPlatform}"]`);
-                const targetPane = document.getElementById(firstPlatform);
-                if(targetBtn) targetBtn.classList.add('active');
-                if(targetPane) {
-                    targetPane.classList.add('show', 'active');
-                }
-            }
             
             document.getElementById('result-container').classList.remove('d-none');
+            
+            if(firstPlatform) {
+                setTimeout(() => switchTab(firstPlatform), 0);
+            }
         }
 
         // Edit Content Functions

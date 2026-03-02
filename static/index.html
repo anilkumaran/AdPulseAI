@@ -53,6 +53,8 @@
         .history-tab:hover { background: #0d6efd; color: white; opacity: 0.9; }
         .tab-content-custom { display: none; }
         .tab-content-custom.active { display: block; }
+        .table tbody tr { cursor: pointer; transition: all 0.2s; }
+        .table tbody tr:hover { background: #e7f1ff; }
     </style>
 </head>
 <body>
@@ -475,7 +477,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Confirm Deletion</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p id="delete-modal-message"></p>
@@ -495,7 +497,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="edit-modal-title">Edit</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="edit-modal-body">
                 </div>
@@ -601,13 +603,14 @@
             
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             
-            // Find and highlight the clicked nav link
-            if(event) {
-                const clickedLink = event.target?.closest('.nav-link');
-                if(clickedLink) {
-                    clickedLink.classList.add('active');
+            // Highlight the matching nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const onclick = link.getAttribute('onclick');
+                if(onclick && onclick.includes(`showSection('${section}')`)) {
+                    link.classList.add('active');
                 }
-            }
+            });
 
             const titles = {
                 'ad-gen': 'Ad Generator',
@@ -950,7 +953,6 @@
                                     <p class="small mb-2"><strong>Phone:</strong> ${c.phone}</p>
                                     <p class="small mb-2"><strong>Email:</strong> ${c.email}</p>
                                     <p class="small mb-2"><strong>Total Purchases:</strong> ${c.total_purchases || 0} | <strong>Total Spent:</strong> ₹${c.total_spent || 0}</p>
-                                    <p class="small mb-0"><strong>History:</strong> ${c.purchase_history || 'No history'}</p>
                                 </div>
                                 <div class="d-flex flex-column align-items-end">
                                     <div class="mb-2">
@@ -960,6 +962,9 @@
                                     </div>
                                     ${isMerchantAdmin ? `
                                         <div>
+                                            <button class="btn btn-sm btn-outline-info action-btn" onclick="viewPurchaseHistory('${c.id}', '${c.name}')" title="View purchase history">
+                                                <i class="bi bi-clock-history"></i> 
+                                            </button>
                                             <button class="btn btn-sm btn-outline-primary action-btn" onclick="editCustomer('${c.id}')" title="Edit customer details">
                                                 <i class="bi bi-pencil"></i> 
                                             </button>
@@ -1842,6 +1847,55 @@
                     showError('Failed to create customer', 'Check your connection and try again');
                 }
             };
+        }
+
+        let currentPurchaseHistoryCustomer = null;
+
+        function viewPurchaseHistory(customerId, customerName) {
+            currentPurchaseHistoryCustomer = { id: customerId, name: customerName };
+            fetch(`/api/customers/${customerId}/purchase-history`, { headers: getH() })
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('edit-modal-title').textContent = `Purchase History: ${customerName}`;
+                    
+                    let html = '';
+                    if(data.purchases && data.purchases.length > 0) {
+                        const paginatedData = paginate(data.purchases, 1, 10);
+                        html = '<div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Date</th><th>Product</th><th>Category</th><th>Qty</th><th>Amount</th></tr></thead><tbody>';
+                        paginatedData.items.forEach(p => {
+                            html += `<tr><td>${p.purchase_date}</td><td>${p.product_name}</td><td>${p.category}</td><td>${p.quantity}</td><td>₹${p.total_amount}</td></tr>`;
+                        });
+                        html += '</tbody></table></div>';
+                        html += renderPagination('purchase-history', paginatedData.totalPages, 1, 'viewPurchaseHistoryPage');
+                    } else {
+                        html = '<p class="text-muted">No purchase history available.</p>';
+                    }
+                    
+                    document.getElementById('edit-modal-body').innerHTML = html;
+                    editModal.show();
+                })
+                .catch(() => showError('Failed to load purchase history'));
+        }
+
+        function viewPurchaseHistoryPage(page) {
+            if(!currentPurchaseHistoryCustomer) return;
+            const { id, name } = currentPurchaseHistoryCustomer;
+            fetch(`/api/customers/${id}/purchase-history`, { headers: getH() })
+                .then(r => r.json())
+                .then(data => {
+                    let html = '';
+                    if(data.purchases && data.purchases.length > 0) {
+                        const paginatedData = paginate(data.purchases, page, 10);
+                        html = '<div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Date</th><th>Product</th><th>Category</th><th>Qty</th><th>Amount</th></tr></thead><tbody>';
+                        paginatedData.items.forEach(p => {
+                            html += `<tr><td>${p.purchase_date}</td><td>${p.product_name}</td><td>${p.category}</td><td>${p.quantity}</td><td>₹${p.total_amount}</td></tr>`;
+                        });
+                        html += '</tbody></table></div>';
+                        html += renderPagination('purchase-history', paginatedData.totalPages, page, 'viewPurchaseHistoryPage');
+                    }
+                    document.getElementById('edit-modal-body').innerHTML = html;
+                })
+                .catch(() => showError('Failed to load purchase history'));
         }
 
         function editCustomer(customerId) {

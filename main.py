@@ -792,4 +792,26 @@ async def delete_customer(
     return {"message": "Customer deleted successfully"}
 
 
+@app.get("/api/customers/{customer_id}/purchase-history")
+async def get_customer_purchase_history(
+    customer_id: str,
+    user=Depends(auth_svc.get_current_user)
+):
+    """Get purchase history for a specific customer"""
+    db = db_svc.get_data()
+    
+    # Verify access
+    if user["role"] != "super_admin":
+        merchant_id = user.get("merchant_id")
+        customer = next((c for c in db.get("customers", []) if c["id"] == customer_id), None)
+        if not customer or customer.get("merchant_id") != merchant_id:
+            raise HTTPException(status_code=403, detail="Access denied")
+    
+    # Get purchase history
+    purchases = [p for p in db.get("purchase_history", []) if p["customer_id"] == customer_id]
+    purchases.sort(key=lambda x: x["purchase_date"], reverse=True)
+    
+    return {"purchases": purchases}
+
+
 app.mount("/", StaticFiles(directory="static", html=True), name="static")

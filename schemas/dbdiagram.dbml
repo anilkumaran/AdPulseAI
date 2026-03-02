@@ -1,0 +1,116 @@
+// AdPulseAI Database Schema
+// Paste this at https://dbdiagram.io/d
+
+Table merchants {
+  id varchar [pk]
+  business_name varchar
+  company_website varchar
+  admin_user_id int
+  industry varchar
+  phone varchar
+  address varchar
+  is_active boolean
+  subscription_plan varchar
+  subscription_expires_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table users {
+  id int [pk]
+  username varchar [unique]
+  password_hash varchar
+  role varchar // merchant_admin, employee
+  merchant_id varchar [ref: > merchants.id]
+  name varchar
+  email varchar
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table customers {
+  id varchar [pk]
+  merchant_id varchar [ref: > merchants.id]
+  name varchar
+  phone varchar
+  email varchar
+  gender varchar
+  age int
+  city varchar
+  state varchar
+  purchase_history text
+  total_purchases int
+  total_spent decimal
+  last_purchase_date date
+  preferences_categories json
+  opt_in_sms boolean
+  opt_in_whatsapp boolean
+  opt_in_email boolean
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table purchase_history {
+  id varchar [pk]
+  
+  merchant_id varchar [ref: > merchants.id]
+  customer_id varchar [ref: > customers.id]
+  product_name varchar
+  category varchar
+  price decimal
+  quantity int
+  total_amount decimal
+  purchase_date date
+  payment_method varchar
+  created_at timestamp
+}
+
+Table ad_generation_history {
+  id int [pk]
+  user_id varchar [ref: > users.username]
+  merchant_id varchar [ref: > merchants.id]
+  target_customer varchar
+  product_info text
+  prompt_preview varchar
+  full_content text
+  campaign_id varchar
+  created_at timestamp
+  timestamp varchar
+}
+
+Table sms_campaigns {
+  id int [pk]
+  campaign_id varchar [unique]
+  user_id varchar [ref: > users.username]
+  merchant_id varchar [ref: > merchants.id]
+  type varchar
+  product varchar
+  total_generated int
+  messages_sent int
+  customer_ids json // Array of customer IDs
+  created_at timestamp
+  timestamp varchar
+}
+
+Table system_settings {
+  id int [pk]
+  system_persona varchar
+  default_voice varchar
+  gemini_api_key varchar
+  aws_sns_region varchar
+  max_api_calls_per_day int
+  updated_at timestamp
+}
+
+Table telemetry {
+  total_api_calls int
+  total_sms_sent int
+  total_campaigns int
+  total_merchants int
+  total_customers int
+  total_users int
+  last_api_call_timestamp timestamp
+  last_updated timestamp
+}

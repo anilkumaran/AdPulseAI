@@ -140,7 +140,7 @@ class DBService:
         
         self._write_db(db)
 
-    def log_sms_campaign(self, user_id, campaign_id, product_info, total_generated, messages_sent, merchant_id=None):
+    def log_sms_campaign(self, user_id, campaign_id, product_info, total_generated, messages_sent, merchant_id=None, customer_ids=None):
         """Log SMS campaign with personalization"""
         db = self._read_db()
         if "sms_campaigns" not in db:
@@ -155,6 +155,7 @@ class DBService:
             "product": product_info[:50],
             "total_generated": total_generated,
             "messages_sent": messages_sent,
+            "customer_ids": customer_ids or [],
             "created_at": datetime.now().isoformat(),
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         })

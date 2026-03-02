@@ -247,7 +247,8 @@ PURCHASE HISTORY: {customer.get('purchase_history', 'No history')}
         request.product_info,
         len(generated_messages),
         messages_sent,
-        merchant_id
+        merchant_id,
+        customer_ids=request.customer_ids
     )
     
     # Also log to ad_generation_history with campaign_id for unified history view
@@ -276,6 +277,21 @@ PURCHASE HISTORY: {customer.get('purchase_history', 'No history')}
         messages_sent=messages_sent,
         preview=generated_messages[:5]
     )
+
+
+@app.get("/api/sms/campaigns")
+async def get_sms_campaigns(user=Depends(auth_svc.get_current_user)):
+    """Get SMS campaign history"""
+    db = db_svc.get_data()
+    campaigns = db.get("sms_campaigns", [])
+    
+    if user["role"] == "super_admin":
+        return campaigns
+    else:
+        merchant_id = user.get("merchant_id")
+        if not merchant_id:
+            return []
+        return [c for c in campaigns if c.get("merchant_id") == merchant_id]
 
 
 @app.get("/api/sms/cost-estimate")

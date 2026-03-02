@@ -761,12 +761,14 @@
         async function loadFullHistory(page = 1) {
             currentPage.history = page;
             try {
-                const r = await fetch('/api/history', { headers: getH() });
-                if(r.ok) {
-                    const logs = await r.json();
-                    
-                    const adLogs = logs.filter(l => !l.campaign_id);
-                    const smsLogs = logs.filter(l => l.campaign_id);
+                const [historyRes, campaignsRes] = await Promise.all([
+                    fetch('/api/history', { headers: getH() }),
+                    fetch('/api/sms/campaigns', { headers: getH() })
+                ]);
+                
+                if(historyRes.ok) {
+                    const adLogs = await historyRes.json();
+                    const smsLogs = campaignsRes.ok ? await campaignsRes.json() : [];
                     
                     let html = '<div class="history-tabs">';
                     html += '<button class="history-tab active" onclick="switchHistoryTab(\'ads\')">Ads</button>';
@@ -793,11 +795,12 @@
                     html += '<div class="tab-content-custom" id="history-sms">';
                     const paginatedSms = paginate(smsLogs, page, itemsPerPage);
                     html += paginatedSms.items.map(l => {
-                        const preview = l.product_info || 'Untitled';
+                        const preview = l.product || l.product_info || 'Untitled';
+                        const customerCount = l.customer_ids ? l.customer_ids.length : (l.total_generated || 0);
                         return `
-                        <div class="history-item" onclick="loadSmsHistoryItem('${l.id || ''}', event)">
+                        <div class="history-item" onclick="loadSmsHistoryItem('${l.campaign_id || l.id || ''}', event)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="me-2">${preview}</span>
+                                <span class="me-2">${preview} (${customerCount} customers)</span>
                                 <small class="text-muted text-nowrap">${l.timestamp || ''}</small>
                             </div>
                         </div>`;
@@ -843,10 +846,41 @@
         }
 
         // Load SMS history item
-        async function loadSmsHistoryItem(historyId, event) {
+        async function loadSmsHistoryItem(campaignId, event) {
             event?.stopPropagation();
-            showSection('sms-campaign');
-            showInfo('SMS campaign history loaded. You can view the details in the SMS Campaign section.');
+            try {
+                const campaignsRes = await fetch('/api/sms/campaigns', { headers: getH() });
+                
+                if(campaignsRes.ok) {
+                    const campaigns = await campaignsRes.json();
+                    const campaign = campaigns.find(c => c.campaign_id == campaignId);
+                    
+                    if(campaign) {
+                        showSection('sms-campaign');
+                        document.getElementById('sms-product').value = campaign.product || '';
+                        
+                        await loadCustomersForCampaign();
+                        
+                        setTimeout(() => {
+                            if(campaign.customer_ids && campaign.customer_ids.length > 0) {
+                                selectedCustomers = [...campaign.customer_ids];
+                                campaign.customer_ids.forEach(custId => {
+                                    const checkbox = document.getElementById('check-' + custId);
+                                    if(checkbox) {
+                                        checkbox.checked = true;
+                                        checkbox.closest('.customer-card').classList.add('selected');
+                                    }
+                                });
+                                showInfo(`Campaign loaded: ${campaign.customer_ids.length} customers selected`);
+                            }
+                        }, 100);
+                    } else {
+                        showError('Campaign not found');
+                    }
+                }
+            } catch(error) {
+                showError('Failed to load campaign', 'Please try again');
+            }
         }
 
         // Load Customers for Campaign

@@ -7,7 +7,7 @@
             "role": "super_admin",
             "merchant_id": null,
             "name": "Platform Admin",
-            "email": "admin@adpulseai.com",
+            "email": "admin.admin@adpulseai.com",
             "is_active": true,
             "created_at": "2026-01-01T10:00:00Z",
             "updated_at": "2026-01-01T10:00:00Z"
@@ -19,7 +19,7 @@
             "role": "merchant_admin",
             "merchant_id": "MERCH001",
             "name": "Demo Merchant",
-            "email": "demo@business.com",
+            "email": "merchant1.merchant@demofashionstore.com",
             "is_active": true,
             "created_at": "2026-01-15T10:00:00Z",
             "updated_at": "2026-01-15T10:00:00Z"
@@ -31,7 +31,7 @@
             "role": "merchant_admin",
             "merchant_id": "MERCH002",
             "name": "Sagar Ch",
-            "email": "sagar@business.com",
+            "email": "merchant2.merchant@sagarfashion.com",
             "is_active": true,
             "created_at": "2026-01-20T11:00:00Z",
             "updated_at": "2026-01-20T11:00:00Z"
@@ -43,7 +43,7 @@
             "role": "employee",
             "merchant_id": "MERCH002",
             "name": "Priya Employee",
-            "email": "priya.emp@business.com",
+            "email": "emp2.employee@sagarfashion.com",
             "is_active": true,
             "created_at": "2026-01-21T14:20:00Z",
             "updated_at": "2026-02-27T11:32:00.429040"
@@ -55,16 +55,28 @@
             "role": "merchant_admin",
             "merchant_id": "MERCH003",
             "name": "mer_amz",
-            "email": "amz@amazon.com",
+            "email": "mer_amazon.merchant@amazon.com",
             "is_active": true,
             "created_at": "2026-02-12T20:18:00.113699",
             "updated_at": "2026-02-12T20:18:00.113726"
+        },
+        {
+            "id": 102,
+            "username": "Flipkart",
+            "password_hash": "$2b$12$WTwbqhHN7h/WiF06XvUBd.7U9EWIf4ZpSmpOa1MsCPj7MM9XFVcWS",
+            "role": "merchant_admin",
+            "merchant_id": "MERCH004",
+            "name": "Flipkart",
+            "email": "flipkart.merchant@flipkart.com",
+            "is_active": true,
+            "created_at": "2026-03-02T15:35:54.854949",
+            "updated_at": "2026-03-02T15:35:54.854990"
         }
     ],
     "merchants": [
         {
             "id": "MERCH001",
-            "business_name": "Demo Fashion Store",
+            "business_name": "Fashion Store",
             "company_website": "https://demofashion.com",
             "admin_user_id": 101,
             "industry": "Retail & Fashion",
@@ -72,9 +84,8 @@
             "address": "123 MG Road, Bangalore, Karnataka 560001",
             "is_active": true,
             "subscription_plan": "premium",
-            "subscription_expires_at": "2026-12-31T23:59:59Z",
             "created_at": "2026-01-15T10:00:00Z",
-            "updated_at": "2026-01-15T10:00:00Z"
+            "updated_at": "2026-03-02T15:15:22.461594"
         },
         {
             "id": "MERCH002",
@@ -86,7 +97,6 @@
             "address": "Brigade Road, Bangalore, Karnataka",
             "is_active": true,
             "subscription_plan": "premium",
-            "subscription_expires_at": "2026-12-31T23:59:59Z",
             "created_at": "2026-01-20T11:00:00Z",
             "updated_at": "2026-01-20T11:00:00Z"
         },
@@ -100,9 +110,20 @@
             "address": "12, NFC Road, Seattle, USA",
             "is_active": true,
             "subscription_plan": "basic",
-            "subscription_expires_at": "2027-02-12T20:18:00.113729",
             "created_at": "2026-02-12T20:18:00.113738",
             "updated_at": "2026-02-12T20:18:00.113739"
+        },
+        {
+            "id": "MERCH004",
+            "business_name": "Flipkart",
+            "admin_user_id": 102,
+            "industry": "Ecommerce",
+            "phone": "+919000000024",
+            "address": "Hyderabad",
+            "is_active": true,
+            "subscription_plan": "basic",
+            "created_at": "2026-03-02T15:35:54.855003",
+            "updated_at": "2026-03-02T15:36:01.651860"
         }
     ],
     "customers": [
@@ -111,7 +132,7 @@
             "merchant_id": "MERCH002",
             "name": "Sneha Reddy",
             "phone": "+919000000021",
-            "email": "sneha.r@example.com",
+            "email": "sneha.reddy.customer@gmail.com",
             "gender": "Female",
             "age": 26,
             "city": "Hyderabad",
@@ -129,14 +150,14 @@
             "opt_in_email": true,
             "is_active": true,
             "created_at": "2025-11-10T09:30:00Z",
-            "updated_at": "2026-02-23T15:58:53.236208"
+            "updated_at": "2026-03-02T14:59:57.472726"
         },
         {
             "id": "CUST002",
             "merchant_id": "MERCH002",
             "name": "Vikram Singh",
             "phone": "+919000000022",
-            "email": "vikram.s@example.com",
+            "email": "vikram.singh.customer@gmail.com",
             "gender": "Male",
             "age": 35,
             "city": "Delhi",
@@ -154,15 +175,14 @@
             "opt_in_email": true,
             "is_active": true,
             "created_at": "2025-12-01T13:45:00Z",
-            "updated_at": "2026-03-02T14:31:47.030001",
-            "purchase_history": ""
+            "updated_at": "2026-03-02T14:31:47.030001"
         },
         {
             "id": "CUST003",
             "merchant_id": "MERCH002",
             "name": "Arjun Mehta Karav",
             "phone": "+919000000023",
-            "email": "arjun.m@example.com",
+            "email": "arjun.mehta.karav.customer@gmail.com",
             "gender": "Male",
             "age": 29,
             "city": "Bangalore",
@@ -185,12 +205,23 @@
     ],
     "ad_generation_history": [
         {
+            "id": 28,
+            "user_id": "emp2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "JBL headphones with blue color and nice cushions",
+            "prompt_preview": "JBL headph...",
+            "full_content": "FACEBOOK:\nImmerse yourself in crystal-clear sound! \ud83c\udfa7 Discover our vibrant blue JBL headphones, engineered with incredibly soft cushions for ultimate comfort and an exceptional listening experience. \u2728\nVisit https://sagarfashion.com or call +919000000002 | Sagar Fashion\n#JBLHeadphones #SagarFashion #AudioComfort\n\nINSTAGRAM:\nElevate your audio style! \ud83c\udfb6 Experience the stunning blue JBL headphones, designed with plush cushions for luxurious comfort. Your perfect soundtrack awaits! \ud83d\udc99\n\ud83d\udd17 https://sagarfashion.com | \ud83d\udcde +919000000002 | Sagar Fashion\n#JBLSound #BlueHeadphones #SagarFashion\n\nTWITTER:\nExperience premium sound with vibrant blue JBL headphones from Sagar Fashion! Enjoy deep audio & incredibly soft cushions for all-day comfort. Upgrade your audio journey today! #JBL #Headphones #SagarFashion\n\nWHATSAPP:\nHello! \ud83d\udc4b Enhance your listening with our stylish blue JBL headphones! They feature super nice cushions, offering superior comfort for all your music and calls. \u2728\nVisit https://sagarfashion.com or call +919000000002 - Sagar Fashion\n\nTEXTMESSAGE:\nGet blue JBL headphones with comfy cushions! Enjoy great sound from Sagar Fashion. Shop now: https://sagarfashion.com Call +919000000002 - Sagar Fashion",
+            "campaign_id": null,
+            "created_at": "2026-03-02T15:03:43.980651",
+            "timestamp": "2026-03-02 15:03"
+        },
+        {
             "id": 27,
             "user_id": "merchant2",
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "iPhone",
-            "prompt_preview": "iPhone",
             "full_content": "FACEBOOK:\nElevate your style and capture every moment with the iconic iPhone! \ud83d\udcf1\u2728 Experience cutting-edge technology and seamless design. Visit https://sagarfashion.com or call +919000000002 | Sagar Fashion\n#SagarFashion #iPhone #TechStyle\n\nINSTAGRAM:\nUnleash premium style and innovation. The iPhone is here to redefine your digital experience! \ud83c\udf1f\ud83d\udcf8\n\ud83d\udd17 https://sagarfashion.com | \ud83d\udcde +919000000002 | Sagar Fashion\n#SagarFashion #iPhonePhotography #LuxuryTech\n\nTWITTER:\nUpgrade to the ultimate tech accessory! Get your new iPhone from Sagar Fashion & experience seamless performance & stunning design. Perfect for capturing life's best moments. #SagarFashion #iPhone #Innovation\n\nWHATSAPP:\nHello! Ready to upgrade your world? \ud83e\udd29 Discover the powerful and stylish iPhone at Sagar Fashion. Perfect for staying connected and capturing your best memories! \ud83d\udcf8\nVisit https://sagarfashion.com or call +919000000002 - Sagar Fashion\n\nTEXTMESSAGE:\nExperience the premium iPhone! Get yours today & redefine your tech. Visit https://sagarfashion.com +919000000002 - Sagar Fashion",
             "campaign_id": null,
             "created_at": "2026-02-27T16:32:39.798316",
@@ -202,7 +233,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Coffe Mug",
-            "prompt_preview": "Coffe Mug",
             "full_content": "SMS Campaign: CAMP20260227161931\nProduct: Coffe Mug\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: FACEBOOK:\nSneha Reddy, add a touch of elegance to ...\n- Arjun Mehta Karav: FACEBOOK:\nElevate your daily ritual with a premium...\n",
             "created_at": "2026-02-27T16:19:31.301774",
             "timestamp": "2026-02-27 16:19"
@@ -213,7 +243,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Laptop Desk",
-            "prompt_preview": "Laptop Des...",
             "full_content": "SMS Campaign: CAMP20260227111559\nProduct: Laptop Desk\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: FACEBOOK:\nUpgrade your workspace with our ergonomi...\n- Vikram Singh: FACEBOOK:\nVikram, elevate your learning space! Our...\n",
             "created_at": "2026-02-27T11:15:59.512948",
             "timestamp": "2026-02-27 11:15"
@@ -224,7 +253,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (1 customers)",
             "product_info": "Designer water bottle with extra copper added",
-            "prompt_preview": "Designer w...",
             "full_content": "SMS Campaign: CAMP20260227111124\nProduct: Designer water bottle with extra copper added\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Sneha Reddy: FACEBOOK:\nSneha Reddy, known for your impeccable s...\n",
             "created_at": "2026-02-27T11:11:24.292198",
             "timestamp": "2026-02-27 11:11"
@@ -235,7 +263,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "HP Laptop with AI in-built",
-            "prompt_preview": "HP Laptop ...",
             "full_content": "FACEBOOK:\nElevate your daily tasks and creative projects with the new HP Laptop, designed for brilliant performance and seamless efficiency. \u2728 Experience intelligent processing that adapts to you, making every task effortless.\nVisit https://sagarfashion.com or call +919000000002 | Sagar Fashion\n#HPLaptop #SmartTech #SagarFashion\n\nINSTAGRAM:\nUnleash your potential with the powerful new HP Laptop! \ud83d\ude80 Enjoy intelligent performance that understands your needs, streamlining your work and creativity. Perfectly elegant, powerfully smart.\n\ud83d\udd17 https://sagarfashion.com | \ud83d\udcde +919000000002 | Sagar Fashion\n#TechFashion #HPLaptop #Innovation\n\nTWITTER:\nExperience smarter computing with the new HP Laptop from Sagar Fashion. Get peak performance & effortless multitasking with intuitive processing. Your perfect partner for productivity & creativity. Sagar Fashion #HPLaptop #SmartPerformance #SagarFashion\n\nWHATSAPP:\nHello! \ud83d\udc4b Discover the ultimate HP Laptop experience. Get intelligent performance that powers your productivity and creativity effortlessly. Designed for you! \u2728\nVisit https://sagarfashion.com or call +919000000002 - Sagar Fashion\n\nTEXTMESSAGE:\nUnlock peak performance with the new HP Laptop. Intelligent processing for seamless work & creativity. Learn more: https://sagarfashion.com +919000000002 - Sagar Fashion",
             "created_at": "2026-02-25T15:51:50.846924",
             "timestamp": "2026-02-25 15:51"
@@ -246,7 +273,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Money plant",
-            "prompt_preview": "Money plan...",
             "full_content": "FACEBOOK:\nElevate your living space with a touch of nature and prosperity! \ud83c\udf3f Discover our vibrant Money Plants, perfect for adding elegance and positive vibes.\nVisit https://sagarfashion.com or call +919000000002 | Sagar Fashion\n#SagarFashion #MoneyPlant #HomeDecor\n\nINSTAGRAM:\nInfuse your home with luck and lush greenery! \u2728 Our beautiful Money Plants are an easy way to enhance any aesthetic.\n\ud83d\udd17 https://sagarfashion.com | \ud83d\udcde +919000000002 | Sagar Fashion\n#SagarFashionDecor #GreenLiving #PlantStyle\n\nTWITTER:\nAdd a touch of prosperity & charm to your space with a Money Plant from Sagar Fashion! Easy to care for & brings instant freshness. Shop now! https://sagarfashion.com\n#SagarFashion #MoneyPlant #HomePlants\n\nWHATSAPP:\nHello! Brighten your home or office with a beautiful Money Plant from Sagar Fashion. \ud83e\udeb4 Known for bringing good fortune and adding a touch of serene greenery.\nVisit https://sagarfashion.com or call +919000000002 - Sagar Fashion\n\nTEXTMESSAGE:\nAdd prosperity & greenery to your home with a Money Plant! Easy care, enhances any space. Shop Sagar Fashion: https://sagarfashion.com +919000000002 - Sagar Fashion",
             "created_at": "2026-02-25T15:50:03.052413",
             "timestamp": "2026-02-25 15:50"
@@ -257,7 +283,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Coffe mug",
-            "prompt_preview": "Coffe mug",
             "full_content": "FACEBOOK:\nStart your day in style with our elegant coffee mugs! \u2615\u2728 Perfect for adding a touch of sophistication to your daily routine.\nVisit https://sagarfashion.com or call +919000000002 | Sagar Fashion\n#SagarFashion #CoffeeMug #MorningRitual\n\nINSTAGRAM:\nElevate your sips with our chic coffee mugs! \ud83d\udc96 Get yours today and add a stylish touch to any moment.\n\ud83d\udd17 https://sagarfashion.com | \ud83d\udcde +919000000002 | Sagar Fashion\n#SagarFashionStyle #MugLove #FashionYourDrink\n\nTWITTER:\nSip in style! Discover Sagar Fashion's elegant new coffee mugs, perfect for fashion enthusiasts. Elevate your daily routine with a touch of sophistication. Sagar Fashion.\n#CoffeeTime #SagarFashion #ChicMugs\n\nWHATSAPP:\nHello! \ud83d\udc4b Add a touch of elegance to your coffee breaks with our beautiful new coffee mugs! They're perfect for sipping your favorite brew in style. \u2615\nVisit https://sagarfashion.com or call +919000000002 - Sagar Fashion\n\nTEXTMESSAGE:\nDiscover Sagar Fashion's stylish coffee mugs! Elevate your daily sips with elegance. Shop now: https://sagarfashion.com Call +919000000002 - Sagar Fashion",
             "created_at": "2026-02-25T15:29:43.490919",
             "timestamp": "2026-02-25 15:29"
@@ -268,7 +293,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Laptop with blue color",
-            "prompt_preview": "Laptop wit...",
             "full_content": "FACEBOOK:\nElevate your style and productivity with Sagar Fashion's elegant blue laptop! \ud83d\udc99 Designed for peak performance and a sleek aesthetic, it's the perfect companion for the modern professional. Discover technology that truly complements your dynamic lifestyle.\nSagar Fashion: https://sagarfashion.com\n#SagarFashion #BlueLaptop #TechStyle #ProfessionalGadget\n\nINSTAGRAM:\nBeyond brilliant, it's blue. \ud83d\udc99 Our new laptop from Sagar Fashion merges sophisticated design with powerful performance. A must-have accessory that works as hard as it looks good. Elevate your workspace!\nSagar Fashion: https://sagarfashion.com\n#SagarFashion #LaptopGoals #WorkSmart #BlueTech\n\nTWITTER:\nUnlock your potential in style! \u2728 The sleek blue laptop from Sagar Fashion offers power & elegance for your dynamic life. Experience performance redefined. #SagarFashion #BlueLaptop #TechForProfessionals\n\nWHATSAPP:\nHello there! \ud83d\udc4b Ready to upgrade your tech with a touch of elegance? Discover Sagar Fashion's stunning blue laptop \u2013 designed for both impeccable style and seamless performance. It\u2019s the perfect blend of beauty and brains!\nSagar Fashion: https://sagarfashion.com\n\nTEXTMESSAGE:\nUpgrade your tech effortlessly! Get the stylish blue laptop from Sagar Fashion today. Performance meets design. Shop now: https://sagarfashion.com",
             "created_at": "2026-02-25T15:15:38.928989",
             "timestamp": "2026-02-25 15:15"
@@ -279,7 +303,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "aaa",
-            "prompt_preview": "aaa",
             "full_content": "FACEBOOK:\nDiscover your next favorite look! \u2728 Elevate your style with our stunning new collection, crafted for the modern woman. From elegant dresses to chic accessories, find pieces that speak to your unique fashion sense. Shop now and shine!\nSagar Fashion | https://sagarfashion.com\n#SagarFashion #NewArrivals #HyderabadFashion #Womenswear #ShopNow\n\nINSTAGRAM:\nUnleash your inner fashionista! \ud83d\udc96 Our latest collection is here to inspire your wardrobe. Explore breathtaking designs and perfect accessories that complete any outfit. Where style meets sophistication.\nSagar Fashion | https://sagarfashion.com\n#SagarFashion #Fashionista #StyleInspo #MustHave #ShopTheLook\n\nTWITTER:\nNew season, new style! \u2728 Refresh your wardrobe with Sagar Fashion's exquisite collection. Discover elegant dresses & chic accessories perfect for any occasion. Shop top trends! #SagarFashion #FashionUpdate #HyderabadStyle #ShopOnline\n\nWHATSAPP:\nHello! \ud83d\udc4b Your perfect outfit awaits at Sagar Fashion! We've just dropped some gorgeous new arrivals that we know you'll adore. From elegant dresses to the perfect finishing touches, discover your next statement piece. Don't miss out!\nSagar Fashion | https://sagarfashion.com\n\nTEXTMESSAGE:\nNew arrivals just dropped at Sagar Fashion! Elevate your style today. Shop now: https://sagarfashion.com - Sagar Fashion",
             "created_at": "2026-02-25T15:15:01.578185",
             "timestamp": "2026-02-25 15:15"
@@ -290,7 +313,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "\n        FACEBOOK:\n        Every outfit tells a story, and the right accessories are the perfect punctuation. For the fashion-forward individual in Hyderabad, we understand that your style extends beyond your clothes. Introducing headphones designed not just for incredible sound, but as an essential piece of your daily ensemble. \u2728\ud83c\udfa7\n\n        Imagine stepping out, impeccably dressed, with a sophisticated audio companion that perfectly complements your look. Our headphones deliver crystal-clear audio, immersing you in your favorite tunes or podcasts, while their elegant design ensures you make a statement wherever you go \u2013 from a cafe in Jubilee Hills to a stroll by the Hussain Sagar. They're comfortable, stylish, and built to perform.\n\n        It's time to elevate your auditory experience and your personal brand. Don't just hear your world, style it. Discover the perfect blend of cutting-edge technology and high fashion that awaits you. What's your next style statement going to sound like? \ud83c\udfb6\ud83d\udc57\ud83d\udecd\ufe0f #FashionMeetsTech #HyderabadFashion #StyleStatement #HeadphoneGoals #ElevateYourLook\n\n        INSTAGRAM:\n        Your style, elevated. \u2728 For the fashion enthusiast who knows every detail counts, our latest headphones are more than just sound \u2013 they\u2019re your next essential accessory. \ud83c\udfa7\ud83d\udc96\n\n        Crafted to complement your Hyderabad chic, they blend seamlessly with your wardrobe, offering unparalleled sound quality and a design that truly stands out. Perfect for your daily commute, a coffee break, or creating your next iconic look.\n\n        Ready to find the perfect audio accessory that speaks volumes about your style? Tap to explore! \ud83d\udecd\ufe0f #HyderabadStyle #FashionTech #OOTDAccessory #SoundAndStyle #MustHave #Headphones\n\n        TWITTER:\n        Hyderabad fashionistas, your ears deserve an upgrade! \ud83c\udfa7\u2728 Discover headphones that perfectly blend stunning design with premium sound. Your next essential style accessory just arrived. #FashionTech #HyderabadStyle #Headphones #StyleUpgrade\n\n        WHATSAPP:\n        Hey fashionista! \u2728 Looking for that perfect accessory to complete your vibe? Our new headphones are a game-changer for your Hyderabad style \u2013 amazing sound meets stunning design. Get ready to turn heads! \ud83c\udfa7\ud83d\udc96\n\n        TEXTMESSAGE:\n        Elevate your style! Discover headphones that blend stunning design with premium sound. Your perfect fashion accessory awaits. Shop now! [Link]\n    ",
             "created_at": "2026-02-25T15:08:31.044905",
             "timestamp": "2026-02-25 15:08"
@@ -301,7 +323,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "\n        === GEMINI API RESPONSE ===\n        FACEBOOK:\n        Every outfit tells a story, and the right accessories are the perfect punctuation. For the fashion-forward individual in Hyderabad, we understand that your style extends beyond your clothes. Introducing headphones designed not just for incredible sound, but as an essential piece of your daily ensemble. \u2728\ud83c\udfa7\n\n        Imagine stepping out, impeccably dressed, with a sophisticated audio companion that perfectly complements your look. Our headphones deliver crystal-clear audio, immersing you in your favorite tunes or podcasts, while their elegant design ensures you make a statement wherever you go \u2013 from a cafe in Jubilee Hills to a stroll by the Hussain Sagar. They're comfortable, stylish, and built to perform.\n\n        It's time to elevate your auditory experience and your personal brand. Don't just hear your world, style it. Discover the perfect blend of cutting-edge technology and high fashion that awaits you. What's your next style statement going to sound like? \ud83c\udfb6\ud83d\udc57\ud83d\udecd\ufe0f #FashionMeetsTech #HyderabadFashion #StyleStatement #HeadphoneGoals #ElevateYourLook\n\n        INSTAGRAM:\n        Your style, elevated. \u2728 For the fashion enthusiast who knows every detail counts, our latest headphones are more than just sound \u2013 they\u2019re your next essential accessory. \ud83c\udfa7\ud83d\udc96\n\n        Crafted to complement your Hyderabad chic, they blend seamlessly with your wardrobe, offering unparalleled sound quality and a design that truly stands out. Perfect for your daily commute, a coffee break, or creating your next iconic look.\n\n        Ready to find the perfect audio accessory that speaks volumes about your style? Tap to explore! \ud83d\udecd\ufe0f #HyderabadStyle #FashionTech #OOTDAccessory #SoundAndStyle #MustHave #Headphones\n\n        TWITTER:\n        Hyderabad fashionistas, your ears deserve an upgrade! \ud83c\udfa7\u2728 Discover headphones that perfectly blend stunning design with premium sound. Your next essential style accessory just arrived. #FashionTech #HyderabadStyle #Headphones #StyleUpgrade\n\n        WHATSAPP:\n        Hey fashionista! \u2728 Looking for that perfect accessory to complete your vibe? Our new headphones are a game-changer for your Hyderabad style \u2013 amazing sound meets stunning design. Get ready to turn heads! \ud83c\udfa7\ud83d\udc96\n\n        TEXTMESSAGE:\n        Elevate your style! Discover headphones that blend stunning design with premium sound. Your perfect fashion accessory awaits. Shop now! [Link]\n        === END RESPONSE ===\n    ",
             "created_at": "2026-02-25T15:07:20.240222",
             "timestamp": "2026-02-25 15:07"
@@ -312,7 +333,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "\n        === GEMINI API RESPONSE ===\n        FACEBOOK:\n        Every outfit tells a story, and the right accessories are the perfect punctuation. For the fashion-forward individual in Hyderabad, we understand that your style extends beyond your clothes. Introducing headphones designed not just for incredible sound, but as an essential piece of your daily ensemble. \u2728\ud83c\udfa7\n\n        Imagine stepping out, impeccably dressed, with a sophisticated audio companion that perfectly complements your look. Our headphones deliver crystal-clear audio, immersing you in your favorite tunes or podcasts, while their elegant design ensures you make a statement wherever you go \u2013 from a cafe in Jubilee Hills to a stroll by the Hussain Sagar. They're comfortable, stylish, and built to perform.\n\n        It's time to elevate your auditory experience and your personal brand. Don't just hear your world, style it. Discover the perfect blend of cutting-edge technology and high fashion that awaits you. What's your next style statement going to sound like? \ud83c\udfb6\ud83d\udc57\ud83d\udecd\ufe0f #FashionMeetsTech #HyderabadFashion #StyleStatement #HeadphoneGoals #ElevateYourLook\n\n        INSTAGRAM:\n        Your style, elevated. \u2728 For the fashion enthusiast who knows every detail counts, our latest headphones are more than just sound \u2013 they\u2019re your next essential accessory. \ud83c\udfa7\ud83d\udc96\n\n        Crafted to complement your Hyderabad chic, they blend seamlessly with your wardrobe, offering unparalleled sound quality and a design that truly stands out. Perfect for your daily commute, a coffee break, or creating your next iconic look.\n\n        Ready to find the perfect audio accessory that speaks volumes about your style? Tap to explore! \ud83d\udecd\ufe0f #HyderabadStyle #FashionTech #OOTDAccessory #SoundAndStyle #MustHave #Headphones\n\n        TWITTER:\n        Hyderabad fashionistas, your ears deserve an upgrade! \ud83c\udfa7\u2728 Discover headphones that perfectly blend stunning design with premium sound. Your next essential style accessory just arrived. #FashionTech #HyderabadStyle #Headphones #StyleUpgrade\n\n        WHATSAPP:\n        Hey fashionista! \u2728 Looking for that perfect accessory to complete your vibe? Our new headphones are a game-changer for your Hyderabad style \u2013 amazing sound meets stunning design. Get ready to turn heads! \ud83c\udfa7\ud83d\udc96\n\n        TEXTMESSAGE:\n        Elevate your style! Discover headphones that blend stunning design with premium sound. Your perfect fashion accessory awaits. Shop now! [Link]\n        === END RESPONSE ===\n    ",
             "created_at": "2026-02-25T15:07:09.019509",
             "timestamp": "2026-02-25 15:07"
@@ -323,7 +343,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "\n        === GEMINI API RESPONSE ===\n        FACEBOOK:\n        Every outfit tells a story, and the right accessories are the perfect punctuation. For the fashion-forward individual in Hyderabad, we understand that your style extends beyond your clothes. Introducing headphones designed not just for incredible sound, but as an essential piece of your daily ensemble. \u2728\ud83c\udfa7\n\n        Imagine stepping out, impeccably dressed, with a sophisticated audio companion that perfectly complements your look. Our headphones deliver crystal-clear audio, immersing you in your favorite tunes or podcasts, while their elegant design ensures you make a statement wherever you go \u2013 from a cafe in Jubilee Hills to a stroll by the Hussain Sagar. They're comfortable, stylish, and built to perform.\n\n        It's time to elevate your auditory experience and your personal brand. Don't just hear your world, style it. Discover the perfect blend of cutting-edge technology and high fashion that awaits you. What's your next style statement going to sound like? \ud83c\udfb6\ud83d\udc57\ud83d\udecd\ufe0f #FashionMeetsTech #HyderabadFashion #StyleStatement #HeadphoneGoals #ElevateYourLook\n\n        INSTAGRAM:\n        Your style, elevated. \u2728 For the fashion enthusiast who knows every detail counts, our latest headphones are more than just sound \u2013 they\u2019re your next essential accessory. \ud83c\udfa7\ud83d\udc96\n\n        Crafted to complement your Hyderabad chic, they blend seamlessly with your wardrobe, offering unparalleled sound quality and a design that truly stands out. Perfect for your daily commute, a coffee break, or creating your next iconic look.\n\n        Ready to find the perfect audio accessory that speaks volumes about your style? Tap to explore! \ud83d\udecd\ufe0f #HyderabadStyle #FashionTech #OOTDAccessory #SoundAndStyle #MustHave #Headphones\n\n        TWITTER:\n        Hyderabad fashionistas, your ears deserve an upgrade! \ud83c\udfa7\u2728 Discover headphones that perfectly blend stunning design with premium sound. Your next essential style accessory just arrived. #FashionTech #HyderabadStyle #Headphones #StyleUpgrade\n\n        WHATSAPP:\n        Hey fashionista! \u2728 Looking for that perfect accessory to complete your vibe? Our new headphones are a game-changer for your Hyderabad style \u2013 amazing sound meets stunning design. Get ready to turn heads! \ud83c\udfa7\ud83d\udc96\n\n        TEXTMESSAGE:\n        Elevate your style! Discover headphones that blend stunning design with premium sound. Your perfect fashion accessory awaits. Shop now! [Link]\n        === END RESPONSE ===\n    ",
             "created_at": "2026-02-25T15:06:45.965108",
             "timestamp": "2026-02-25 15:06"
@@ -334,7 +353,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "FACEBOOK:\nEvery outfit tells a story, and the right accessories are the perfect punctuation. For the fashion-forward individual in Hyderabad, we understand that your style extends beyond your clothes. Introducing headphones designed not just for incredible sound, but as an essential piece of your daily ensemble. \u2728\ud83c\udfa7\n\nImagine stepping out, impeccably dressed, with a sophisticated audio companion that perfectly complements your look. Our headphones deliver crystal-clear audio, immersing you in your favorite tunes or podcasts, while their elegant design ensures you make a statement wherever you go \u2013 from a cafe in Jubilee Hills to a stroll by the Hussain Sagar. They're comfortable, stylish, and built to perform.\n\nIt's time to elevate your auditory experience and your personal brand. Don't just hear your world, style it. Discover the perfect blend of cutting-edge technology and high fashion that awaits you. What's your next style statement going to sound like? \ud83c\udfb6\ud83d\udc57\ud83d\udecd\ufe0f #FashionMeetsTech #HyderabadFashion #StyleStatement #HeadphoneGoals #ElevateYourLook\n\nINSTAGRAM:\nYour style, elevated. \u2728 For the fashion enthusiast who knows every detail counts, our latest headphones are more than just sound \u2013 they\u2019re your next essential accessory. \ud83c\udfa7\ud83d\udc96\n\nCrafted to complement your Hyderabad chic, they blend seamlessly with your wardrobe, offering unparalleled sound quality and a design that truly stands out. Perfect for your daily commute, a coffee break, or creating your next iconic look.\n\nReady to find the perfect audio accessory that speaks volumes about your style? Tap to explore! \ud83d\udecd\ufe0f #HyderabadStyle #FashionTech #OOTDAccessory #SoundAndStyle #MustHave #Headphones\n\nTWITTER:\nHyderabad fashionistas, your ears deserve an upgrade! \ud83c\udfa7\u2728 Discover headphones that perfectly blend stunning design with premium sound. Your next essential style accessory just arrived. #FashionTech #HyderabadStyle #Headphones #StyleUpgrade\n\nWHATSAPP:\nHey fashionista! \u2728 Looking for that perfect accessory to complete your vibe? Our new headphones are a game-changer for your Hyderabad style \u2013 amazing sound meets stunning design. Get ready to turn heads! \ud83c\udfa7\ud83d\udc96\n\nTEXTMESSAGE:\nElevate your style! Discover headphones that blend stunning design with premium sound. Your perfect fashion accessory awaits. Shop now! [Link]",
             "created_at": "2026-02-25T14:58:53.497360",
             "timestamp": "2026-02-25 14:58"
@@ -345,7 +363,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Headphones",
-            "prompt_preview": "Headphones",
             "full_content": "As a Professional Marketing Expert, I understand the unique blend of style, quality, and personal expression that resonates with your target audience. Here is professionally crafted ad copy designed to engage and persuade across various social media platforms, maintaining a human-like tone and focusing on the core desire for sophisticated accessories.\n\n---\n\n**FACEBOOK:**\n\n**Image/Video Idea:** A vibrant, aesthetically pleasing lifestyle shot featuring a stylish woman (mid-20s, impeccably dressed in a contemporary outfit) in a chic Hyderabad setting (e.g., modern cafe, artistic street, or elegant workspace), confidently wearing the headphones as a prominent fashion accessory. Show different angles highlighting the design and comfort.\n\n**Copy:**\nElevate your everyday with an accessory that speaks volumes about your style and passion. For the discerning individual who curates every detail of their look, from the cut of a dress to the gleam of an accessory, sound deserves the same sophistication.\n\nIntroducing [Brand Name/Headphone Model] \u2013 where impeccable audio meets cutting-edge design. These aren't just headphones; they're an extension of your personal style, crafted to complement your fashion sensibilities and deliver an immersive audio experience that moves with you.\n\nImagine seamless sound quality enhancing your commute, inspiring your creative moments, or simply providing the perfect soundtrack to your well-deserved relaxation. All while looking effortlessly chic.\n\nReady to complete your ensemble with the ultimate blend of fashion and function?\n\n**Discover Your Next Essential Accessory.**\n\n[Link to Product Page]\n\n#StyleStatement #FashionTech #HeadphoneFashion #HyderabadStyle #AccessorizeYourLife #MusicMeetsFashion #PremiumSound\n\n---\n\n**INSTAGRAM:**\n\n**Visual Idea:** A high-quality, visually striking carousel post or short video.\n*   **Slide 1/Video Intro:** Close-up of the headphones, showcasing premium materials and sleek design, perhaps styled alongside other chic accessories (a designer bag, stylish watch).\n*   **Slide 2/Video Scene:** Stylish woman wearing the headphones as part of a complete outfit, perhaps striking a pose or engaged in an activity like sipping coffee, walking confidently, or looking out a window. Focus on how the headphones *enhance* the look.\n*   **Slide 3/Video Scene:** Detail shot of the headphones on, emphasizing comfort and fit, perhaps a subtle hint of vibrant color.\n\n**Copy:**\nYour style is meticulously crafted. Shouldn't your sound be just as refined? \u2728\n\nIntroducing [Brand Name/Headphone Model]: The ultimate fashion-forward accessory designed for those who appreciate both aesthetics and acoustics. From morning commutes to evening escapades, make a statement that's heard and seen.\n\nIt's more than just listening; it's living in style.\n\nShop the collection via the link in bio.\n#StyleEssentials #FashionForward #Headphones #OOTD #TechMeetsFashion #Accessorize #SoundOn #HyderabadFashion #DesignerTech\n\n---\n\n**TWITTER:**\n\n**Copy:**\nElevate your entire look & sound experience. \ud83c\udfa7 Our new [Brand Name/Headphone Model] are the stylish accessory fashion enthusiasts are talking about. Impeccable design, immersive audio.\n\nUpgrade your daily essential. Shop now: [Shortened Link]\n\n#FashionTech #StyleUpgrade #MustHave #Headphones #TechAccessory #Fashionista\n\n---\n\n**WHATSAPP (Broadcast Message):**\n\n**Copy:**\nHello Fashion Enthusiast! \ud83d\udc4b\n\nYour curated style deserves the perfect complement. Discover [Brand Name/Headphone Model] \u2013 our latest collection of premium headphones designed to be your next essential accessory.\n\nExperience impeccable sound quality wrapped in sophisticated design that effortlessly enhances your look. Perfect for adding that final, stylish touch to any outfit.\n\nExplore the collection and find your perfect pair here:\n[Link to Product Page]\n\nDon't just hear the difference, see it!\n[Optional: Attach a high-quality image of the headphones on a stylish model.]\n\n---\n\n**TEXTMESSAGE:**\n\n**Copy:**\nNew Style Alert! \u2728 Elevate your look & sound with [Brand Name/Headphone Model]. Your new favorite fashion accessory is here. Shop now: [Shortened Link]",
             "created_at": "2026-02-25T14:56:35.688047",
             "timestamp": "2026-02-25 14:56"
@@ -356,7 +373,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Ear buds",
-            "prompt_preview": "Ear buds",
             "full_content": "SMS Campaign: CAMP20260221230925\nProduct: Ear buds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
             "created_at": "2026-02-21T23:09:25.549192",
             "timestamp": "2026-02-21 23:09"
@@ -367,7 +383,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Ear buds",
-            "prompt_preview": "Ear buds",
             "full_content": "SMS Campaign: CAMP20260221230356\nProduct: Ear buds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
             "created_at": "2026-02-21T23:03:56.850283",
             "timestamp": "2026-02-21 23:03"
@@ -378,7 +393,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "WIreless buds",
-            "prompt_preview": "WIreless b...",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing WIreless buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to WIreless buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 WIreless buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new WIreless buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: WIreless buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-21T23:01:12.793751",
             "timestamp": "2026-02-21 23:01"
@@ -389,7 +403,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Wireless ear buds new deal\n",
-            "prompt_preview": "Wireless e...",
             "full_content": "SMS Campaign: CAMP20260212223110\nProduct: Wireless ear buds new deal\n\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
             "created_at": "2026-02-12T22:31:10.782183",
             "timestamp": "2026-02-12 22:31"
@@ -400,7 +413,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "SMS Campaign (2 customers)",
             "product_info": "Wireless ear buds new deal\n",
-            "prompt_preview": "Wireless e...",
             "full_content": "SMS Campaign: CAMP20260212223049\nProduct: Wireless ear buds new deal\n\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Based on your interests, check o...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Based on your interests, check ...\n",
             "created_at": "2026-02-12T22:30:49.705939",
             "timestamp": "2026-02-12 22:30"
@@ -411,7 +423,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Laptop with latest processor",
-            "prompt_preview": "Laptop wit...",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop with latest processor - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop with latest processor! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop with latest processor is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with latest processor with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop with latest processor! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T22:29:45.676192",
             "timestamp": "2026-02-12 22:29"
@@ -422,7 +433,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "laptop",
-            "prompt_preview": "laptop",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T20:18:36.042042",
             "timestamp": "2026-02-12 20:18"
@@ -433,7 +443,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Laptop",
-            "prompt_preview": "Laptop",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T20:09:58.445926",
             "timestamp": "2026-02-12 20:09"
@@ -444,7 +453,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Ear buds",
-            "prompt_preview": "Ear buds",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Ear buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Ear buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Ear buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Ear buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Ear buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T19:56:57.976475",
             "timestamp": "2026-02-12 19:56"
@@ -455,7 +463,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Laptop",
-            "prompt_preview": "Laptop",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T19:43:23.524521",
             "timestamp": "2026-02-12 19:43"
@@ -466,7 +473,6 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Wireless ear buds",
-            "prompt_preview": "Wireless e",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Wireless ear buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Wireless ear buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Wireless ear buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Wireless ear buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Wireless ear buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T19:41:43.008955",
             "timestamp": "2026-02-12 19:41"
@@ -477,13 +483,11 @@
             "merchant_id": "MERCH002",
             "target_customer": "Social Media Campaign",
             "product_info": "Ear Buds",
-            "prompt_preview": "Ear Buds",
             "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Ear Buds - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Ear Buds! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Ear Buds is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Ear Buds with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Ear Buds! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
             "created_at": "2026-02-12T19:30:56.811896",
             "timestamp": "2026-02-12 19:30"
         }
     ],
-    "sms_history": [],
     "sms_campaigns": [
         {
             "id": 11,
@@ -492,7 +496,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Smart Watch",
-            "total_generated": 2,
             "messages_sent": 2,
             "created_at": "2026-02-28T12:00:00.000000",
             "timestamp": "2026-02-28 12:00:00",
@@ -508,7 +511,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Coffe Mug",
-            "total_generated": 2,
             "messages_sent": 2,
             "created_at": "2026-02-27T16:19:31.288323",
             "timestamp": "2026-02-27 16:19:31",
@@ -525,7 +527,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Laptop Desk",
-            "total_generated": 2,
             "messages_sent": null,
             "created_at": "2026-02-27T11:15:59.501740",
             "timestamp": "2026-02-27 11:15:59",
@@ -542,7 +543,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Designer water bottle with extra copper added",
-            "total_generated": 1,
             "messages_sent": 1,
             "created_at": "2026-02-27T11:11:24.273062",
             "timestamp": "2026-02-27 11:11:24",
@@ -559,7 +559,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Ear buds",
-            "total_generated": 2,
             "messages_sent": 2,
             "created_at": "2026-02-21T23:09:25.542055",
             "timestamp": "2026-02-21 23:09:25",
@@ -576,7 +575,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Ear buds",
-            "total_generated": 2,
             "messages_sent": null,
             "created_at": "2026-02-21T23:03:56.842453",
             "timestamp": "2026-02-21 23:03:56",
@@ -593,7 +591,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Wireless ear buds new deal\n",
-            "total_generated": 2,
             "messages_sent": 2,
             "created_at": "2026-02-12T22:31:10.771378",
             "timestamp": "2026-02-12 22:31:10",
@@ -610,7 +607,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Wireless ear buds new deal\n",
-            "total_generated": 2,
             "messages_sent": null,
             "created_at": "2026-02-12T22:30:49.695030",
             "timestamp": "2026-02-12 22:30:49",
@@ -627,7 +623,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Ear buds",
-            "total_generated": 1,
             "messages_sent": 1,
             "created_at": "2026-02-12T20:09:36.213263",
             "timestamp": "2026-02-12 20:09:36",
@@ -644,7 +639,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Wireless ear buds",
-            "total_generated": 2,
             "messages_sent": 2,
             "created_at": "2026-02-12T19:41:18.586525",
             "timestamp": "2026-02-12 19:41:18",
@@ -661,7 +655,6 @@
             "merchant_id": "MERCH002",
             "type": "personalized_campaign",
             "product": "Wireless ear buds",
-            "total_generated": 2,
             "messages_sent": null,
             "created_at": "2026-02-12T19:41:02.357470",
             "timestamp": "2026-02-12 19:41:02",
@@ -682,14 +675,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 27,
+        "total_api_calls": 28,
         "total_sms_sent": 10,
         "total_campaigns": 10,
-        "total_merchants": 2,
+        "total_merchants": 3,
         "total_customers": 3,
-        "total_users": 4,
-        "last_api_call_timestamp": "2026-02-27T16:32:39.798316",
-        "last_updated": "2026-02-27T16:32:39.798369"
+        "total_users": 5,
+        "last_api_call_timestamp": "2026-03-02T15:03:43.980651",
+        "last_updated": "2026-03-02T15:03:43.980680"
     },
     "purchase_history": [
         {

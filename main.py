@@ -66,7 +66,7 @@ async def generate_personalized_ad(
     if customers:
         target_user = customers[0]
         demographics = f"{target_user.get('gender', 'N/A')}, {target_user.get('age', 'N/A')}, {target_user.get('city', 'N/A')}"
-        purchase_context = target_user.get('purchase_history', 'General audience')
+        purchase_context = 'General audience'
     else:
         demographics = "General audience, 25-45 years, Urban"
         purchase_context = "General retail customers"
@@ -74,8 +74,6 @@ async def generate_personalized_ad(
     # PMI Prompt logic - for social media platforms (not personalized to individual)
     pmi_prompt = f"""
     COMPANY: {company_name}
-    WEBSITE: {company_website}
-    PHONE: {company_phone}
     PRODUCT: {request.product_info}. TONE: {request.voice}.
     TARGET AUDIENCE: {demographics}, CONTEXT: {purchase_context}.
 
@@ -84,7 +82,8 @@ async def generate_personalized_ad(
     - Use persuasive marketing language
     - Human-like persona (Don't reveal AI).
     - DO NOT use specific customer names - this is for social media platforms
-    - ALWAYS include company name, website, and phone in the ad copy
+    - ALWAYS include company website and phone on a NEW LINE at the end of each platform's content
+    - Format contact info as: "Visit {company_website} | Call {company_phone} - {company_name}"
 
     FORMAT HEADERS:
     FACEBOOK:
@@ -212,7 +211,6 @@ CUSTOMER: {customer['name']}
 GENDER: {customer.get('gender', 'N/A')}
 AGE: {customer.get('age', 'N/A')}
 CITY: {customer.get('city', 'N/A')}
-PURCHASE HISTORY: {customer.get('purchase_history', 'No history')}
 """
         
         message_content = service.generate_response(customer_data, request.voice, prompt_type="sms_campaign")
@@ -414,7 +412,6 @@ async def create_merchant(
         "address": address,
         "is_active": True,
         "subscription_plan": "basic",
-        "subscription_expires_at": (datetime.now().replace(year=datetime.now().year + 1)).isoformat(),
         "created_at": datetime.now().isoformat(),
         "updated_at": datetime.now().isoformat()
     }
@@ -650,7 +647,6 @@ async def create_customer(
     age: int = Form(None),
     city: str = Form(""),
     state: str = Form(""),
-    purchase_history: str = Form(""),
     opt_in_sms: bool = Form(True),
     opt_in_whatsapp: bool = Form(True),
     opt_in_email: bool = Form(True),
@@ -682,7 +678,6 @@ async def create_customer(
         "age": age,
         "city": city,
         "state": state,
-        "purchase_history": purchase_history,
         "total_purchases": 0,
         "total_spent": 0,
         "last_purchase_date": None,
@@ -713,7 +708,6 @@ async def update_customer(
     age: int = Form(None),
     city: str = Form(""),
     state: str = Form(""),
-    purchase_history: str = Form(""),
     opt_in_sms: bool = Form(True),
     opt_in_whatsapp: bool = Form(True),
     opt_in_email: bool = Form(True),
@@ -746,7 +740,6 @@ async def update_customer(
     customer["age"] = age
     customer["city"] = city
     customer["state"] = state
-    customer["purchase_history"] = purchase_history
     customer["opt_in_sms"] = opt_in_sms
     customer["opt_in_whatsapp"] = opt_in_whatsapp
     customer["opt_in_email"] = opt_in_email

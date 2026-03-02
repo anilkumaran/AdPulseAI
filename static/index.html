@@ -17,7 +17,8 @@
         #main-content.expanded { margin-left: var(--sb-collapsed); }
         .history-item { padding: 12px; border-bottom: 1px solid #333; cursor: pointer; border-radius: 5px; margin-bottom: 5px; }
         .history-item:hover { background: #222; }
-        .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; position: relative; }
+        .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; position: relative; word-wrap: break-word; }
+        .tab-pane a { color: #0d6efd; text-decoration: underline; }
         .nav-pills .nav-link { color: #fff; display: flex; align-items: center; padding: 10px 15px; border-radius: 6px; margin-bottom: 5px; transition: all 0.2s; }
         .nav-pills .nav-link:hover { background: #222; }
         .nav-pills .nav-link.active { background: #0d6efd; color: white; }
@@ -344,14 +345,102 @@
             <!-- Manage Merchants Section (Super Admin Only) -->
             <div id="section-merchants" style="display: none;">
                 <div class="card p-4 shadow-sm border-0 mb-4">
-                    <h5 class="fw-bold mb-3 text-primary">
-                        <i class="bi bi-shop me-2"></i>Manage Merchants
-                    </h5>
-                    <p class="text-muted small">View and manage all merchants on the platform</p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="fw-bold mb-1 text-primary">
+                                <i class="bi bi-shop me-2"></i>Manage Merchants
+                            </h5>
+                            <p class="text-muted small mb-0">View and manage all merchants on the platform</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="showMerchantModal()" title="Add a new merchant to the platform">
+                            <i class="bi bi-plus-circle me-2"></i>Add Merchant
+                        </button>
+                    </div>
                     <div id="merchants-list"></div>
-                    <button class="btn btn-primary mt-3" onclick="showAddMerchantForm()" title="Add a new merchant to the platform">
-                        <i class="bi bi-plus-circle me-2"></i>Add Merchant
-                    </button>
+                </div>
+            </div>
+
+            <!-- Merchant Modal -->
+            <div class="modal fade" id="merchantModal" tabindex="-1" aria-labelledby="merchantModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="merchantModalLabel">Add Merchant</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="merchant-form">
+                                <input type="hidden" id="merchant-id">
+                                <h6 class="fw-bold mb-3">Business Information</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Business Name</label>
+                                        <input type="text" class="form-control" id="merch-business-name" maxlength="20" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Industry</label>
+                                        <input type="text" class="form-control" id="merch-industry" maxlength="20" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="merch-phone" pattern="\+91[0-9]{10}" maxlength="13" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" title="Format: +91XXXXXXXXXX" required>
+                                        <small class="text-muted">Format: +91XXXXXXXXXX</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" class="form-control" id="merch-address" required>
+                                    </div>
+                                </div>
+                                <div class="row" id="merchant-status-fields" style="display: none;">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-select" id="merch-status">
+                                            <option value="true">Active</option>
+                                            <option value="false">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Subscription Plan</label>
+                                        <select class="form-select" id="merch-plan">
+                                            <option value="basic">Basic</option>
+                                            <option value="premium">Premium</option>
+                                            <option value="enterprise">Enterprise</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr id="admin-divider">
+                                <h6 class="fw-bold mb-3" id="admin-header">Admin User Details</h6>
+                                <div id="admin-fields">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Admin Username</label>
+                                            <input type="text" class="form-control" id="merch-admin-username" maxlength="20" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Admin Password</label>
+                                            <input type="password" class="form-control" id="merch-admin-password" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Admin Name</label>
+                                            <input type="text" class="form-control" id="merch-admin-name" maxlength="20" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Admin Email</label>
+                                            <input type="email" class="form-control" id="merch-admin-email" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" onclick="saveMerchant()">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -601,6 +690,18 @@
                 document.getElementById('prod-info').value = '';
             }
             
+            // Clear SMS campaign content when switching away
+            if(section !== 'sms-campaign') {
+                document.getElementById('sms-product').value = '';
+                document.getElementById('sms-result-container').classList.add('d-none');
+                selectedCustomers = [];
+                document.querySelectorAll('.customer-card').forEach(card => {
+                    card.classList.remove('selected');
+                    const checkbox = card.querySelector('.form-check-input');
+                    if(checkbox) checkbox.checked = false;
+                });
+            }
+            
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             
             // Highlight the matching nav link
@@ -711,10 +812,15 @@
                     let endPos = nextMarker ? raw.indexOf(nextMarker) : raw.length;
                     
                     const elementId = idMap[platform];
-                    const content = raw.substring(startPos, endPos).trim();
+                    let content = raw.substring(startPos, endPos).trim();
                     
-                    document.getElementById(elementId + '-display').innerText = content;
-                    document.getElementById(elementId + '-edit').value = content;
+                    // Make URLs clickable
+                    content = content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    // Make phone numbers clickable
+                    content = content.replace(/(\+91\d{10})/g, '<a href="tel:$1">$1</a>');
+                    
+                    document.getElementById(elementId + '-display').innerHTML = content;
+                    document.getElementById(elementId + '-edit').value = raw.substring(startPos, endPos).trim();
                 }
             });
             
@@ -783,11 +889,15 @@
                     const paginatedAds = paginate(adLogs, page, itemsPerPage);
                     html += paginatedAds.items.map(l => {
                         const preview = l.product_info || 'Untitled';
+                        const userName = l.user_id || 'Unknown';
                         return `
                         <div class="history-item" onclick="loadHistoryItem('${l.id || ''}', event)">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="me-2">${preview}</span>
-                                <small class="text-muted text-nowrap">${l.timestamp || ''}</small>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold">${preview}</div>
+                                    <small class="text-muted">Generated by: ${userName}</small>
+                                </div>
+                                <small class="text-muted text-nowrap ms-2">${l.timestamp || ''}</small>
                             </div>
                         </div>`;
                     }).join('') || '<p class="text-muted">No ad generation history yet.</p>';
@@ -799,12 +909,16 @@
                     const paginatedSms = paginate(smsLogs, page, itemsPerPage);
                     html += paginatedSms.items.map(l => {
                         const preview = l.product || l.product_info || 'Untitled';
-                        const customerCount = l.customer_ids ? l.customer_ids.length : (l.total_generated || 0);
+                        const customerCount = l.customer_ids ? l.customer_ids.length : 0;
+                        const userName = l.user_id || 'Unknown';
                         return `
                         <div class="history-item" onclick="loadSmsHistoryItem('${l.campaign_id || l.id || ''}', event)">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="me-2">${preview} (${customerCount} customers)</span>
-                                <small class="text-muted text-nowrap">${l.timestamp || ''}</small>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold">${preview} (${customerCount} customers)</div>
+                                    <small class="text-muted">Generated by: ${userName}</small>
+                                </div>
+                                <small class="text-muted text-nowrap ms-2">${l.timestamp || ''}</small>
                             </div>
                         </div>`;
                     }).join('') || '<p class="text-muted">No SMS campaign history yet.</p>';
@@ -1132,7 +1246,44 @@
         // Update Dashboard Metrics Dynamically
         async function updateDashboardMetrics() {
             if(userRole === 'super_admin') {
-                loadAdminDashboard();
+                try {
+                    const [telemetryRes, merchantsRes, customersRes] = await Promise.all([
+                        fetch('/api/admin/telemetry', { headers: getH() }),
+                        fetch('/api/admin/merchants', { headers: getH() }),
+                        fetch('/api/customers', { headers: getH() })
+                    ]);
+                    
+                    if(telemetryRes.ok) {
+                        const telemetry = await telemetryRes.json();
+                        const apiCallsEl = document.getElementById('admin-api-calls');
+                        const smsSentEl = document.getElementById('admin-sms-sent');
+                        const campaignsEl = document.getElementById('admin-campaigns');
+                        const usersEl = document.getElementById('admin-users');
+                        
+                        if(apiCallsEl) apiCallsEl.innerText = telemetry.total_api_calls || 0;
+                        if(smsSentEl) smsSentEl.innerText = telemetry.total_sms_sent || 0;
+                        if(campaignsEl) campaignsEl.innerText = telemetry.total_campaigns || 0;
+                        if(usersEl) usersEl.innerText = telemetry.total_users || 0;
+                    }
+                    
+                    if(merchantsRes.ok) {
+                        const merchants = await merchantsRes.json();
+                        const merchantsEl = document.getElementById('admin-merchants');
+                        if(merchantsEl) {
+                            merchantsEl.innerText = merchants.merchants?.length || 0;
+                        }
+                    }
+                    
+                    if(customersRes.ok) {
+                        const customers = await customersRes.json();
+                        const customersEl = document.getElementById('admin-customers-count');
+                        if(customersEl) {
+                            customersEl.innerText = customers.customers?.length || 0;
+                        }
+                    }
+                } catch(error) {
+                    console.error('Failed to update dashboard metrics:', error);
+                }
             }
         }
 
@@ -1392,8 +1543,8 @@
                     <form id="add-employee-form">
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="text" class="form-control" id="emp-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers and underscore allowed" required>
-                            <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
+                            <input type="text" class="form-control" id="emp-username" minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers and underscore allowed" required>
+                            <small class="text-muted">3-20 characters, letters, numbers, underscore only</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
@@ -1402,12 +1553,12 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
-                            <small class="text-muted">2-100 characters</small>
+                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="20" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
+                            <small class="text-muted">2-20 characters</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emp-email" title="Enter a valid email address" required>
+                            <input type="email" class="form-control" id="emp-email" maxlength="50" title="Enter a valid email address" required>
                         </div>
                         <button type="submit" class="btn btn-success me-2" title="Create new employee account">
                             <i class="bi bi-check-lg me-1"></i>Create Employee
@@ -1456,15 +1607,17 @@
                         <div class="card mb-3 p-3">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1">${m.business_name} <span class="badge bg-secondary">${m.id}</span></h6>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <h6 class="fw-bold mb-0 me-2">${m.business_name}</h6>
+                                        <span class="badge ${m.is_active ? 'bg-success' : 'bg-secondary'} me-1">${m.is_active ? 'Active' : 'Inactive'}</span>
+                                        <span class="badge bg-primary">${m.subscription_plan}</span>
+                                    </div>
                                     <p class="text-muted small mb-1"><i class="bi bi-building me-1"></i>${m.industry}</p>
                                     <p class="text-muted small mb-1"><i class="bi bi-telephone me-1"></i>${m.phone}</p>
                                     <p class="text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>${m.address}</p>
                                     <p class="text-muted small mb-0"><i class="bi bi-person-circle me-1"></i>Admin: ${m.admin_name} (${m.admin_username})</p>
                                 </div>
-                                <div class="text-end">
-                                    <span class="badge ${m.is_active ? 'bg-success' : 'bg-secondary'} mb-2">${m.is_active ? 'Active' : 'Inactive'}</span><br>
-                                    <span class="badge bg-primary mb-2">${m.subscription_plan}</span><br>
+                                <div>
                                     <button class="btn btn-sm btn-outline-primary me-1" onclick="editMerchant('${m.id}')" title="Edit merchant details">
                                         <i class="bi bi-pencil"></i>
                                     </button>
@@ -1485,93 +1638,62 @@
             }
         }
 
-        function showAddMerchantForm() {
-            const html = `
-                <div class="card p-4 mt-3 border-primary">
-                    <h6 class="fw-bold mb-3">Add New Merchant</h6>
-                    <form id="add-merchant-form">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Business Name</label>
-                                <input type="text" class="form-control" id="merch-business-name" minlength="2" maxlength="100" pattern="[a-zA-Z0-9\s&.,-]+" title="Only letters, numbers and basic punctuation allowed" required>
-                                <small class="text-muted">2-100 characters</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Industry</label>
-                                <input type="text" class="form-control" id="merch-industry" minlength="2" maxlength="50" pattern="[a-zA-Z\s-]+" title="Only letters, spaces and hyphens allowed" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="merch-phone" pattern="\+91[0-9]{10}" maxlength="13" title="Format: +91XXXXXXXXXX" required>
-                                <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Address</label>
-                                <input type="text" class="form-control" id="merch-address" minlength="5" maxlength="200" title="Minimum 5 characters required" required>
-                            </div>
-                        </div>
-                        <hr>
-                        <h6 class="fw-bold mb-3">Admin User Details</h6>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Admin Username</label>
-                                <input type="text" class="form-control" id="merch-admin-username" minlength="3" maxlength="50" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers and underscore allowed" required>
-                                <small class="text-muted">3-50 characters, letters, numbers, underscore only</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Admin Password</label>
-                                <input type="password" class="form-control" id="merch-admin-password" minlength="6" maxlength="100" title="Minimum 6 characters required" required>
-                                <small class="text-muted">Minimum 6 characters</small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" id="merch-admin-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Admin Email</label>
-                                <input type="email" class="form-control" id="merch-admin-email" title="Enter a valid email address" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success me-2" title="Create new merchant account">
-                            <i class="bi bi-check-lg me-1"></i>Create Merchant
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="loadMerchantsList()" title="Cancel and close form">Cancel</button>
-                    </form>
-                </div>
-            `;
-            document.getElementById('merchants-list').insertAdjacentHTML('beforeend', html);
+        function showMerchantModal(merchantId = null) {
+            document.getElementById('merchant-id').value = merchantId || '';
+            document.getElementById('merchantModalLabel').textContent = merchantId ? 'Edit Merchant' : 'Add Merchant';
             
-            document.getElementById('add-merchant-form').onsubmit = async (e) => {
-                e.preventDefault();
-                const formData = new FormData();
-                formData.append('business_name', document.getElementById('merch-business-name').value);
-                formData.append('industry', document.getElementById('merch-industry').value);
-                formData.append('phone', document.getElementById('merch-phone').value);
-                formData.append('address', document.getElementById('merch-address').value);
+            if(merchantId) {
+                document.getElementById('merchant-status-fields').style.display = 'block';
+                document.getElementById('admin-divider').style.display = 'none';
+                document.getElementById('admin-header').style.display = 'none';
+                document.getElementById('admin-fields').style.display = 'none';
+            } else {
+                document.getElementById('merchant-status-fields').style.display = 'none';
+                document.getElementById('admin-divider').style.display = 'block';
+                document.getElementById('admin-header').style.display = 'block';
+                document.getElementById('admin-fields').style.display = 'block';
+            }
+            
+            document.getElementById('merchant-form').reset();
+            new bootstrap.Modal(document.getElementById('merchantModal')).show();
+        }
+
+        async function saveMerchant() {
+            const merchantId = document.getElementById('merchant-id').value;
+            const formData = new FormData();
+            formData.append('business_name', document.getElementById('merch-business-name').value);
+            formData.append('industry', document.getElementById('merch-industry').value);
+            formData.append('phone', document.getElementById('merch-phone').value);
+            formData.append('address', document.getElementById('merch-address').value);
+            
+            if(merchantId) {
+                formData.append('is_active', document.getElementById('merch-status').value);
+                formData.append('subscription_plan', document.getElementById('merch-plan').value);
+            } else {
                 formData.append('admin_username', document.getElementById('merch-admin-username').value);
                 formData.append('admin_password', document.getElementById('merch-admin-password').value);
                 formData.append('admin_name', document.getElementById('merch-admin-name').value);
                 formData.append('admin_email', document.getElementById('merch-admin-email').value);
-                
-                const r = await fetch('/api/admin/merchants', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
-                    body: formData
-                });
-                
-                if(r.ok) {
-                    showSuccess('Merchant created successfully!');
-                    loadMerchantsList();
-                    updateDashboardMetrics();
-                } else {
-                    const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
-                    showError(error.detail || 'Failed to create merchant');
-                }
-            };
+            }
+            
+            const url = merchantId ? `/api/admin/merchants/${merchantId}` : '/api/admin/merchants';
+            const method = merchantId ? 'PUT' : 'POST';
+            
+            const r = await fetch(url, {
+                method: method,
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
+                body: formData
+            });
+            
+            if(r.ok) {
+                showSuccess(merchantId ? 'Merchant updated successfully!' : 'Merchant created successfully!');
+                bootstrap.Modal.getInstance(document.getElementById('merchantModal')).hide();
+                loadMerchantsList();
+                updateDashboardMetrics();
+            } else {
+                const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
+                showError(error.detail || 'Failed to save merchant');
+            }
         }
 
         async function editMerchant(merchantId) {
@@ -1586,92 +1708,15 @@
                     return;
                 }
                 
-                const html = `
-                    <div class="card p-4 mt-3 border-warning" id="edit-merchant-form-card">
-                        <h6 class="fw-bold mb-3">Edit Merchant: ${merchant.business_name}</h6>
-                        <form id="edit-merchant-form">
-                            <input type="hidden" id="edit-merch-id" value="${merchant.id}">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Business Name</label>
-                                    <input type="text" class="form-control" id="edit-merch-business-name" value="${merchant.business_name}" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Industry</label>
-                                    <input type="text" class="form-control" id="edit-merch-industry" value="${merchant.industry}" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" id="edit-merch-phone" value="${merchant.phone}" pattern="\+91[0-9]{10}" maxlength="13" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="edit-merch-address" value="${merchant.address}" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Status</label>
-                                    <select class="form-select" id="edit-merch-status">
-                                        <option value="true" ${merchant.is_active ? 'selected' : ''}>Active</option>
-                                        <option value="false" ${!merchant.is_active ? 'selected' : ''}>Inactive</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Subscription Plan</label>
-                                    <select class="form-select" id="edit-merch-plan">
-                                        <option value="basic" ${merchant.subscription_plan === 'basic' ? 'selected' : ''}>Basic</option>
-                                        <option value="premium" ${merchant.subscription_plan === 'premium' ? 'selected' : ''}>Premium</option>
-                                        <option value="enterprise" ${merchant.subscription_plan === 'enterprise' ? 'selected' : ''}>Enterprise</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-warning me-2" title="Save merchant changes">
-                                <i class="bi bi-check-lg me-1"></i>Update Merchant
-                            </button>
-                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('edit-merchant-form-card').remove();" title="Cancel editing">Cancel</button>
-                        </form>
-                    </div>
-                `;
+                showMerchantModal(merchantId);
                 
-                const existingForm = document.getElementById('edit-merchant-form-card');
-                if(existingForm) existingForm.remove();
-                
-                document.getElementById('merchants-list').insertAdjacentHTML('afterbegin', html);
-                
-                document.getElementById('edit-merchant-form').onsubmit = async (e) => {
-                    e.preventDefault();
-                    
-                    const formData = new FormData();
-                    formData.append('business_name', document.getElementById('edit-merch-business-name').value);
-                    formData.append('industry', document.getElementById('edit-merch-industry').value);
-                    formData.append('phone', document.getElementById('edit-merch-phone').value);
-                    formData.append('address', document.getElementById('edit-merch-address').value);
-                    formData.append('is_active', document.getElementById('edit-merch-status').value);
-                    formData.append('subscription_plan', document.getElementById('edit-merch-plan').value);
-                    
-                    try {
-                        const r = await fetch(`/api/admin/merchants/${merchantId}`, {
-                            method: 'PUT',
-                            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('at') },
-                            body: formData
-                        });
-                        
-                        if(r.ok) {
-                            showSuccess('Merchant updated successfully!');
-                            document.getElementById('edit-merchant-form-card').remove();
-                            loadMerchantsList();
-                            updateDashboardMetrics();
-                        } else {
-                            const error = await r.json().catch(() => ({ detail: 'Unknown error' }));
-                            showError(error.detail || 'Failed to update merchant');
-                        }
-                    } catch(error) {
-                        showError('Failed to update merchant', 'Check your connection and try again');
-                    }
-                };
+                document.getElementById('merchant-id').value = merchant.id;
+                document.getElementById('merch-business-name').value = merchant.business_name;
+                document.getElementById('merch-industry').value = merchant.industry;
+                document.getElementById('merch-phone').value = merchant.phone;
+                document.getElementById('merch-address').value = merchant.address;
+                document.getElementById('merch-status').value = merchant.is_active.toString();
+                document.getElementById('merch-plan').value = merchant.subscription_plan;
             } catch(error) {
                 showError('Failed to load merchant data');
             }
@@ -1714,19 +1759,19 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="100" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
-                                <small class="text-muted">2-100 characters</small>
+                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="20" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
+                                <small class="text-muted">2-20 characters</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="cust-phone" placeholder="+919000000001" pattern="\+91[0-9]{10}" maxlength="13" title="Format: +91XXXXXXXXXX" required>
+                                <input type="tel" class="form-control" id="cust-phone" placeholder="+919000000001" pattern="\+91[0-9]{10}" maxlength="13" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" title="Format: +91XXXXXXXXXX" required>
                                 <small class="text-muted">Format: +91XXXXXXXXXX (13 digits)</small>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" id="cust-email" title="Enter a valid email address" required>
+                                <input type="email" class="form-control" id="cust-email" maxlength="50" title="Enter a valid email address" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Gender</label>
@@ -1915,17 +1960,17 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="edit-cust-name" value="${customer.name}" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
+                                    <input type="text" class="form-control" id="edit-cust-name" value="${customer.name}" maxlength="20" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" id="edit-cust-phone" value="${customer.phone}" pattern="\+91[0-9]{10}" title="Format: +91XXXXXXXXXX" required>
+                                    <input type="tel" class="form-control" id="edit-cust-phone" value="${customer.phone}" pattern="\+91[0-9]{10}" maxlength="13" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" title="Format: +91XXXXXXXXXX" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="edit-cust-email" value="${customer.email}" required>
+                                    <input type="email" class="form-control" id="edit-cust-email" value="${customer.email}" maxlength="50" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Gender</label>
@@ -2041,11 +2086,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="edit-emp-name" value="${name}" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
+                        <input type="text" class="form-control" id="edit-emp-name" value="${name}" maxlength="20" pattern="[a-zA-Z\\s]+" title="Only letters and spaces" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" id="edit-emp-email" value="${email}" required>
+                        <input type="email" class="form-control" id="edit-emp-email" value="${email}" maxlength="50" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">New Password (leave blank to keep current)</label>

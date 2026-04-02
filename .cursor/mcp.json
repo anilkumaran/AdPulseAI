@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    // "Atlassian": {
+    //   "url": "https://mcp.atlassian.com/v1/mcp",
+    //   "headers": {}
+    // },
+    // "Newrelic": {
+    //   "url": "https://mcp.newrelic.com/mcp/",
+    //   "headers": {
+    //     "Api-Key": "NRAK-ABCD"
+    //   }
+    // },
+    // "GitLab": {
+    //   "command": "node",
+    //   "args": [
+    //     "/Users/anil/dist/index.js"
+    //   ],
+    //   "env": {
+    //     "GITLAB_URL": "https://code.adpulseai.com",
+    //     "GITLAB_TOKEN": "glpat-abcd",
+    //     "GITLAB_TIMEOUT": "30000",
+    //     "GITLAB_MAX_RETRIES": "3"
+    //   },
+    //   "autoApprove": []
+    // },
+    // "akamai": {
+    //   "command": "/Users/anil/start-mcp-server.sh",
+    //   "env": {
+    //     "AKAMAI_EDGERC_PATH": "/Users/anil/.edgerc"
+    //   }
+    // }
+  }
+}

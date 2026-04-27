@@ -18,7 +18,8 @@
         .history-item { padding: 12px; border-bottom: 1px solid #333; cursor: pointer; border-radius: 5px; margin-bottom: 5px; }
         .history-item:hover { background: #222; }
         .tab-pane { padding: 20px; background: white; border: 1px solid #dee2e6; border-top: 0; white-space: pre-wrap; border-radius: 0 0 8px 8px; position: relative; word-wrap: break-word; }
-        .tab-pane a { color: #0d6efd; text-decoration: underline; }
+        .tab-pane a, .sms-message-body a { color: #0d6efd; text-decoration: underline; word-break: break-word; }
+        .sms-message-body { white-space: pre-wrap; word-break: break-word; }
         .nav-pills .nav-link { color: #fff; display: flex; align-items: center; padding: 10px 15px; border-radius: 6px; margin-bottom: 5px; transition: all 0.2s; }
         .nav-pills .nav-link:hover { background: #222; }
         .nav-pills .nav-link.active { background: #0d6efd; color: white; }
@@ -792,6 +793,79 @@
             document.getElementById(platform).classList.add('show', 'active');
         }
 
+        function escapeHtml(text) {
+            if (text == null || text === '') return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function normalizeTelHref(raw) {
+            const t = String(raw || '').trim();
+            if (!t) return 'tel:';
+            let d = t.replace(/[^\d+]/g, '');
+            if (!d.startsWith('+')) {
+                d = d.replace(/^0+/, '');
+                if (/^91\d{10}$/.test(d)) d = '+' + d;
+                else if (/^\d{10}$/.test(d)) d = '+91' + d;
+                else d = '+' + d.replace(/^\+/, '');
+            }
+            return 'tel:' + d;
+        }
+
+        function stripTrailingPunctFromUrl(u) {
+            let x = u;
+            let tail = '';
+            while (x.length > 1 && /[.,;:!?'")\]}»]$/.test(x)) {
+                tail = x.slice(-1) + tail;
+                x = x.slice(0, -1);
+            }
+            return { url: x, tail };
+        }
+
+        function unescapeAttrForHref(escapedFragment) {
+            return String(escapedFragment).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        }
+
+        function linkifyPlainText(text) {
+            let s = escapeHtml(text == null ? '' : String(text));
+            // Markdown [text](https://...) after escape — label and URL are HTML-safe
+            s = s.replace(/\[([^\]]*)\]\((https?:\/\/(?:[^\s<)]|&amp;)+)\)/gi, (match, label, url) => {
+                const { url: u, tail } = stripTrailingPunctFromUrl(url);
+                const realUrl = unescapeAttrForHref(u);
+                const show = label || u;
+                return '<a href=' + JSON.stringify(realUrl) + ' target="_blank" rel="noopener noreferrer" class="text-primary">' + show + '</a>' + tail;
+            });
+            s = s.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, (m) =>
+                '<a href=' + JSON.stringify('mailto:' + unescapeAttrForHref(m)) + ' class="text-primary">' + m + '</a>'
+            );
+            // URLs: allow &amp; inside query strings (escapeHtml breaks & otherwise)
+            s = s.replace(/https?:\/\/(?:[^\s<]|&amp;)+/gi, (m) => {
+                const { url, tail } = stripTrailingPunctFromUrl(m);
+                const realUrl = unescapeAttrForHref(url);
+                return '<a href=' + JSON.stringify(realUrl) + ' target="_blank" rel="noopener noreferrer" class="text-primary">' + url + '</a>' + tail;
+            });
+            s = s.replace(/(^|[^\w/])(www\.[a-zA-Z0-9][-a-zA-Z0-9.]*\.[a-zA-Z]{2,}(?:[^\s<]|&amp;)*)/gi, (match, pre, url) => {
+                const { url: u, tail } = stripTrailingPunctFromUrl(url);
+                const realUrl = 'https://' + unescapeAttrForHref(u);
+                return pre + '<a href=' + JSON.stringify(realUrl) + ' target="_blank" rel="noopener noreferrer" class="text-primary">' + u + '</a>' + tail;
+            });
+            s = s.replace(/\+91[\s-]?\d{10}/g, (m) => {
+                const href = normalizeTelHref(m);
+                return '<a href=' + JSON.stringify(href) + ' class="text-primary text-decoration-underline">' + m + '</a>';
+            });
+            // 91XXXXXXXXXX without leading +
+            s = s.replace(/(?<!\+)(?<![\d])91[\s-]?\d{10}(?!\d)/g, (m) => {
+                const href = normalizeTelHref('+' + m.replace(/\D/g, ''));
+                return '<a href=' + JSON.stringify(href) + ' class="text-primary text-decoration-underline">' + m + '</a>';
+            });
+            s = s.replace(/\+(?!91)(\d[\s-]?){9,14}\d/g, (m) => {
+                const href = normalizeTelHref(m);
+                return '<a href=' + JSON.stringify(href) + ' class="text-primary text-decoration-underline">' + m + '</a>';
+            });
+            return s;
+        }
+
         // Parse Ad Content
         function parseAd(raw, title) {
             const p = ['FACEBOOK', 'INSTAGRAM', 'TWITTER', 'WHATSAPP', 'TEXTMESSAGE'];
@@ -813,13 +887,7 @@
                     
                     const elementId = idMap[platform];
                     let content = raw.substring(startPos, endPos).trim();
-                    
-                    // Make URLs clickable
-                    content = content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-                    // Make phone numbers clickable
-                    content = content.replace(/(\+91\d{10})/g, '<a href="tel:$1">$1</a>');
-                    
-                    document.getElementById(elementId + '-display').innerHTML = content;
+                    document.getElementById(elementId + '-display').innerHTML = linkifyPlainText(content);
                     document.getElementById(elementId + '-edit').value = raw.substring(startPos, endPos).trim();
                 }
             });
@@ -842,7 +910,7 @@
 
         function saveContent(platform) {
             const newContent = document.getElementById(platform + '-edit').value;
-            document.getElementById(platform + '-display').innerText = newContent;
+            document.getElementById(platform + '-display').innerHTML = linkifyPlainText(newContent);
             cancelEdit(platform);
             showSuccess('Content updated successfully');
         }
@@ -1193,10 +1261,10 @@
                 document.getElementById('sms-preview-list').innerHTML = d.preview.map(p => `
                     <div class="card mb-2 p-3">
                         <div class="d-flex justify-content-between mb-2">
-                            <strong>${p.name}</strong>
-                            <span class="badge bg-primary">${p.phone}</span>
+                            <strong>${escapeHtml(p.name)}</strong>
+                            <a href=${JSON.stringify(normalizeTelHref(p.phone))} class="badge bg-primary text-white text-decoration-none">${escapeHtml(p.phone)}</a>
                         </div>
-                        <div class="bg-light p-2 rounded">${p.message}</div>
+                        <div class="bg-light p-2 rounded sms-message-body">${linkifyPlainText(p.message)}</div>
                     </div>
                 `).join('');
                 

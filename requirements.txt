@@ -1,5 +1,7 @@
 fastapi
 uvicorn
+httpx
+ollama
 google-genai
 python-dotenv
 pydantic
@@ -11,6 +13,3 @@ boto3
 
 # MCP server (optional - for Cursor/IDE integration)
 fastmcp
-
-# Local LLM
-ollama

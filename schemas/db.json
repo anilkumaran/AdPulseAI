@@ -205,6 +205,66 @@
     ],
     "ad_generation_history": [
         {
+            "id": 33,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "iPhone",
+            "prompt_preview": "iPhone",
+            "full_content": "SMS Campaign: CAMP20260402130121\nProduct: iPhone\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: \ud83d\udcf1 Hey Sneha! \ud83d\ude03 We've got an amazing offer for you! \ud83c\udf81\nExclusively for our valued customers, get an iP...\n- Vikram Singh: \ud83d\udcf1 Hey Vikram Singh! \ud83d\ude03\n\nExciting news - we've got an amazing deal for you! \ud83c\udf89\n\nGet your hands on the l...\n",
+            "campaign_id": "CAMP20260402130121",
+            "created_at": "2026-04-02T13:01:21.747915",
+            "timestamp": "2026-04-02 13:01"
+        },
+        {
+            "id": 32,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Noise Earbuds",
+            "prompt_preview": "Noise Earb...",
+            "full_content": "SMS Campaign: CAMP20260402130041\nProduct: Noise Earbuds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hey Sneha \ud83d\udc4b\nExciting news! You're just Rs.500 away from getting your hands on our top-notch Noise Ea...\n- Vikram Singh: \ud83d\udcf1 Hey Vikram Singh! \ud83d\udc4b We've got an exciting offer for you! \ud83c\udf89\n\nAs a valued customer at Sagar Fashion,...\n",
+            "campaign_id": "CAMP20260402130041",
+            "created_at": "2026-04-02T13:00:41.900563",
+            "timestamp": "2026-04-02 13:00"
+        },
+        {
+            "id": 31,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Nice Laptop ",
+            "prompt_preview": "Nice Lapto...",
+            "full_content": "SMS Campaign: CAMP20260402125514\nProduct: Nice Laptop \nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Vikram Singh: Vikram! \ud83d\udc4b From Sagar Fashion, hope you're doing great! \ud83d\ude0a We noticed you recently purchased a Nice La...\n- Arjun Mehta Karav: Arjun Mehta Karav,\n\nGreat to hear you purchased a Nice Laptop from us! \ud83d\ude0a We're thrilled to have you ...\n",
+            "campaign_id": "CAMP20260402125514",
+            "created_at": "2026-04-02T12:55:14.612235",
+            "timestamp": "2026-04-02 12:55"
+        },
+        {
+            "id": 30,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Earbuds",
+            "prompt_preview": "Earbuds",
+            "full_content": "SMS Campaign: CAMP20260402124930\nProduct: Earbuds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: \ud83d\udcf1 Hey Sneha! \ud83d\ude0a We're thrilled to hear you're enjoying our earbuds! \ud83c\udfa7 Do you want to share your thoug...\n- Vikram Singh: Vikram Singh! \ud83d\ude0a\nWe're thrilled to hear you're enjoying our Earbuds! \ud83c\udfa7 Your purchase history shows we...\n",
+            "campaign_id": "CAMP20260402124930",
+            "created_at": "2026-04-02T12:49:30.361894",
+            "timestamp": "2026-04-02 12:49"
+        },
+        {
+            "id": 29,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "ABCD",
+            "prompt_preview": "ABCD",
+            "full_content": "SMS Campaign: CAMP20260402124451\nProduct: ABCD\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Sneha Reddy: Here is a personalized SMS text message for Sagar Fashion:\n\n\"Hey Sneha! \ud83d\ude0a We're so glad you chose AB...\n",
+            "campaign_id": "CAMP20260402124451",
+            "created_at": "2026-04-02T12:44:51.169089",
+            "timestamp": "2026-04-02 12:44"
+        },
+        {
             "id": 28,
             "user_id": "emp2",
             "merchant_id": "MERCH002",
@@ -490,6 +550,85 @@
     ],
     "sms_campaigns": [
         {
+            "id": 16,
+            "campaign_id": "CAMP20260402130121",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "iPhone",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST002",
+                "CUST001"
+            ],
+            "created_at": "2026-04-02T13:01:21.743537",
+            "timestamp": "2026-04-02 13:01:21"
+        },
+        {
+            "id": 15,
+            "campaign_id": "CAMP20260402130041",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Noise Earbuds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST002",
+                "CUST001"
+            ],
+            "created_at": "2026-04-02T13:00:41.853054",
+            "timestamp": "2026-04-02 13:00:41"
+        },
+        {
+            "id": 14,
+            "campaign_id": "CAMP20260402125514",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Nice Laptop ",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST002",
+                "CUST003"
+            ],
+            "created_at": "2026-04-02T12:55:14.605921",
+            "timestamp": "2026-04-02 12:55:14"
+        },
+        {
+            "id": 13,
+            "campaign_id": "CAMP20260402124930",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Earbuds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST002"
+            ],
+            "created_at": "2026-04-02T12:49:30.359286",
+            "timestamp": "2026-04-02 12:49:30"
+        },
+        {
+            "id": 12,
+            "campaign_id": "CAMP20260402124451",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "ABCD",
+            "total_generated": 1,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001"
+            ],
+            "created_at": "2026-04-02T12:44:51.134053",
+            "timestamp": "2026-04-02 12:44:51"
+        },
+        {
             "id": 11,
             "campaign_id": "CAMP20260228120000",
             "user_id": "merchant2",
@@ -675,14 +814,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 28,
+        "total_api_calls": 33,
         "total_sms_sent": 10,
-        "total_campaigns": 10,
+        "total_campaigns": 15,
         "total_merchants": 3,
         "total_customers": 3,
         "total_users": 5,
-        "last_api_call_timestamp": "2026-03-02T15:03:43.980651",
-        "last_updated": "2026-03-02T15:03:43.980680"
+        "last_api_call_timestamp": "2026-04-02T13:01:21.747915",
+        "last_updated": "2026-04-02T13:01:21.747965"
     },
     "purchase_history": [
         {

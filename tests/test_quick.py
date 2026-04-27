@@ -1,9 +1,9 @@
 """Quick test to verify the generate endpoint works"""
 
 # Test the mock service directly
-from services.gemini_service import MockGeminiService
+from services.llm_service import MockLlmService
 
-service = MockGeminiService()
+service = MockLlmService()
 
 # Test 1: Simple product info
 print("Test 1: Simple product input")

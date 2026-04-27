@@ -2,7 +2,7 @@
 
 ## What This Project Is
 
-AdPulseAI is a **multi-channel marketing automation platform** that uses Google Gemini AI to generate personalized advertising content across Facebook, Instagram, Twitter, WhatsApp, and SMS. It extends the IEEE paper "Developing Personalized Marketing Service Using Generative AI" from SMS-only to multi-platform.
+AdPulseAI is a **multi-channel marketing automation platform** that uses an LLM to generate personalized advertising content across Facebook, Instagram, Twitter, WhatsApp, and SMS. **Prod backend:** `OLLAMA=true` → local Ollama via `client.generate()` (**OLLAMA_MODEL** in `.env`, e.g. `llama2`); otherwise **Gemini** (**gemini-2.5-flash**) with `GEMINI_API_KEY`. Shared prompts live in `services/prompt_service.py`. It extends the IEEE paper "Developing Personalized Marketing Service Using Generative AI" from SMS-only to multi-platform.
 
 **Core Features:**
 - AI-powered ad generation for 5 platforms (Facebook, Instagram, Twitter, WhatsApp, SMS)
@@ -10,12 +10,12 @@ AdPulseAI is a **multi-channel marketing automation platform** that uses Google 
 - 3-tier role-based access: Super Admin (platform owner), Merchant Admin (business owner), Employee (staff)
 - Multi-tenant architecture with merchant isolation
 - AWS SNS integration for SMS delivery
-- Mock mode for testing without API keys (ENV_MODE=test)
+- Mock mode without any LLM (ENV_MODE=test)
 
 **Tech Stack:**
 - Backend: FastAPI (Python 3.10+)
 - Frontend: HTML5, CSS3, Vanilla JavaScript, Bootstrap 5
-- AI: Google Gemini API
+- AI: `OLLAMA=true` + **`OLLAMA_MODEL`** (required); optional `OLLAMA_HOST`; `client.generate()`; else `GEMINI_API_KEY` for **gemini-2.5-flash**; prompts in `services/prompt_service.py`
 - SMS: AWS SNS
 - Database: JSON file (schemas/db.json)
 - Auth: JWT tokens with bcrypt password hashing
@@ -40,7 +40,8 @@ AdPulseAI is a **multi-channel marketing automation platform** that uses Google 
 - `main.py` - FastAPI backend with all API endpoints
 - `static/index.html` - Single-page application (SPA) with all frontend logic
 - `schemas/db.json` - JSON database
-- `services/gemini_service.py` - AI content generation
+- `services/prompt_service.py` - All LLM prompt templates and PMI context builders
+- `services/llm_service.py` - LLM backends: mock (`ENV_MODE=test`), else Ollama if `OLLAMA=true` (or legacy `LLM_PROVIDER=ollama`), else Gemini
 - `services/sns_service.py` - SMS delivery (mock mode available)
 - `services/auth_service.py` - JWT authentication
 - `services/db_service.py` - Database operations
@@ -199,7 +200,7 @@ AdPulseAI is a **multi-channel marketing automation platform** that uses Google 
 ### Common Patterns
 - **Add new CRUD entity**: Create endpoints in `main.py`, add UI in `static/index.html`, update `db.json` schema
 - **Add new role**: Update `auth_service.py`, add role checks in endpoints, add UI menu items
-- **Add new platform**: Update `parseAd()` function, add new tab in UI, update Gemini prompt
+- **Add new platform**: Update `parseAd()` function, add new tab in UI, update templates in `services/prompt_service.py`
 
 ---
 
@@ -207,7 +208,7 @@ AdPulseAI is a **multi-channel marketing automation platform** that uses Google 
 
 1. **Single-Page Application**: All frontend code is in `static/index.html` (no separate JS files)
 2. **No Database Migrations**: Changes to `schemas/db.json` require manual updates
-3. **Mock Mode**: Set `ENV_MODE=test` in `.env` to use mock services (no API keys needed)
+3. **Mock Mode**: Set `ENV_MODE=test` in `.env` to use mock LLM and mock SMS (no Ollama/Gemini/AWS needed)
 4. **Phone Format**: Always use `+91XXXXXXXXXX` (13 digits total)
 5. **Merchant Isolation**: Always filter by `merchant_id` for merchant_admin and employee roles
 6. **Cascade Deletes**: Deleting merchant deletes all associated users and customers

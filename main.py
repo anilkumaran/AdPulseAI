@@ -11,7 +11,11 @@ from schemas.sms_schemas import (
 )
 from services.auth_service import auth_svc
 from services.db_service import db_svc
-from services.gemini_service import get_gemini_service, BaseAdService
+from services.llm_service import get_llm_service, BaseAdService
+from services.prompt_service import (
+    build_social_media_ad_context,
+    build_sms_campaign_customer_context,
+)
 from services.settings_service import get_settings_service, SettingsService
 from services.sns_service import sns_service
 
@@ -48,7 +52,7 @@ async def login(username: str = Form(...), password: str = Form(...)):
 async def generate_personalized_ad(
     request: AdRequest,
     merchant=Depends(auth_svc.get_current_user),
-    service: BaseAdService = Depends(get_gemini_service)
+    service: BaseAdService = Depends(get_llm_service)
 ):
     db = db_svc.get_data()
     merchant_id = merchant.get("merchant_id")
@@ -71,27 +75,15 @@ async def generate_personalized_ad(
         demographics = "General audience, 25-45 years, Urban"
         purchase_context = "General retail customers"
 
-    # PMI Prompt logic - for social media platforms (not personalized to individual)
-    pmi_prompt = f"""
-    COMPANY: {company_name}
-    PRODUCT: {request.product_info}. TONE: {request.voice}.
-    TARGET AUDIENCE: {demographics}, CONTEXT: {purchase_context}.
-
-    PMI CONSTRAINTS:
-    - Create engaging social media content for general audience
-    - Use persuasive marketing language
-    - Human-like persona (Don't reveal AI).
-    - DO NOT use specific customer names - this is for social media platforms
-    - ALWAYS include company website and phone on a NEW LINE at the end of each platform's content
-    - Format contact info as: "Visit {company_website} | Call {company_phone} - {company_name}"
-
-    FORMAT HEADERS:
-    FACEBOOK:
-    INSTAGRAM:
-    TWITTER:
-    WHATSAPP:
-    TEXTMESSAGE:
-    """
+    pmi_prompt = build_social_media_ad_context(
+        company_name=company_name,
+        company_website=company_website,
+        company_phone=company_phone,
+        product_info=request.product_info,
+        voice=request.voice,
+        demographics=demographics,
+        purchase_context=purchase_context,
+    )
 
     content = service.generate_response(pmi_prompt, request.voice)
     # Log without specific customer name - this is social media content
@@ -173,7 +165,7 @@ async def send_bulk_sms(
 async def create_sms_campaign(
     request: CampaignSMSRequest,
     user=Depends(auth_svc.get_current_user),
-    service: BaseAdService = Depends(get_gemini_service)
+    service: BaseAdService = Depends(get_llm_service)
 ):
     """
     Generate and optionally send personalized SMS campaign.
@@ -201,18 +193,17 @@ async def create_sms_campaign(
     generated_messages = []
     
     for customer in customers:
-        # Build data string for service
-        customer_data = f"""
-COMPANY: {company_name}
-WEBSITE: {company_website}
-PHONE: {company_phone}
-PRODUCT: {request.product_info}
-CUSTOMER: {customer['name']}
-GENDER: {customer.get('gender', 'N/A')}
-AGE: {customer.get('age', 'N/A')}
-CITY: {customer.get('city', 'N/A')}
-"""
-        
+        customer_data = build_sms_campaign_customer_context(
+            company_name=company_name,
+            company_website=company_website,
+            company_phone=company_phone,
+            product_info=request.product_info,
+            customer_name=customer["name"],
+            gender=str(customer.get("gender", "N/A")),
+            age=str(customer.get("age", "N/A")),
+            city=str(customer.get("city", "N/A")),
+        )
+
         message_content = service.generate_response(customer_data, request.voice, prompt_type="sms_campaign")
         
         generated_messages.append({

@@ -25,7 +25,7 @@ source "$VENV_DIR/bin/activate"
 
 echo "Installing dependencies"
 python -m pip install --upgrade pip >/dev/null
-python -m pip install -r requirements.txt
+python -m pip install -r api/requirements.txt
 
 if [[ ! -f ".env" ]]; then
   if [[ -f ".env.example" ]]; then
@@ -46,5 +46,5 @@ echo
 echo "Open http://$HOST:$PORT"
 echo
 
-exec python -m uvicorn main:app --reload --host "$HOST" --port "$PORT"
+exec python -m uvicorn api.main:app --reload --host "$HOST" --port "$PORT"
 

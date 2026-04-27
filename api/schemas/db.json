@@ -205,6 +205,30 @@
     ],
     "ad_generation_history": [
         {
+            "id": 35,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Laptop - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Laptop! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Laptop is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Laptop with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Laptop! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "campaign_id": null,
+            "created_at": "2026-04-27T15:46:09.488958",
+            "timestamp": "2026-04-27 15:46"
+        },
+        {
+            "id": 34,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Wireless earbuds",
+            "prompt_preview": "Wireless e...",
+            "full_content": "SMS Campaign: CAMP20260427154543\nProduct: Wireless earbuds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hi Sneha Reddy! \ud83c\udf89 Check out our Wireless earbuds\nCUSTOMER: Sne! Special offer just for you. Reply YE...\n- Vikram Singh: Hi Vikram Singh! \ud83c\udf89 Check out our Wireless earbuds\nCUSTOMER: Vik! Special offer just for you. Reply Y...\n",
+            "campaign_id": "CAMP20260427154543",
+            "created_at": "2026-04-27T15:45:43.956932",
+            "timestamp": "2026-04-27 15:45"
+        },
+        {
             "id": 33,
             "user_id": "merchant2",
             "merchant_id": "MERCH002",
@@ -550,6 +574,22 @@
     ],
     "sms_campaigns": [
         {
+            "id": 17,
+            "campaign_id": "CAMP20260427154543",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless earbuds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST002"
+            ],
+            "created_at": "2026-04-27T15:45:43.940875",
+            "timestamp": "2026-04-27 15:45:43"
+        },
+        {
             "id": 16,
             "campaign_id": "CAMP20260402130121",
             "user_id": "merchant2",
@@ -814,14 +854,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 33,
+        "total_api_calls": 35,
         "total_sms_sent": 10,
-        "total_campaigns": 15,
+        "total_campaigns": 16,
         "total_merchants": 3,
         "total_customers": 3,
         "total_users": 5,
-        "last_api_call_timestamp": "2026-04-02T13:01:21.747915",
-        "last_updated": "2026-04-02T13:01:21.747965"
+        "last_api_call_timestamp": "2026-04-27T15:46:09.488958",
+        "last_updated": "2026-04-27T15:46:09.488999"
     },
     "purchase_history": [
         {

@@ -15,7 +15,7 @@ class DBService:
     def _init_db(self):
         needs_init = not os.path.exists(self.file_path) or os.stat(self.file_path).st_size == 0
         if needs_init:
-            from services.auth_service import auth_svc
+            from .auth_service import auth_svc
             schema = {
                 "users": [
                     {"id": 1, "username": "admin", "password_hash": auth_svc.hash_password("admin123"), 

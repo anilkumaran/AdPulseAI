@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 from abc import ABC, abstractmethod
 from datetime import datetime
 from dotenv import load_dotenv
@@ -8,8 +9,8 @@ import httpx
 from ollama import Client as OllamaClient
 from ollama import ResponseError as OllamaResponseError
 
-from services.prompt_service import build_generation_prompt
-from services.settings_service import get_settings_service
+from .prompt_service import build_generation_prompt
+from .settings_service import get_settings_service
 
 load_dotenv()
 
@@ -111,7 +112,10 @@ def _append_llm_log(provider: str, model: str, product_info: str, voice: str, ou
             "voice": voice,
             "output": output,
         }
-        with open("llm_responses.jsonl", "a", encoding="utf-8") as f:
+        # Always write logs next to the backend package (api/llm_responses.jsonl),
+        # independent of current working directory.
+        log_path = Path(__file__).resolve().parents[1] / "llm_responses.jsonl"
+        with open(log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
     except OSError as e:
         print(f"[Warning] Failed to log response: {e}")

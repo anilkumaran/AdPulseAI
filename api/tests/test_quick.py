@@ -1,7 +1,7 @@
 """Quick test to verify the generate endpoint works"""
 
 # Test the mock service directly
-from services.llm_service import MockLlmService
+from api.services.llm_service import MockLlmService
 
 service = MockLlmService()
 

@@ -1,23 +1,24 @@
 import os
+from pathlib import Path
 from datetime import datetime
 from fastapi import FastAPI, Depends, HTTPException, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from schemas.ad_schemas import AdRequest, AdResponse, SettingsUpdate
-from schemas.sms_schemas import (
+from .schemas.ad_schemas import AdRequest, AdResponse, SettingsUpdate
+from .schemas.sms_schemas import (
     SMSSendRequest, BulkSMSRequest, CampaignSMSRequest,
     SMSResponse, BulkSMSResponse, CampaignSMSResponse
 )
-from services.auth_service import auth_svc
-from services.db_service import db_svc
-from services.llm_service import get_llm_service, BaseAdService
-from services.prompt_service import (
+from .services.auth_service import auth_svc
+from .services.db_service import db_svc
+from .services.llm_service import get_llm_service, BaseAdService
+from .services.prompt_service import (
     build_social_media_ad_context,
     build_sms_campaign_customer_context,
 )
-from services.settings_service import get_settings_service, SettingsService
-from services.sns_service import sns_service
+from .services.settings_service import get_settings_service, SettingsService
+from .services.sns_service import sns_service
 
 app = FastAPI(title="AdPulseAI - Personalization PMI")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -798,4 +799,8 @@ async def get_customer_purchase_history(
     return {"purchases": purchases}
 
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_UI_STATIC_DIR = _REPO_ROOT / "ui" / "static"
+
+# Serve the frontend SPA from / (single-page app).
+app.mount("/", StaticFiles(directory=str(_UI_STATIC_DIR), html=True), name="static")

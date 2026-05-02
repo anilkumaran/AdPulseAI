@@ -41,6 +41,23 @@
         .notification-ribbon.success { background: #28a745; color: white; }
         .notification-ribbon.info { background: #17a2b8; color: white; }
         @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .notification-icon { font-size: 1.1rem; margin-right: 10px; }
+        .notification-message-wrap { display: flex; align-items: center; gap: 10px; }
+        .notification-text { display: inline; }
+
+        .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chip { border: 1px solid #dee2e6; background: #fff; color: #111; padding: 6px 10px; border-radius: 999px; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; }
+        .chip:hover { border-color: #0d6efd; box-shadow: 0 2px 10px rgba(13,110,253,0.15); transform: translateY(-1px); }
+        .chip:active { transform: translateY(0); }
+        .muted-counter { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .kbd-hint { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.8rem; border: 1px solid #dee2e6; background: #fff; padding: 2px 6px; border-radius: 6px; color: #6c757d; }
+
+        .soft-card { border: 1px solid #eef2f7; background: #ffffff; border-radius: 12px; }
+        .empty-state { border: 1px dashed #cfe2ff; background: #f8fbff; padding: 16px; border-radius: 12px; color: #0b5ed7; }
+        .skeleton { background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ee 37%, #f0f2f5 63%); background-size: 400% 100%; animation: shimmer 1.2s ease-in-out infinite; border-radius: 10px; }
+        @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+        .skeleton-line { height: 14px; margin: 8px 0; }
+        .skeleton-line.sm { height: 10px; width: 60%; }
         .action-btn { margin-left: 10px; }
         .pagination { display: flex; justify-content: center; margin-top: 20px; gap: 5px; }
         .pagination button { padding: 5px 12px; border: 1px solid #dee2e6; background: white; cursor: pointer; border-radius: 4px; }
@@ -63,9 +80,12 @@
     <!-- Notification Ribbon -->
     <div id="notification-ribbon" class="notification-ribbon">
         <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <strong id="notification-title"></strong>
-                <span id="notification-message"></span>
+            <div class="notification-message-wrap">
+                <span class="notification-icon" id="notification-icon">ℹ️</span>
+                <div class="notification-text">
+                    <strong id="notification-title"></strong>
+                    <span id="notification-message"></span>
+                </div>
             </div>
             <button onclick="hideNotification()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
         </div>
@@ -202,10 +222,30 @@
                     </h5>
                     <textarea id="prod-info" class="form-control mb-3" rows="4" minlength="10" maxlength="1000" required
                         placeholder="Enter product details... (e.g., Wireless Earbuds Pro - Noise-cancelling, 30hr battery, ₹2,999)"></textarea>
-                    <small class="text-muted">10-1000 characters</small>
-                    <button id="gen-btn" class="btn btn-primary fw-bold px-5" title="Generate marketing content for all platforms">
-                        <i class="bi bi-magic me-2"></i>Generate Ads
-                    </button>
+                    <div class="muted-counter mb-2">
+                        <small class="text-muted"><span id="prod-counter">0</span>/1000 · Tip: press <span class="kbd-hint">⌘/Ctrl</span> + <span class="kbd-hint">Enter</span> to generate ✨</small>
+                        <small class="text-muted">Draft autosaves 💾</small>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <button id="gen-btn" class="btn btn-primary fw-bold px-5" title="Generate marketing content for all platforms">
+                            <i class="bi bi-magic me-2"></i>Generate Ads ✨
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="clearAdDraft()" title="Clear the current draft">
+                            <i class="bi bi-eraser me-2"></i>Clear
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="pasteExample('electronics')" title="Fill with a sample product prompt">
+                            <i class="bi bi-lightning me-2"></i>Try Example ⚡
+                        </button>
+                    </div>
+
+                    <div class="quick-chips" aria-label="Quick prompts">
+                        <button class="chip" onclick="pasteExample('fashion')">👗 Fashion drop</button>
+                        <button class="chip" onclick="pasteExample('electronics')">🎧 Electronics deal</button>
+                        <button class="chip" onclick="pasteExample('food')">🍔 Food promo</button>
+                        <button class="chip" onclick="pasteExample('service')">🧰 Service offer</button>
+                        <button class="chip" onclick="pasteExample('event')">📅 Event invite</button>
+                    </div>
                 </div>
 
                 <div id="result-container" class="d-none">
@@ -288,6 +328,12 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Select Customers</label>
+                        <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                            <input id="customer-search" type="text" class="form-control" style="max-width: 360px;" placeholder="Search customers (name / phone / city)… 🔎" oninput="applyCustomerFilter()" />
+                            <span class="text-muted small" id="customer-selected-count">0 selected</span>
+                            <button class="btn btn-sm btn-outline-primary" onclick="selectAllFilteredCustomers()" title="Select all customers currently shown">Select All ✅</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="clearSelectedCustomers()" title="Clear selected customers">Clear 🧹</button>
+                        </div>
                         <div id="customer-select-list"></div>
                     </div>
 
@@ -652,8 +698,11 @@
             const ribbon = document.getElementById('notification-ribbon');
             const titleEl = document.getElementById('notification-title');
             const messageEl = document.getElementById('notification-message');
+            const iconEl = document.getElementById('notification-icon');
+            const icon = type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️';
             
             ribbon.className = `notification-ribbon ${type} show`;
+            if (iconEl) iconEl.textContent = icon;
             titleEl.textContent = title;
             messageEl.textContent = message;
             
@@ -666,15 +715,136 @@
         }
 
         function showError(message, suggestion = '') {
-            showNotification('error', 'Error: ', message + (suggestion ? ' Suggestion: ' + suggestion : ''));
+            showNotification('error', 'Oops! ', message + (suggestion ? ' 💡 ' + suggestion : ''));
         }
 
         function showSuccess(message) {
-            showNotification('success', 'Success: ', message);
+            showNotification('success', 'Done! ', message);
         }
 
         function showInfo(message) {
-            showNotification('info', 'Info: ', message);
+            showNotification('info', 'Heads up: ', message);
+        }
+
+        // --- Ad Generator UX helpers ---
+        const AD_DRAFT_KEY = 'ad_draft_v1';
+        function updateProdCounter() {
+            const t = document.getElementById('prod-info')?.value || '';
+            const el = document.getElementById('prod-counter');
+            if (el) el.textContent = String(t.length);
+        }
+        function saveAdDraft() {
+            try { localStorage.setItem(AD_DRAFT_KEY, document.getElementById('prod-info')?.value || ''); } catch {}
+        }
+        function restoreAdDraft() {
+            try {
+                const v = localStorage.getItem(AD_DRAFT_KEY);
+                const ta = document.getElementById('prod-info');
+                if (v && ta && !ta.value) ta.value = v;
+            } catch {}
+            updateProdCounter();
+        }
+        function clearAdDraft() {
+            const ta = document.getElementById('prod-info');
+            if (ta) ta.value = '';
+            saveAdDraft();
+            updateProdCounter();
+            showInfo('Draft cleared 🧼');
+        }
+        function pasteExample(kind) {
+            const examples = {
+                electronics: "Wireless Earbuds Pro — noise cancelling, 30h battery, fast charging, ₹2,999. Offer: 20% off this weekend. Target: young professionals in Hyderabad.",
+                fashion: "New summer collection — floral dresses & pastel tops, sizes XS–XL. Launch offer: Buy 2 get 1 free. Target: college students & working women in Bangalore.",
+                food: "Burger combo — spicy paneer burger + fries + drink, ₹199. Limited-time evening deal 5–8pm. Target: office crowd near MG Road.",
+                service: "Home appliance repair — same-day AC/fridge servicing, certified technicians, transparent pricing. Offer: free inspection today.",
+                event: "Grand opening 🎉 New store launch this Saturday 6pm. Free goodies for first 50 customers + live music + special discounts."
+            };
+            const ta = document.getElementById('prod-info');
+            if (!ta) return;
+            ta.value = examples[kind] || examples.electronics;
+            ta.focus();
+            saveAdDraft();
+            updateProdCounter();
+            showSuccess('Example added — hit Generate ✨');
+        }
+
+        // Keyboard shortcut: Cmd/Ctrl + Enter generates
+        document.addEventListener('keydown', (e) => {
+            const isMac = navigator.platform.toUpperCase().includes('MAC');
+            const mod = isMac ? e.metaKey : e.ctrlKey;
+            if (mod && e.key === 'Enter') {
+                const genBtn = document.getElementById('gen-btn');
+                if (genBtn && !genBtn.disabled) genBtn.click();
+            }
+        });
+
+        // --- SMS customer selection UX helpers ---
+        let customerFilterQuery = '';
+        function setSelectedCount() {
+            const el = document.getElementById('customer-selected-count');
+            if (el) el.textContent = `${selectedCustomers.length} selected`;
+        }
+        function applyCustomerFilter() {
+            customerFilterQuery = (document.getElementById('customer-search')?.value || '').trim().toLowerCase();
+            renderCustomerSelectList();
+        }
+        function filteredCustomers() {
+            if (!customerFilterQuery) return allCustomers || [];
+            return (allCustomers || []).filter(c => {
+                const blob = `${c.name || ''} ${c.phone || ''} ${c.city || ''} ${c.state || ''}`.toLowerCase();
+                return blob.includes(customerFilterQuery);
+            });
+        }
+        function selectAllFilteredCustomers() {
+            const list = filteredCustomers();
+            list.forEach(c => { if (!selectedCustomers.includes(c.id)) selectedCustomers.push(c.id); });
+            renderCustomerSelectList();
+            showSuccess(`Selected ${list.length} customers ✅`);
+        }
+        function clearSelectedCustomers() {
+            selectedCustomers = [];
+            renderCustomerSelectList();
+            showInfo('Selection cleared 🧹');
+        }
+        function renderCustomerSelectList() {
+            const container = document.getElementById('customer-select-list');
+            if (!container) return;
+
+            const list = filteredCustomers();
+            if (!allCustomers || allCustomers.length === 0) {
+                container.innerHTML = `<div class="empty-state">👋 No customers yet. Add customers in <strong>My Customers</strong> to run an SMS campaign.</div>`;
+                setSelectedCount();
+                return;
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="empty-state">No matches for <strong>${escapeHtml(customerFilterQuery)}</strong>. Try a different search 🔎</div>`;
+                setSelectedCount();
+                return;
+            }
+
+            container.innerHTML = list.map(c => {
+                const checked = selectedCustomers.includes(c.id);
+                return `
+                    <div class="customer-card ${checked ? 'selected' : ''}" onclick="toggleCustomer('${c.id}', event)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">${escapeHtml(c.name || 'Unnamed')}</div>
+                                <small class="text-muted">${escapeHtml(c.phone || '')}</small>
+                                <div class="mt-1">
+                                    <span class="badge bg-light text-dark">${escapeHtml(c.gender || 'N/A')}</span>
+                                    <span class="badge bg-light text-dark">${escapeHtml(String(c.age || 'N/A'))} yrs</span>
+                                    <span class="badge bg-light text-dark">${escapeHtml(c.city || 'N/A')}</span>
+                                </div>
+                            </div>
+                            <input type="checkbox" class="form-check-input" id="check-${c.id}" ${checked ? 'checked' : ''} onclick="event.stopPropagation();">
+                        </div>
+                        <small class="text-muted d-block mt-2">${escapeHtml(c.purchase_history || 'No purchase history')}</small>
+                    </div>
+                `;
+            }).join('');
+
+            setSelectedCount();
         }
 
         // Section Navigation
@@ -1070,29 +1240,24 @@
 
         // Load Customers for Campaign
         async function loadCustomersForCampaign() {
+            const container = document.getElementById('customer-select-list');
+            if (container) {
+                container.innerHTML = `
+                    <div class="soft-card p-3">
+                        <div class="skeleton skeleton-line" style="width: 80%;"></div>
+                        <div class="skeleton skeleton-line sm"></div>
+                        <div class="skeleton skeleton-line" style="width: 90%;"></div>
+                        <div class="skeleton skeleton-line sm"></div>
+                    </div>
+                `;
+            }
             const r = await fetch('/api/customers', { headers: getH() });
             if(r.ok) {
                 const data = await r.json();
                 allCustomers = data.customers;
                 selectedCustomers = [];
-                
-                document.getElementById('customer-select-list').innerHTML = allCustomers.map(c => `
-                    <div class="customer-card" onclick="toggleCustomer('${c.id}', event)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <div class="fw-bold">${c.name}</div>
-                                <small class="text-muted">${c.phone}</small>
-                                <div class="mt-1">
-                                    <span class="badge bg-light text-dark">${c.gender || 'N/A'}</span>
-                                    <span class="badge bg-light text-dark">${c.age || 'N/A'} yrs</span>
-                                    <span class="badge bg-light text-dark">${c.city || 'N/A'}</span>
-                                </div>
-                            </div>
-                            <input type="checkbox" class="form-check-input" id="check-${c.id}" onclick="event.stopPropagation();">
-                        </div>
-                        <small class="text-muted d-block mt-2">${c.purchase_history || 'No purchase history'}</small>
-                    </div>
-                `).join('');
+                setSelectedCount();
+                renderCustomerSelectList();
             }
         }
 
@@ -1112,6 +1277,7 @@
                 selectedCustomers = selectedCustomers.filter(c => c !== id);
                 checkbox.closest('.customer-card').classList.remove('selected');
             }
+            setSelectedCount();
         }
 
         // Load Customers List
@@ -1182,6 +1348,7 @@
             
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            showInfo('Generating… this may take a few seconds ⏳');
             
             try {
                 const r = await fetch('/api/generate', {
@@ -1199,7 +1366,7 @@
                 
                 if(d.status === 'success' && d.content) {
                     parseAd(d.content, info.substring(0, 20));
-                    showSuccess('Marketing content generated successfully!');
+                    showSuccess('Marketing content generated! 🎉');
                 } else {
                     throw new Error('Invalid response format');
                 }
@@ -1208,7 +1375,7 @@
                 document.getElementById('prod-info').focus();
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-magic me-2"></i>Generate Ads';
+                btn.innerHTML = '<i class="bi bi-magic me-2"></i>Generate Ads ✨';
             }
         };
 
@@ -1230,6 +1397,7 @@
             
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            showInfo('Building campaign… hang tight ⏳');
             
             try {
                 const r = await fetch('/api/sms/campaign', {
@@ -1269,7 +1437,7 @@
                 `).join('');
                 
                 document.getElementById('sms-result-container').classList.remove('d-none');
-                showSuccess('SMS campaign generated successfully!');
+                showSuccess('SMS campaign generated! 📩');
                 
                 // Clear form
                 document.getElementById('sms-product').value = '';
@@ -1288,6 +1456,17 @@
                 btn.innerHTML = '<i class="bi bi-magic me-2"></i>Generate Campaign';
             }
         };
+
+        // Draft + counter wiring
+        (function initAdDraftUX() {
+            const ta = document.getElementById('prod-info');
+            if (!ta) return;
+            restoreAdDraft();
+            ta.addEventListener('input', () => {
+                updateProdCounter();
+                saveAdDraft();
+            });
+        })();
 
         // Login
         document.getElementById('login-form').onsubmit = async (e) => {

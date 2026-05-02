@@ -6,26 +6,81 @@ cd "$ROOT_DIR"
 
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 VENV_DIR="${VENV_DIR:-.venv}"
-PORT="${PORT:-8000}"
 HOST="${HOST:-127.0.0.1}"
+
+# Load environment from .env if present (export variables for the server process).
+# shellcheck disable=SC1091
+if [[ -f ".env" ]]; then
+  set -a
+  source ".env"
+  set +a
+fi
+
+# Defaults (only apply if not set via environment or .env)
+PORT="${PORT:-8000}"
 ENV_MODE="${ENV_MODE:-test}"
+
+# Set INSTALL_DEPS=1 to force pip install (e.g. after editing api/requirements.txt).
+# Otherwise deps install only when the venv is new or requirements changed.
+INSTALL_DEPS="${INSTALL_DEPS:-0}"
+
+REQ_FILE="api/requirements.txt"
+STAMP_FILE="${VENV_DIR}/.requirements.sha256"
 
 if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
   echo "Error: '$PYTHON_BIN' not found. Set PYTHON_BIN (e.g. PYTHON_BIN=python)." >&2
   exit 1
 fi
 
+VENV_JUST_CREATED=0
 if [[ ! -d "$VENV_DIR" ]]; then
   echo "Creating virtualenv at $VENV_DIR"
   "$PYTHON_BIN" -m venv "$VENV_DIR"
+  VENV_JUST_CREATED=1
 fi
 
 # shellcheck disable=SC1091
 source "$VENV_DIR/bin/activate"
 
-echo "Installing dependencies"
-python -m pip install --upgrade pip >/dev/null
-python -m pip install -r api/requirements.txt
+req_hash() {
+  if [[ ! -f "$REQ_FILE" ]]; then
+    echo ""
+    return
+  fi
+  if command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$REQ_FILE" | awk '{print $1}'
+  elif command -v openssl >/dev/null 2>&1; then
+    openssl dgst -sha256 "$REQ_FILE" | awk '{print $NF}'
+  else
+    # Last resort: size+mtime (not ideal but avoids failing on odd systems)
+    stat -f "%z-%m" "$REQ_FILE" 2>/dev/null || stat -c "%s-%Y" "$REQ_FILE" 2>/dev/null || echo "unknown"
+  fi
+}
+
+NEED_INSTALL=0
+if [[ "$INSTALL_DEPS" == "1" || "$INSTALL_DEPS" == "true" || "$INSTALL_DEPS" == "yes" ]]; then
+  NEED_INSTALL=1
+elif [[ "$VENV_JUST_CREATED" -eq 1 ]]; then
+  NEED_INSTALL=1
+elif [[ -f "$REQ_FILE" ]]; then
+  CUR_HASH="$(req_hash)"
+  if [[ ! -f "$STAMP_FILE" ]] || [[ "$(cat "$STAMP_FILE" 2>/dev/null || true)" != "$CUR_HASH" ]]; then
+    NEED_INSTALL=1
+  fi
+fi
+
+if [[ "$NEED_INSTALL" -eq 1 ]]; then
+  if [[ ! -f "$REQ_FILE" ]]; then
+    echo "Warning: $REQ_FILE not found; skipping pip install." >&2
+  else
+    echo "Installing / updating Python dependencies (requirements changed or first run)…"
+    python -m pip install --upgrade pip >/dev/null
+    python -m pip install -r "$REQ_FILE"
+    req_hash > "$STAMP_FILE"
+  fi
+else
+  echo "Skipping pip install (unchanged). Run INSTALL_DEPS=1 ./run.sh to reinstall."
+fi
 
 if [[ ! -f ".env" ]]; then
   if [[ -f ".env.example" ]]; then
@@ -47,4 +102,3 @@ echo "Open http://$HOST:$PORT"
 echo
 
 exec python -m uvicorn api.main:app --reload --host "$HOST" --port "$PORT"
-

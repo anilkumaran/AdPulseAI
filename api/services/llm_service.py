@@ -128,14 +128,12 @@ class BaseAdService(ABC):
 
 
 class OllamaAdService(BaseAdService):
-    """Local model via ollama.Client().generate(); model name from OLLAMA_MODEL env only."""
+    """Local model via ollama.Client().generate()."""
 
-    def __init__(self):
-        self.model = os.getenv("OLLAMA_MODEL", "").strip()
+    def __init__(self, model: str):
+        self.model = (model or "").strip()
         if not self.model:
-            raise ValueError(
-                "OLLAMA_MODEL is not set. Add it to your environment (e.g. OLLAMA_MODEL=llama2 in .env)."
-            )
+            raise ValueError("Ollama model name is empty.")
         print(f"🚀 [System] LLM: Ollama — model {self.model!r} (client.generate)")
         self._client = OllamaClient(timeout=OLLAMA_TIMEOUT_SEC)
         self.settings_svc = get_settings_service()
@@ -208,13 +206,14 @@ class MockLlmService(BaseAdService):
             product_name = "Product"
             if "PRODUCT:" in product_info:
                 product_line = product_info.split("PRODUCT:")[1].split(".")[0].strip()
-                product_name = (
-                    product_line.split("-")[0].strip()
-                    if "-" in product_line
-                    else product_line[:30]
-                )
+                # Keep names readable without aggressive truncation.
+                # Only split on a *clear* "name - details" pattern (space-hyphen-space).
+                base = product_line.split(" - ")[0].strip() if " - " in product_line else product_line
+                base = " ".join(base.split())
+                product_name = base if len(base) <= 70 else (base[:67].rstrip() + "…")
             else:
-                product_name = product_info[:50].strip()
+                base = " ".join(product_info.strip().split())
+                product_name = base if len(base) <= 70 else (base[:67].rstrip() + "…")
 
             if prompt_type == "sms_campaign":
                 customer_name = "Customer"
@@ -301,25 +300,246 @@ TEXTMESSAGE:
 New arrival! Order now!"""
 
 
-def _ollama_env_enabled() -> bool:
-    """
-    True → local Ollama (OLLAMA_MODEL must be set in env when this backend is used).
-    Uses OLLAMA if set (truthy: 1/true/yes/on; falsy: 0/false/no/off).
-    If OLLAMA is unset/empty, falls back to legacy LLM_PROVIDER=ollama|local|llama|llama2.
-    """
+def _ollama_env_raw() -> str | None:
+    """None if OLLAMA is unset or empty; otherwise the trimmed value."""
     raw = os.getenv("OLLAMA")
-    if raw is not None and raw.strip() != "":
-        return raw.strip().lower() in ("1", "true", "yes", "on")
-    legacy = (os.getenv("LLM_PROVIDER") or "").strip().lower()
-    return legacy in ("ollama", "local", "llama", "llama2")
+    if raw is None:
+        return None
+    s = raw.strip()
+    return s if s else None
+
+
+def _ollama_truthy(val: str) -> bool:
+    return val.strip().lower() in ("1", "true", "yes", "on")
+
+
+def _ollama_falsy(val: str) -> bool:
+    return val.strip().lower() in ("0", "false", "no", "off")
+
+
+def _ollama_force_local() -> bool:
+    """
+    True → use Ollama only (no Gemini fallback). Set OLLAMA=true.
+    """
+    raw = _ollama_env_raw()
+    return raw is not None and _ollama_truthy(raw)
+
+
+def _ollama_skip_local() -> bool:
+    """
+    True → do not use Ollama; use Gemini. Set OLLAMA=false.
+    """
+    raw = _ollama_env_raw()
+    return raw is not None and _ollama_falsy(raw)
+
+
+def _ollama_try_local_default() -> bool:
+    """
+    When OLLAMA is unset: try Ollama first, allow Gemini fallback.
+    """
+    return _ollama_env_raw() is None
+
+
+def _ollama_model_candidates() -> list[str]:
+    """
+    Ordered list of models to try in Ollama.
+
+    Precedence:
+    1) OLLAMA_MODEL (if set)
+    2) LLM_MODEL_CANDIDATES (comma-separated)
+    3) Default to a Llama model ("llama2")
+    """
+    candidates: list[str] = []
+
+    env_model = (os.getenv("OLLAMA_MODEL") or "").strip()
+    if env_model:
+        candidates.append(env_model)
+
+    extra = (os.getenv("LLM_MODEL_CANDIDATES") or "").strip()
+    if extra:
+        for part in extra.split(","):
+            m = part.strip()
+            if m:
+                candidates.append(m)
+
+    if not candidates:
+        candidates = ["llama2"]
+
+    # de-dupe, preserve order
+    out: list[str] = []
+    seen: set[str] = set()
+    for m in candidates:
+        if m not in seen:
+            out.append(m)
+            seen.add(m)
+    return out
+
+
+def _ollama_model_name_from_obj(item) -> str | None:
+    """Normalize various ollama list() item shapes to a model string like 'llama2:latest'."""
+    if isinstance(item, str):
+        return item.strip() or None
+    if isinstance(item, dict):
+        name = item.get("name") or item.get("model")
+        return name.strip() if isinstance(name, str) and name.strip() else None
+    # pydantic-like objects (ollama._types.Model)
+    for attr in ("model", "name"):
+        v = getattr(item, attr, None)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+
+def _ollama_base_tag(model_name: str) -> str:
+    """'llama2:latest' -> 'llama2' ; 'llama3.2' -> 'llama3.2'"""
+    s = model_name.strip()
+    if ":" in s:
+        return s.split(":", 1)[0].strip()
+    return s
+
+
+def _ollama_pick_installed_model(installed: set[str], want: str) -> str | None:
+    """
+    Map a requested model (often tag-less, e.g. 'llama2') to an installed Ollama model
+    string (often 'llama2:latest').
+    """
+    want = want.strip()
+    if not want:
+        return None
+
+    # Exact match
+    if want in installed:
+        return want
+
+    want_base = _ollama_base_tag(want)
+    # Prefer exact base:latest if present
+    candidate = f"{want_base}:latest"
+    if candidate in installed:
+        return candidate
+
+    # Otherwise pick the first installed model whose base tag matches
+    for name in sorted(installed):
+        if _ollama_base_tag(name) == want_base:
+            return name
+    return None
+
+
+def _ollama_available_model_set(client: OllamaClient) -> set[str] | None:
+    """
+    Returns a set of installed model names, or None if Ollama is unreachable.
+    """
+    try:
+        data = client.list()
+    except Exception:
+        return None
+
+    models = None
+    if isinstance(data, dict):
+        models = data.get("models")
+    else:
+        models = getattr(data, "models", None)
+
+    if models is None:
+        return set()
+
+    names: set[str] = set()
+    if isinstance(models, list):
+        for item in models:
+            n = _ollama_model_name_from_obj(item)
+            if n:
+                names.add(n)
+    return names
+
+
+def _try_create_ollama_backend() -> BaseAdService | None:
+    """
+    Attempt Ollama first. If it's not reachable or no candidate model is installed,
+    return None so we can fall back to Gemini.
+    """
+    client = OllamaClient(timeout=OLLAMA_TIMEOUT_SEC)
+    available = _ollama_available_model_set(client)
+    if available is None:
+        print(f"⚠️  [System] Ollama not reachable at {_ollama_host_hint()} — falling back to Gemini")
+        return None
+
+    candidates = _ollama_model_candidates()
+    chosen_name: str | None = None
+    for want in candidates:
+        picked = _ollama_pick_installed_model(available, want)
+        if picked:
+            chosen_name = picked
+            break
+
+    if not chosen_name:
+        print(
+            "⚠️  [System] No configured Ollama model is installed. "
+            f"Tried: {candidates}. Installed: {sorted(available)}. Falling back to Gemini."
+        )
+        return None
+
+    svc = OllamaAdService(model=chosen_name)
+    # Reuse the client we already used for list() to avoid a second connection setup.
+    svc._client = client
+    return svc
+
+
+def _create_ollama_backend_required() -> BaseAdService:
+    """
+    OLLAMA=true: Ollama only — never fall back to Gemini.
+    """
+    client = OllamaClient(timeout=OLLAMA_TIMEOUT_SEC)
+    available = _ollama_available_model_set(client)
+    if available is None:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                f"OLLAMA=true but cannot connect to Ollama at {_ollama_host_hint()}. "
+                "Start Ollama (`ollama serve`) or set OLLAMA_HOST. "
+                "To use Gemini instead, set OLLAMA=false and provide GEMINI_API_KEY."
+            ),
+        )
+
+    candidates = _ollama_model_candidates()
+    chosen_name: str | None = None
+    for want in candidates:
+        picked = _ollama_pick_installed_model(available, want)
+        if picked:
+            chosen_name = picked
+            break
+
+    if not chosen_name:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "OLLAMA=true but none of the configured models are installed in Ollama. "
+                f"Tried: {candidates}. Installed: {sorted(available)}. "
+                f"Run e.g. `ollama pull {candidates[0]}` or set OLLAMA_MODEL / LLM_MODEL_CANDIDATES."
+            ),
+        )
+
+    svc = OllamaAdService(model=chosen_name)
+    svc._client = client
+    return svc
 
 
 def _create_backend_for_env() -> BaseAdService:
     if os.getenv("ENV_MODE", "test").strip().lower() == "test":
         return MockLlmService()
 
-    if _ollama_env_enabled():
-        return OllamaAdService()
+    # OLLAMA=true → Ollama only (no Gemini fallback).
+    if _ollama_force_local():
+        return _create_ollama_backend_required()
+
+    # OLLAMA=false → Gemini only.
+    if _ollama_skip_local():
+        return GeminiAdService()
+
+    # OLLAMA unset: try Ollama first, fall back to Gemini.
+    if _ollama_try_local_default():
+        local = _try_create_ollama_backend()
+        if local is not None:
+            return local
+
     return GeminiAdService()
 
 

@@ -205,6 +205,114 @@
     ],
     "ad_generation_history": [
         {
+            "id": 44,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Grand opening \ud83c\udf89 New store launch this Saturday 6pm. Free goodies for first 50 customers + live music",
+            "prompt_preview": "Grand open...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Get ready to shop 'til you drop! \ud83d\udecd\ufe0f Sagar Fashion is opening its doors this Saturday at 6pm, and we're pulling out all the stops for our grand opening! \ud83d\udc83\ud83d\udd7a First 50 customers will receive free goodies, and we've got live music lined up to keep you entertained. Plus, enjoy special discounts on our latest collection! Don't miss out \u2013 see you there! \ud83c\udf89 #GrandOpening #SagarFashion #ShopLocal #FashionRevolution\nINSTAGRAM:\n\ud83d\udea8 Gear up for a fashionable Friday! \ud83d\udc84 This Saturday, Sagar Fashion is opening its doors at 6pm, and we're giving away free goodies to the first 50 customers! \ud83c\udf81 Plus, enjoy live music and special discounts on our latest collection. Don't miss out \u2013 come join the fun! \ud83d\udc83\ud83d\udd7a #GrandOpening #SagarFashion #ShopLocal #FashionRevolution\nTWITTER:\n\ud83d\udd25 Get ready to shop 'til you drop! \ud83d\udecd\ufe0f Sagar Fashion's grand opening this Saturday at 6pm is going to be a blast! First 50 customers get free goodies, live music, and special discounts on our latest collection. Don't miss out \u2013 join us for the fun! #GrandOpening #SagarFashion #ShopLocal\nWHATSAPP:\nHey there, fashionistas! \ud83d\udc83\ud83d\udd7a This Saturday at 6pm, Sagar Fashion is opening its doors and we're celebrating with free goodies for the first 50 customers! Live music and special discounts on our latest collection \u2013 don't miss out! See you there! #GrandOpening #SagarFashion #ShopLocal\nTEXTMESSAGE:\nHey friends! \ud83d\udc4b This Saturday at 6pm, Sagar Fashion is opening its doors and we're throwing a grand party! First 50 customers get free goodies, live music, and special discounts on our latest collection. Come join the fun \u2013 see you there! #GrandOpening #SagarFashion #ShopLocal",
+            "campaign_id": null,
+            "created_at": "2026-05-02T12:27:25.083365",
+            "timestamp": "2026-05-02 12:27"
+        },
+        {
+            "id": 43,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Wireless earbuds",
+            "prompt_preview": "Wireless e...",
+            "full_content": "SMS Campaign: CAMP20260502122503\nProduct: Wireless earbuds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hey Sneha \ud83d\ude0a\n\ud83c\udf89 Exciting news! Our wireless earbuds are now available for a limited time only at an un...\n- Vikram Singh: \ud83d\udcf2 Hey Vikram Singh! \ud83d\udc4b\nExciting news - our wireless earbuds are now available at a special introducto...\n",
+            "campaign_id": "CAMP20260502122503",
+            "created_at": "2026-05-02T12:25:03.265707",
+            "timestamp": "2026-05-02 12:25"
+        },
+        {
+            "id": 42,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Hp latop core i5",
+            "prompt_preview": "Hp latop c...",
+            "full_content": "FACEBOOK:\n\ud83d\ude80 Level up your laptop game with Sagar Fashion's Hp laptop core i5! \ud83d\udcbb\u2728 With its sleek design and powerful performance, you'll be the envy of every office space. Get yours today and take your productivity to new heights! \ud83d\ude80 #SagarFashion #LaptopGoals #ProductivityPowerhouse\n\nINSTAGRAM:\nSay goodbye to slow laptops and hello to Sagar Fashion's Hp laptop core i5! \ud83d\udcbb\u2728 This beauty is not only stylish but also packs a punch when it comes to performance. Get yours now and take your work to the next level! \ud83d\udcaa #SagarFashion #LaptopLove #ProductivityPower\n\nTWITTER:\nUpgrade your laptop game with Sagar Fashion's Hp laptop core i5! \ud83d\ude80\u2728 Fast, powerful, and sleek, this laptop is perfect for work or play. Get yours today and level up your productivity! #SagarFashion #LaptopGoals #ProductivityPower\n\nWHATSAPP:\nHey there! Looking for a laptop that's both stylish and powerful? Look no further than Sagar Fashion's Hp laptop core i5! \ud83d\udcbb\u2728 With its fast performance and sleek design, this laptop is perfect for work or play. Get yours today! #SagarFashion #LaptopLove #ProductivityPower\n\nTEXTMESSAGE:\nHey there! Need a laptop that can keep up with your busy lifestyle? Look no further than Sagar Fashion's Hp laptop core i5! \ud83d\udcbb\u2728 This powerful and stylish laptop will help you tackle any task with ease. Get yours today! #SagarFashion #LaptopGoals #ProductivityPower",
+            "campaign_id": null,
+            "created_at": "2026-04-30T13:14:19.405147",
+            "timestamp": "2026-04-30 13:14"
+        },
+        {
+            "id": 41,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "HP Laptop",
+            "prompt_preview": "HP Laptop",
+            "full_content": "SMS Campaign: CAMP20260430131254\nProduct: HP Laptop\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: \ud83d\udcf1 Hey Sneha! \ud83d\ude03\n\ud83c\udf89 Exclusive Offer for You! \ud83c\udf8a\nGet an HP Laptop at a Discounted Price Only Today! \ud83d\udcb0\nOrd...\n- Arjun Mehta Karav: \ud83d\udcf1 Hey Arjun! \ud83d\ude03\nExciting news! You're in luck! \ud83c\udf89\nCheck out our flash sale on HP Laptops at Sagar Fash...\n",
+            "campaign_id": "CAMP20260430131254",
+            "created_at": "2026-04-30T13:12:55.012127",
+            "timestamp": "2026-04-30 13:12"
+        },
+        {
+            "id": 40,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260430131211\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Sneha Reddy: Hey Sneha \ud83d\ude0a\nGet ready for a laptop that's truly exceptional! \ud83d\udcbb Explore our latest collection at http...\n",
+            "campaign_id": "CAMP20260430131211",
+            "created_at": "2026-04-30T13:12:11.498703",
+            "timestamp": "2026-04-30 13:12"
+        },
+        {
+            "id": 39,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging, \u20b92,999. Offer: 20% off this wee",
+            "prompt_preview": "Wireless E...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging\u2026 - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging\u2026! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging\u2026 is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging\u2026 with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging\u2026! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "campaign_id": null,
+            "created_at": "2026-04-27T16:07:41.195874",
+            "timestamp": "2026-04-27 16:07"
+        },
+        {
+            "id": 38,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging, \u20b92,999. Offer: 20% off this wee",
+            "prompt_preview": "Wireless E...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Wireless Earbuds Pro \u2014 noise c - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Wireless Earbuds Pro \u2014 noise c! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Wireless Earbuds Pro \u2014 noise c is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Wireless Earbuds Pro \u2014 noise c with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Wireless Earbuds Pro \u2014 noise c! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "campaign_id": null,
+            "created_at": "2026-04-27T16:06:30.759932",
+            "timestamp": "2026-04-27 16:06"
+        },
+        {
+            "id": 37,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Wireless Earbuds Pro \u2014 noise cancelling, 30h battery, fast charging, \u20b92,999. Offer: 20% off this wee",
+            "prompt_preview": "Wireless E...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing Wireless Earbuds Pro \u2014 noise c - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to Wireless Earbuds Pro \u2014 noise c! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 Wireless Earbuds Pro \u2014 noise c is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new Wireless Earbuds Pro \u2014 noise c with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: Wireless Earbuds Pro \u2014 noise c! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "campaign_id": null,
+            "created_at": "2026-04-27T15:59:21.325733",
+            "timestamp": "2026-04-27 15:59"
+        },
+        {
+            "id": 36,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "New summer collection \u2014 floral dresses & pastel tops, sizes XS\u2013XL. Launch offer: Buy 2 get 1 free. T",
+            "prompt_preview": "New summer...",
+            "full_content": "FACEBOOK:\n\ud83c\udf89 Introducing New summer collection \u2014 floral - Your Perfect Choice!\n\nDiscover amazing features and unbeatable value. Limited time offer - don't miss out!\n\n\ud83d\udcb0 Special Price Available\n\ud83d\ude9a Free Delivery\n\u2b50 Premium Quality\n\nShop now and experience the difference!\n\n#NewArrival #SpecialOffer #ShopNow\n\nINSTAGRAM:\n\u2728 Say hello to New summer collection \u2014 floral! \u2728\n\nYour lifestyle upgrade is here! \ud83c\udfaf\n\n\u2705 Premium quality\n\u2705 Best price guaranteed\n\u2705 Fast delivery\n\nTag a friend who needs this! \ud83d\udc47\n\n#Shopping #Lifestyle #MustHave #Trending\n\nTWITTER:\n\ud83d\udd25 New summer collection \u2014 floral is here!\n\nPremium quality + Great price = Perfect deal! \ud83c\udfaf\n\nLimited stock available. Order now! \ud83d\uded2\n\n#Deals #Shopping #NewProduct\n\nWHATSAPP:\nHi there! \ud83d\udc4b\n\nExcited to share our new New summer collection \u2014 floral with you!\n\n\u2705 Premium quality\n\u2705 Special pricing\n\u2705 FREE delivery\n\nInterested? Let me know! \ud83d\ude0a\n\nTEXTMESSAGE:\nNew arrival: New summer collection \u2014 floral! Premium quality, special price, FREE delivery. Order now! Reply YES for details.",
+            "campaign_id": null,
+            "created_at": "2026-04-27T15:54:28.996372",
+            "timestamp": "2026-04-27 15:54"
+        },
+        {
             "id": 35,
             "user_id": "merchant2",
             "merchant_id": "MERCH002",
@@ -574,6 +682,53 @@
     ],
     "sms_campaigns": [
         {
+            "id": 20,
+            "campaign_id": "CAMP20260502122503",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Wireless earbuds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST002"
+            ],
+            "created_at": "2026-05-02T12:25:03.246778",
+            "timestamp": "2026-05-02 12:25:03"
+        },
+        {
+            "id": 19,
+            "campaign_id": "CAMP20260430131254",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "HP Laptop",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST003"
+            ],
+            "created_at": "2026-04-30T13:12:54.798777",
+            "timestamp": "2026-04-30 13:12:54"
+        },
+        {
+            "id": 18,
+            "campaign_id": "CAMP20260430131211",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001"
+            ],
+            "created_at": "2026-04-30T13:12:11.224592",
+            "timestamp": "2026-04-30 13:12:11"
+        },
+        {
             "id": 17,
             "campaign_id": "CAMP20260427154543",
             "user_id": "merchant2",
@@ -854,14 +1009,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 35,
+        "total_api_calls": 44,
         "total_sms_sent": 10,
-        "total_campaigns": 16,
+        "total_campaigns": 19,
         "total_merchants": 3,
         "total_customers": 3,
         "total_users": 5,
-        "last_api_call_timestamp": "2026-04-27T15:46:09.488958",
-        "last_updated": "2026-04-27T15:46:09.488999"
+        "last_api_call_timestamp": "2026-05-02T12:27:25.083365",
+        "last_updated": "2026-05-02T12:27:25.083422"
     },
     "purchase_history": [
         {

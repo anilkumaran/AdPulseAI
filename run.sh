@@ -87,12 +87,24 @@ fi
 
 export ENV_MODE
 
+UVICORN_RELOAD="${UVICORN_RELOAD:-1}"
+WORKERS="${WORKERS:-1}"
+
 echo "Starting AdPulseAI"
 echo "- ENV_MODE=$ENV_MODE"
 echo "- HOST=$HOST"
 echo "- PORT=$PORT"
+echo "- UVICORN_RELOAD=$UVICORN_RELOAD WORKERS=$WORKERS"
 echo
 echo "Open http://$HOST:$PORT"
 echo
 
-exec python -m uvicorn api.main:app --reload --host "$HOST" --port "$PORT"
+if [[ "$UVICORN_RELOAD" == "1" || "$UVICORN_RELOAD" == "true" || "$UVICORN_RELOAD" == "yes" ]]; then
+  exec python -m uvicorn api.main:app --reload --host "$HOST" --port "$PORT"
+fi
+
+CMD=(python -m uvicorn api.main:app --host "$HOST" --port "$PORT")
+if [[ "${WORKERS}" =~ ^[0-9]+$ ]] && [[ "$WORKERS" -gt 1 ]]; then
+  CMD+=(--workers "$WORKERS")
+fi
+exec "${CMD[@]}"

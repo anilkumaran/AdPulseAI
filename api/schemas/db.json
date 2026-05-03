@@ -71,6 +71,18 @@
             "is_active": true,
             "created_at": "2026-03-02T15:35:54.854949",
             "updated_at": "2026-03-02T15:35:54.854990"
+        },
+        {
+            "id": 103,
+            "username": "emp3",
+            "password_hash": "$2b$12$Jj0.LwaTVG1HvZRfYczhj..qoqxh4yfu/H6uIuEA3FQy43nV2GXka",
+            "role": "employee",
+            "merchant_id": "MERCH002",
+            "name": "Alex Shapoval",
+            "email": "emp3.employee@sagarfashion.com",
+            "is_active": true,
+            "created_at": "2026-05-03T11:45:07.816979",
+            "updated_at": "2026-05-03T11:45:07.816985"
         }
     ],
     "merchants": [
@@ -201,9 +213,54 @@
             "is_active": true,
             "created_at": "2025-12-15T10:00:00Z",
             "updated_at": "2026-02-21T23:11:23.826252"
+        },
+        {
+            "id": "CUST004",
+            "merchant_id": "MERCH002",
+            "name": "Stephen Hawking",
+            "phone": "9000000024",
+            "email": "stephen.hawking.customer@gmail.com",
+            "gender": "Male",
+            "age": 30,
+            "city": "New York",
+            "state": "Telangana",
+            "total_purchases": 0,
+            "total_spent": 0,
+            "last_purchase_date": null,
+            "preferences_categories": [],
+            "opt_in_sms": true,
+            "opt_in_whatsapp": true,
+            "opt_in_email": true,
+            "is_active": true,
+            "created_at": "2026-05-03T11:47:14.976529",
+            "updated_at": "2026-05-03T11:47:14.976549"
         }
     ],
     "ad_generation_history": [
+        {
+            "id": 50,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "Earbuds",
+            "prompt_preview": "Earbuds",
+            "full_content": "SMS Campaign: CAMP20260503114128\nProduct: Earbuds\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hey Sneha! \u2728 New earbuds just dropped at Sagar Fashion, perfect for your Hyderabad vibes! Grab yours...\n- Vikram Singh: Hey Vikram! Your next pair of earbuds just dropped! \ud83d\udd25 Special launch deals await you at Sagar Fashio...\n",
+            "campaign_id": "CAMP20260503114128",
+            "created_at": "2026-05-03T11:41:28.883768",
+            "timestamp": "2026-05-03 11:41"
+        },
+        {
+            "id": 49,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "i7 laptop",
+            "prompt_preview": "i7 laptop",
+            "full_content": "FACEBOOK:\nHyderabad, meet your new superpower! \u2728 The Sagar Fashion i7 laptop is here to redefine your productivity & style. Blazing fast, stunningly sleek \u2013 perfect for the multi-tasking woman on the go. Elevate your everyday!\n#SagarFashion #i7Laptop #HyderabadTech #PowerYourPassion #WorkPlay\n\nContact information:\nhttps://sagarfashion.com/i7-laptop\n+919876543210\n\nINSTAGRAM:\nUnleash your brilliance with the Sagar Fashion i7 laptop! \ud83d\ude80 This beauty isn't just about power; it's about making a statement. Flawless performance, elegant design \u2013 your perfect partner for work & creativity.\n#SagarFashion #i7Laptop #TechStyle #HyderabadLife #InnovateWithStyle\n\nContact information:\nhttps://sagarfashion.com/i7-laptop\n+919876543210\n\nTWITTER:\nBoost your hustle! The new Sagar Fashion i7 laptop delivers top-tier performance & sleek design, perfect for dynamic women in Hyderabad. Experience speed & style in one device. Get yours!\n#SagarFashion #i7Laptop #Hyderabad #TechUpgrade\n\nContact information:\nhttps://sagarfashion.com/i7-laptop\n+919876543210\n\nWHATSAPP:\nHi! \ud83d\udc4b Ready for an upgrade that truly performs? The new Sagar Fashion i7 laptop is here! It's super fast, super sleek, and designed to keep up with your dynamic life. Don't miss out!\n\nContact information:\nhttps://sagarfashion.com/i7-laptop\n+919876543210\n\nTEXTMESSAGE:\nPower up your potential! Get the new Sagar Fashion i7 laptop. Fast, stylish, perfect for your daily hustle. Upgrade today! Find out more:\n\nContact information:\nhttps://sagarfashion.com/i7-laptop\n+919876543210",
+            "campaign_id": null,
+            "created_at": "2026-05-03T11:39:16.375848",
+            "timestamp": "2026-05-03 11:39"
+        },
         {
             "id": 48,
             "user_id": "merchant2",
@@ -730,6 +787,22 @@
     ],
     "sms_campaigns": [
         {
+            "id": 22,
+            "campaign_id": "CAMP20260503114128",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Earbuds",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST002"
+            ],
+            "created_at": "2026-05-03T11:41:28.863755",
+            "timestamp": "2026-05-03 11:41:28"
+        },
+        {
             "id": 21,
             "campaign_id": "CAMP20260502125333",
             "user_id": "merchant2",
@@ -1073,14 +1146,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 48,
+        "total_api_calls": 50,
         "total_sms_sent": 10,
-        "total_campaigns": 20,
+        "total_campaigns": 21,
         "total_merchants": 3,
-        "total_customers": 3,
-        "total_users": 5,
-        "last_api_call_timestamp": "2026-05-03T11:19:00.088965",
-        "last_updated": "2026-05-03T11:19:00.089034"
+        "total_customers": 4,
+        "total_users": 6,
+        "last_api_call_timestamp": "2026-05-03T11:41:28.883768",
+        "last_updated": "2026-05-03T11:41:28.883870"
     },
     "purchase_history": [
         {

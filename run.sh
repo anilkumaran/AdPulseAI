@@ -8,7 +8,6 @@ PYTHON_BIN="${PYTHON_BIN:-python3}"
 VENV_DIR="${VENV_DIR:-.venv}"
 HOST="${HOST:-127.0.0.1}"
 
-# Load environment from .env if present (export variables for the server process).
 # shellcheck disable=SC1091
 if [[ -f ".env" ]]; then
   set -a
@@ -16,12 +15,8 @@ if [[ -f ".env" ]]; then
   set +a
 fi
 
-# Defaults (only apply if not set via environment or .env)
 PORT="${PORT:-8000}"
 ENV_MODE="${ENV_MODE:-test}"
-
-# Set INSTALL_DEPS=1 to force pip install (e.g. after editing api/requirements.txt).
-# Otherwise deps install only when the venv is new or requirements changed.
 INSTALL_DEPS="${INSTALL_DEPS:-0}"
 
 REQ_FILE="api/requirements.txt"
@@ -52,7 +47,6 @@ req_hash() {
   elif command -v openssl >/dev/null 2>&1; then
     openssl dgst -sha256 "$REQ_FILE" | awk '{print $NF}'
   else
-    # Last resort: size+mtime (not ideal but avoids failing on odd systems)
     stat -f "%z-%m" "$REQ_FILE" 2>/dev/null || stat -c "%s-%Y" "$REQ_FILE" 2>/dev/null || echo "unknown"
   fi
 }

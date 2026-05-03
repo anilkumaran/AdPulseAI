@@ -1,14 +1,17 @@
 import os
 from datetime import datetime, timedelta
-from jose import jwt
-from passlib.context import CryptContext
+
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from jose import jwt
+from jose.exceptions import JWTError
+from passlib.context import CryptContext
 
 SECRET_KEY = os.getenv("SECRET_KEY", "adpulse_secret_2026")
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 class AuthService:
     def hash_password(self, password): return pwd_context.hash(password)
@@ -21,7 +24,7 @@ class AuthService:
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     
     def get_user_merchant_id(self, username):
-        """Get merchant_id for a user from database"""
+        """Merchant id for username from db."""
         from .db_service import db_svc
         db = db_svc.get_data()
         user = db.get("users", {}).get(username, {})
@@ -30,7 +33,8 @@ class AuthService:
     async def get_current_user(self, token: str = Depends(oauth2_scheme)):
         try:
             return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        except:
+        except JWTError:
             raise HTTPException(status_code=401, detail="Invalid Session")
+
 
 auth_svc = AuthService()

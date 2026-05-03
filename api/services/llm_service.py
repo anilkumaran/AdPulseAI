@@ -12,15 +12,10 @@ from ollama import ResponseError as OllamaResponseError
 from .prompt_service import build_generation_prompt
 from .settings_service import get_settings_service
 
-# Repo-root .env (not cwd): predictable when uvicorn is started from another directory.
-# override=True: .env wins over stray exports (e.g. OLLAMA=true in the shell while .env says false).
 _DOTENV_PATH = Path(__file__).resolve().parents[2] / ".env"
 load_dotenv(_DOTENV_PATH, override=True)
 
-# Ollama: model name must be set in the environment (OLLAMA_MODEL). Host: OLLAMA_HOST or client default.
 OLLAMA_TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC", "300"))
-
-# When OLLAMA is off/unset, model is always gemini-2.5-flash (cloud).
 GEMINI_MODEL_NAME = "gemini-2.5-flash"
 
 INVALID_GEMINI_KEY_MESSAGE = (
@@ -304,7 +299,7 @@ New arrival! Order now!"""
 
 
 def _ollama_env_raw() -> str | None:
-    """None if OLLAMA is unset or empty; otherwise the trimmed value."""
+    """Trimmed OLLAMA env or None."""
     raw = os.getenv("OLLAMA")
     if raw is None:
         return None
@@ -321,37 +316,24 @@ def _ollama_falsy(val: str) -> bool:
 
 
 def _ollama_force_local() -> bool:
-    """
-    True → use Ollama only (no Gemini fallback). Set OLLAMA=true.
-    """
+    """OLLAMA=true: Ollama only."""
     raw = _ollama_env_raw()
     return raw is not None and _ollama_truthy(raw)
 
 
 def _ollama_skip_local() -> bool:
-    """
-    True → do not use Ollama; use Gemini. Set OLLAMA=false.
-    """
+    """OLLAMA=false: Gemini only."""
     raw = _ollama_env_raw()
     return raw is not None and _ollama_falsy(raw)
 
 
 def _ollama_try_local_default() -> bool:
-    """
-    When OLLAMA is unset: try Ollama first, allow Gemini fallback.
-    """
+    """OLLAMA unset: try Ollama, then Gemini."""
     return _ollama_env_raw() is None
 
 
 def _ollama_model_candidates() -> list[str]:
-    """
-    Ordered list of models to try in Ollama.
-
-    Precedence:
-    1) OLLAMA_MODEL (if set)
-    2) LLM_MODEL_CANDIDATES (comma-separated)
-    3) Default to a Llama model ("llama2")
-    """
+    """Ollama model order: OLLAMA_MODEL, then LLM_MODEL_CANDIDATES, else llama2."""
     candidates: list[str] = []
 
     env_model = (os.getenv("OLLAMA_MODEL") or "").strip()
@@ -368,7 +350,6 @@ def _ollama_model_candidates() -> list[str]:
     if not candidates:
         candidates = ["llama2"]
 
-    # de-dupe, preserve order
     out: list[str] = []
     seen: set[str] = set()
     for m in candidates:
@@ -379,13 +360,12 @@ def _ollama_model_candidates() -> list[str]:
 
 
 def _ollama_model_name_from_obj(item) -> str | None:
-    """Normalize various ollama list() item shapes to a model string like 'llama2:latest'."""
+    """Normalize ollama list() entries to e.g. llama2:latest."""
     if isinstance(item, str):
         return item.strip() or None
     if isinstance(item, dict):
         name = item.get("name") or item.get("model")
         return name.strip() if isinstance(name, str) and name.strip() else None
-    # pydantic-like objects (ollama._types.Model)
     for attr in ("model", "name"):
         v = getattr(item, attr, None)
         if isinstance(v, str) and v.strip():
@@ -402,25 +382,19 @@ def _ollama_base_tag(model_name: str) -> str:
 
 
 def _ollama_pick_installed_model(installed: set[str], want: str) -> str | None:
-    """
-    Map a requested model (often tag-less, e.g. 'llama2') to an installed Ollama model
-    string (often 'llama2:latest').
-    """
+    """Match tag-less name (e.g. llama2) to an installed model string."""
     want = want.strip()
     if not want:
         return None
 
-    # Exact match
     if want in installed:
         return want
 
     want_base = _ollama_base_tag(want)
-    # Prefer exact base:latest if present
     candidate = f"{want_base}:latest"
     if candidate in installed:
         return candidate
 
-    # Otherwise pick the first installed model whose base tag matches
     for name in sorted(installed):
         if _ollama_base_tag(name) == want_base:
             return name
@@ -428,9 +402,7 @@ def _ollama_pick_installed_model(installed: set[str], want: str) -> str | None:
 
 
 def _ollama_available_model_set(client: OllamaClient) -> set[str] | None:
-    """
-    Returns a set of installed model names, or None if Ollama is unreachable.
-    """
+    """Installed model names, or None if unreachable."""
     try:
         data = client.list()
     except Exception:
@@ -455,10 +427,7 @@ def _ollama_available_model_set(client: OllamaClient) -> set[str] | None:
 
 
 def _try_create_ollama_backend() -> BaseAdService | None:
-    """
-    Attempt Ollama first. If it's not reachable or no candidate model is installed,
-    return None so we can fall back to Gemini.
-    """
+    """Return Ollama backend or None for Gemini fallback."""
     client = OllamaClient(timeout=OLLAMA_TIMEOUT_SEC)
     available = _ollama_available_model_set(client)
     if available is None:
@@ -481,15 +450,12 @@ def _try_create_ollama_backend() -> BaseAdService | None:
         return None
 
     svc = OllamaAdService(model=chosen_name)
-    # Reuse the client we already used for list() to avoid a second connection setup.
     svc._client = client
     return svc
 
 
 def _create_ollama_backend_required() -> BaseAdService:
-    """
-    OLLAMA=true: Ollama only — never fall back to Gemini.
-    """
+    """OLLAMA=true: require working Ollama + model."""
     client = OllamaClient(timeout=OLLAMA_TIMEOUT_SEC)
     available = _ollama_available_model_set(client)
     if available is None:
@@ -529,15 +495,12 @@ def _create_backend_for_env() -> BaseAdService:
     if os.getenv("ENV_MODE", "test").strip().lower() == "test":
         return MockLlmService()
 
-    # OLLAMA=true → Ollama only (no Gemini fallback).
     if _ollama_force_local():
         return _create_ollama_backend_required()
 
-    # OLLAMA=false → Gemini only.
     if _ollama_skip_local():
         return GeminiAdService()
 
-    # OLLAMA unset: try Ollama first, fall back to Gemini.
     if _ollama_try_local_default():
         local = _try_create_ollama_backend()
         if local is not None:

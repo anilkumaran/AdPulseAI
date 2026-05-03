@@ -35,15 +35,43 @@
         .profile-menu-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
         .profile-menu-item:hover { background: #f8f9fa; }
         .profile-menu-item:last-child { border-bottom: none; border-radius: 0 0 8px 8px; }
-        .notification-ribbon { position: fixed; top: 0; left: 0; right: 0; padding: 15px 20px; z-index: 2000; display: none; animation: slideDown 0.3s ease; }
-        .notification-ribbon.show { display: block; }
-        .notification-ribbon.error { background: #dc3545; color: white; }
-        .notification-ribbon.success { background: #28a745; color: white; }
-        .notification-ribbon.info { background: #17a2b8; color: white; }
-        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-        .notification-icon { font-size: 1.1rem; margin-right: 10px; }
-        .notification-message-wrap { display: flex; align-items: center; gap: 10px; }
-        .notification-text { display: inline; }
+        #notification-ribbon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: auto;
+            top: auto;
+            max-width: min(380px, calc(100vw - 40px));
+            padding: 12px 38px 12px 14px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            background: #fff;
+            color: #212529;
+            border: 1px solid #e9ecef;
+        }
+        #notification-ribbon.show { display: flex; animation: toastIn 0.22s ease; }
+        #notification-ribbon.error { border-left: 4px solid #dc3545; }
+        #notification-ribbon.success { border-left: 4px solid #198754; }
+        #notification-ribbon.info { border-left: 4px solid #0d6efd; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #notification-ribbon .toast-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px 6px;
+        }
+        #notification-ribbon .toast-close:hover { color: #212529; }
 
         .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .chip { border: 1px solid #dee2e6; background: #fff; color: #111; padding: 6px 10px; border-radius: 999px; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; }
@@ -77,18 +105,9 @@
     </style>
 </head>
 <body>
-    <!-- Notification Ribbon -->
-    <div id="notification-ribbon" class="notification-ribbon">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="notification-message-wrap">
-                <span class="notification-icon" id="notification-icon">ℹ️</span>
-                <div class="notification-text">
-                    <strong id="notification-title"></strong>
-                    <span id="notification-message"></span>
-                </div>
-            </div>
-            <button onclick="hideNotification()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
-        </div>
+    <div id="notification-ribbon" role="status" aria-live="polite">
+        <span id="notification-message"></span>
+        <button type="button" class="toast-close" onclick="hideNotification()" aria-label="Dismiss">&times;</button>
     </div>
 
     <!-- Login Overlay -->
@@ -693,37 +712,35 @@
             return html;
         }
 
-        // Notification System
-        function showNotification(type, title, message) {
+        let _toastTimer = null;
+
+        function showNotification(type, message) {
             const ribbon = document.getElementById('notification-ribbon');
-            const titleEl = document.getElementById('notification-title');
             const messageEl = document.getElementById('notification-message');
-            const iconEl = document.getElementById('notification-icon');
-            const icon = type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️';
-            
-            ribbon.className = `notification-ribbon ${type} show`;
-            if (iconEl) iconEl.textContent = icon;
-            titleEl.textContent = title;
+            if (_toastTimer) clearTimeout(_toastTimer);
+            ribbon.className = `${type} show`;
             messageEl.textContent = message;
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => hideNotification(), 5000);
+            _toastTimer = setTimeout(() => hideNotification(), 4500);
         }
 
         function hideNotification() {
+            if (_toastTimer) {
+                clearTimeout(_toastTimer);
+                _toastTimer = null;
+            }
             document.getElementById('notification-ribbon').classList.remove('show');
         }
 
         function showError(message, suggestion = '') {
-            showNotification('error', 'Oops! ', message + (suggestion ? ' 💡 ' + suggestion : ''));
+            showNotification('error', suggestion ? `${message} ${suggestion}` : message);
         }
 
         function showSuccess(message) {
-            showNotification('success', 'Done! ', message);
+            showNotification('success', message);
         }
 
         function showInfo(message) {
-            showNotification('info', 'Heads up: ', message);
+            showNotification('info', message);
         }
 
         // --- Ad Generator UX helpers ---
@@ -1800,7 +1817,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="20" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
+                            <input type="text" class="form-control" id="emp-name" minlength="2" maxlength="20" pattern="[a-zA-Z\\s]+" title="Letters and spaces only" required>
                             <small class="text-muted">2-20 characters</small>
                         </div>
                         <div class="mb-3">
@@ -2006,7 +2023,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="20" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
+                                <input type="text" class="form-control" id="cust-name" minlength="2" maxlength="20" pattern="[a-zA-Z\\s]+" title="Letters and spaces only" required>
                                 <small class="text-muted">2-20 characters</small>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -2036,7 +2053,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">City</label>
-                                <input type="text" class="form-control" id="cust-city" minlength="2" maxlength="50" pattern="[a-zA-Z\s]+" title="Only letters and spaces allowed" required>
+                                <input type="text" class="form-control" id="cust-city" minlength="2" maxlength="50" pattern="[a-zA-Z\\s]+" title="Letters and spaces only" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">State</label>

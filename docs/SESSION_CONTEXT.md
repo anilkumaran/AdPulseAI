@@ -154,7 +154,7 @@ AdPulseAI is a **multi-channel marketing automation platform** that uses an LLM 
 - Example: +919876543210
 
 ### Names (Customer/Employee)
-- Pattern: `[a-zA-Z\s]+` (letters and spaces only)
+- Pattern: `[a-zA-Z\\s]+` (letters and spaces only)
 - Length: 2-100 characters
 
 ### Usernames

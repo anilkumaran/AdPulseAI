@@ -1,7 +1,4 @@
-"""
-All user-facing LLM prompt templates and builders for AdPulseAI.
-Routes and services should import from here — do not duplicate prompt text elsewhere.
-"""
+"""LLM prompt templates and builders for AdPulseAI."""
 
 PROMPT_TEMPLATES: dict[str, str] = {
     "sms_campaign": """

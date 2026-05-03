@@ -205,6 +205,54 @@
     ],
     "ad_generation_history": [
         {
+            "id": 48,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop i5",
+            "prompt_preview": "Laptop i5",
+            "full_content": "FACEBOOK:\nReady to elevate your everyday? \u2728 The new Laptop i5 from Sagar Fashion is your ultimate companion for power, performance, and style. Perfect for crushing deadlines, creative projects, or unwinding with your favorite shows!\n#SagarFashion #Laptopi5 #HyderabadTech #ProductivityPartner #UpgradeYourTech\n\nContact information:\nhttps://sagarfashion.com\n+919876543210\n\nINSTAGRAM:\nUnleash your potential with the sleek new Laptop i5 from Sagar Fashion! \ud83d\ude80 Designed for dynamic women like you in Hyderabad, it's performance meets elegance. Get ready to conquer your day, beautifully.\n#SagarFashion #LaptopGoals #HyderabadLife #TechForHer #i5Power #WorkPlaySeamlessly\n\nContact information:\nhttps://sagarfashion.com\n+919876543210\n\nTWITTER:\nLevel up your productivity! \ud83d\ude80 Sagar Fashion's new Laptop i5 brings speed & style to your daily grind. Perfect for Hyderabad's go-getters. Power through tasks, create with ease, and enjoy seamless performance. #Laptopi5 #SagarFashion #Hyderabad #TechUpgrade\n\nContact information:\nhttps://sagarfashion.com\n+919876543210\n\nWHATSAPP:\nHey there! \ud83d\udc4b Looking for a laptop that keeps up with your busy life? Our new Laptop i5 at Sagar Fashion is packed with power & style, perfect for you. Get things done faster!\n\nContact information:\nhttps://sagarfashion.com\n+919876543210\n\nTEXTMESSAGE:\nBoost your day! \u2728 Sagar Fashion's Laptop i5 offers speed & style. Perfect for work & play. See details:\n\nContact information:\nhttps://sagarfashion.com\n+919876543210",
+            "campaign_id": null,
+            "created_at": "2026-05-03T11:19:00.088965",
+            "timestamp": "2026-05-03 11:19"
+        },
+        {
+            "id": 47,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (2 customers)",
+            "product_info": "New apple Macbook air",
+            "prompt_preview": "New apple ...",
+            "full_content": "SMS Campaign: CAMP20260502125333\nProduct: New apple Macbook air\nCustomers: 2\nMessages: 2\n\nSample Messages:\n- Sneha Reddy: Hey Sneha! \u2728 Your dream New Apple MacBook Air just arrived at Sagar Fashion, waiting for you in Hyde...\n- Vikram Singh: Hey Vikram! \ud83c\udf89 The NEW Apple MacBook Air just dropped at Sagar Fashion! Be among the first to grab yo...\n",
+            "campaign_id": "CAMP20260502125333",
+            "created_at": "2026-05-02T12:53:33.649329",
+            "timestamp": "2026-05-02 12:53"
+        },
+        {
+            "id": 46,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "New dress - Denim",
+            "prompt_preview": "New dress ...",
+            "full_content": "FACEBOOK:\nHyderabad, get ready to turn heads! \u2728 Sagar Fashion just dropped the denim dress you've been dreaming of. Effortlessly chic, comfy, and perfect for any occasion. Find your new favorite look and make a statement!\nContact information:\nhttps://www.sagarfashion.com/new-arrivals\n+919876543210\n\nINSTAGRAM:\nDenim dreams come true! \ud83d\udc56\ud83d\udc57 Our latest denim dress from Sagar Fashion is here to elevate your style game. Designed for comfort & maximum impact, it\u2019s a must-have for every Hyderabad fashionista. Who\u2019s ready to rock this look? \ud83e\udd29 #SagarFashion #DenimDress #HyderabadFashion #StyleStaple #MustHave\nContact information:\nhttps://www.sagarfashion.com/new-arrivals\n+919876543210\n\nTWITTER:\nNew denim dress alert! \ud83d\udea8 Sagar Fashion brings the perfect blend of style & comfort to Hyderabad. Your new go-to outfit is here. Shop now! #SagarFashion #DenimDress #HyderabadStyle\nContact information:\nhttps://www.sagarfashion.com/new-arrivals\n+919876543210\n\nWHATSAPP:\nHey Hyderabad! \ud83d\udc4b Get ready to fall in love with our new denim dress from Sagar Fashion. It's stylish, comfy, and absolutely perfect for you. Don't miss out! \u2728\nContact information:\nhttps://www.sagarfashion.com/new-arrivals\n+919876543210\n\nTEXTMESSAGE:\nSagar Fashion's NEW denim dress just landed! \u2728 Perfect for Hyderabad style. Comfy, chic, and waiting for you. Shop now!\nContact information:\nhttps://www.sagarfashion.com/new-arrivals\n+919876543210",
+            "campaign_id": null,
+            "created_at": "2026-05-02T12:49:50.758878",
+            "timestamp": "2026-05-02 12:49"
+        },
+        {
+            "id": 45,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "Social Media Campaign",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "FACEBOOK:\nReady to elevate your everyday, Hyderabad? \u2728 Sagar Fashion brings you laptops designed for the modern woman on the go. Style, power, and seamless performance, all in one sleek device. Perfect for work, creativity, and everything in between!\n#SagarFashionLaptops #HyderabadTech #WomenInTech #ProductivityGoals\n\nContact information:\nhttps://sagarfashion.com/laptops\n+919876543210\n\nINSTAGRAM:\nLevel up your grind, Hyderabad! \ud83d\ude80 From presentations to late-night projects, Sagar Fashion laptops are your perfect power partner. Sleek design meets serious performance \u2013 because your tech should be as stylish as you are. Tap the link to explore!\n#SagarFashion #LaptopLove #HyderabadStyle #TechForHer #WorkSmart\n\nContact information:\nhttps://sagarfashion.com/laptops\n+919876543210\n\nTWITTER:\nHyderabad ladies, meet your new favorite tech! \ud83d\udcbb Sagar Fashion's laptops blend elegance & efficiency. Power through your day with a device that keeps up with you. Discover yours now! #SagarFashionLaptops #Hyderabad #TechGoals\n\nContact information:\nhttps://sagarfashion.com/laptops\n+919876543210\n\nWHATSAPP:\nHey Hyderabad! \ud83d\udc4b Looking for a laptop that's as stylish & powerful as you are? Sagar Fashion has the perfect match! Get ready for seamless performance & stunning design. Let us help you find yours!\nContact information:\nhttps://sagarfashion.com/laptops\n+919876543210\n\nTEXTMESSAGE:\nUpgrade your tech! Sagar Fashion laptops offer power & style for Hyderabad's dynamic women. Boost productivity today.\nContact information:\nhttps://sagarfashion.com/laptops\n+919876543210",
+            "campaign_id": null,
+            "created_at": "2026-05-02T12:32:31.862362",
+            "timestamp": "2026-05-02 12:32"
+        },
+        {
             "id": 44,
             "user_id": "merchant2",
             "merchant_id": "MERCH002",
@@ -682,6 +730,22 @@
     ],
     "sms_campaigns": [
         {
+            "id": 21,
+            "campaign_id": "CAMP20260502125333",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "New apple Macbook air",
+            "total_generated": 2,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST001",
+                "CUST002"
+            ],
+            "created_at": "2026-05-02T12:53:33.626952",
+            "timestamp": "2026-05-02 12:53:33"
+        },
+        {
             "id": 20,
             "campaign_id": "CAMP20260502122503",
             "user_id": "merchant2",
@@ -1009,14 +1073,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 44,
+        "total_api_calls": 48,
         "total_sms_sent": 10,
-        "total_campaigns": 19,
+        "total_campaigns": 20,
         "total_merchants": 3,
         "total_customers": 3,
         "total_users": 5,
-        "last_api_call_timestamp": "2026-05-02T12:27:25.083365",
-        "last_updated": "2026-05-02T12:27:25.083422"
+        "last_api_call_timestamp": "2026-05-03T11:19:00.088965",
+        "last_updated": "2026-05-03T11:19:00.089034"
     },
     "purchase_history": [
         {

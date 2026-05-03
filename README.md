@@ -3,15 +3,17 @@
 ## Table of Contents
 1. [Abstract](#abstract)
 2. [PMI Evolution: From Research to Production](#pmi-evolution-from-research-to-production)
-3. [System Specification](#system-specification)
+3. [Quick Start](#quick-start)
+4. [System Specification](#system-specification)
    - [Hardware Requirements](#hardware-requirements-aws-ec2)
    - [Software Requirements](#software-requirements)
-4. [System Modules](#system-modules)
+5. [System Modules](#system-modules)
    - [Admin Module](#1-admin-module-ownermanager)
    - [User Module](#2-user-module-employeesales-staff)
-5. [Proposed System](#proposed-system-cloud-implementation-with-admin-control)
-6. [Project Guide](#project-guide)
-7. [Developed By](#developed-by)
+6. [Proposed System](#proposed-system-cloud-implementation-with-admin-control)
+7. [Project Guide](#project-guide)
+8. [Developed By](#developed-by)
+
 ---
 
 ## Abstract
@@ -37,57 +39,44 @@ AdPulseAI extends the Persuasive Message Intelligence (PMI) framework introduced
 
 ## Quick Start
 
-### Installation
+Prerequisites: Python 3.10+.
 
-1. **Clone the repository:**
+1. Clone and enter the repo:
 ```bash
 git clone <repository-url>
 cd AdPulseAI
 ```
 
-2. **Install dependencies:**
+2. Copy env template and edit values (`GEMINI_API_KEY` when using Gemini, `OLLAMA` / `OLLAMA_MODEL` when using local Ollama, AWS keys for real SMS):
 ```bash
-pip install -r requirements.txt
+cp .env.example .env
 ```
 
-3. **Configure environment:**
+3. Start the app from the repo root (`run.sh` creates `.venv` if needed, installs `api/requirements.txt` when the venv is new or requirements changed, loads `.env`, runs FastAPI with reload):
 ```bash
-cp env_template .env
-# Edit .env and add your API keys
+chmod +x run.sh
+./run.sh
 ```
 
-4. **Run the application:**
+Optional: `HOST=0.0.0.0 ./run.sh` to listen on all interfaces; `INSTALL_DEPS=1 ./run.sh` to force reinstall dependencies after editing `api/requirements.txt`.
+
+Manual equivalent after activating `.venv` and exporting variables from `.env`:
 ```bash
-# Test mode (uses mock services)
-python -m uvicorn main:app --reload --port 8000
-
-# Production mode (requires real API keys)
-# Set ENV_MODE=prod in .env
-python -m uvicorn main:app --host 0.0.0.0 --port 8000
+python -m uvicorn api.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-5. **Access the application:**
-```
-http://localhost:8000
-```
+4. Open the UI at `http://127.0.0.1:8000` (or `http://localhost:8000`).
 
-### Default Login Credentials
+### Default login
 
-**Admin Account:**
-- Username: `admin`
-- Password: `admin123`
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | `admin` | `admin123` |
+| Merchant | `merchant1` | `user123` |
 
-**Merchant Account:**
-- Username: `merchant1`
-- Password: `user123`
+### Test vs production
 
-### Test Mode Features
-
-When `ENV_MODE=test` in `.env`:
-- ✅ Mock Gemini API responses (no API key needed)
-- ✅ Mock SMS sending (no AWS credentials needed)
-- ✅ Sample customer data pre-loaded
-- ✅ Sample campaign history available
+With `ENV_MODE=test` (also the default in `run.sh` when `.env` does not define `ENV_MODE`), the LLM and SNS layers use mocks—no Gemini key or AWS SMS required. Set `ENV_MODE=prod` in `.env` for real Gemini and/or Ollama per `.env.example`.
 
 ---
 
@@ -100,16 +89,16 @@ When `ENV_MODE=test` in `.env`:
 | **Processor** | 1 vCPU |
 | **Memory (RAM)** | 1 GB |
 | **Storage** | 8 GB Elastic Block Store (EBS) |
-| **Network** | Public IP with Security Group configured for Port 80 (HTTP) and Port 5000 (Flask) |
+| **Network** | Public IP; security group allows HTTP (80) and app port (e.g. 8000 for uvicorn, or 443 behind a reverse proxy) |
 
 ### Software Requirements
 | Layer | Technology / Tool |
 | :--- | :--- |
 | **Front End** | HTML5, CSS3, JavaScript (Vanilla) |
-| **Back End** | Python 3.10+, Flask Framework |
+| **Back End** | Python 3.10+, FastAPI |
 | **Cloud Platform** | Amazon Web Services (AWS) |
-| **AI Engine** | Google Gemini API |
-| **Web Server** | Gunicorn (for production-grade deployment on AWS) |
+| **AI Engine** | Google Gemini API and/or local models via Ollama |
+| **App server** | uvicorn (`api.main:app`); optional process manager / reverse proxy in production |
 
 ---
 

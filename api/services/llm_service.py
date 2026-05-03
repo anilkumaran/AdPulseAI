@@ -12,7 +12,10 @@ from ollama import ResponseError as OllamaResponseError
 from .prompt_service import build_generation_prompt
 from .settings_service import get_settings_service
 
-load_dotenv()
+# Repo-root .env (not cwd): predictable when uvicorn is started from another directory.
+# override=True: .env wins over stray exports (e.g. OLLAMA=true in the shell while .env says false).
+_DOTENV_PATH = Path(__file__).resolve().parents[2] / ".env"
+load_dotenv(_DOTENV_PATH, override=True)
 
 # Ollama: model name must be set in the environment (OLLAMA_MODEL). Host: OLLAMA_HOST or client default.
 OLLAMA_TIMEOUT_SEC = float(os.getenv("OLLAMA_TIMEOUT_SEC", "300"))

@@ -1,6 +1,9 @@
 # Custom
 bin/*
 
+# SMS campaign generation cache (local persisted LLM bodies)
+api/.sms_campaign_gen_cache.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

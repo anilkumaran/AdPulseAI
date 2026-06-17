@@ -58,6 +58,7 @@
         #notification-ribbon.error { border-left: 4px solid #dc3545; }
         #notification-ribbon.success { border-left: 4px solid #198754; }
         #notification-ribbon.info { border-left: 4px solid #0d6efd; }
+        #notification-ribbon.warning { border-left: 4px solid #fd7e14; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         #notification-ribbon .toast-close {
             position: absolute;
@@ -122,9 +123,6 @@
                 <input type="text" id="username" class="form-control mb-3" placeholder="Username" required>
                 <input type="password" id="password" class="form-control mb-4" placeholder="Password" required>
                 <button class="btn btn-primary w-100 fw-bold">Sign In</button>
-                <div class="mt-3 text-center">
-                    <small class="text-muted">Test: admin/admin123 (Super Admin)<br>merchant2/user123 (Merchant)<br>emp2/user123 (Employee)</small>
-                </div>
             </form>
         </div>
     </div>
@@ -363,7 +361,7 @@
                         </label>
                     </div>
 
-                    <button id="sms-gen-btn" class="btn btn-primary fw-bold px-5" title="Generate personalized SMS for selected customers">
+                    <button type="button" id="sms-gen-btn" class="btn btn-primary fw-bold px-5" title="Generate personalized SMS for selected customers">
                         <i class="bi bi-magic me-2"></i>Generate Campaign
                     </button>
                 </div>
@@ -741,6 +739,10 @@
 
         function showInfo(message) {
             showNotification('info', message);
+        }
+
+        function showWarning(message, suggestion = '') {
+            showNotification('warning', suggestion ? `${message} — ${suggestion}` : message);
         }
 
         // --- Ad Generator UX helpers ---
@@ -1434,12 +1436,50 @@
                 }
                 
                 const d = await r.json();
+                const snsWarn = (() => {
+                    if (!d.send_requested || !d.sns_dispatch) return '';
+                    if (d.sns_dispatch === 'mock_test_env') {
+                        return '<div class="alert alert-warning mt-2 mb-0 small">No real SMS: server is in <strong>ENV_MODE=test</strong> (simulated only). Set <code>ENV_MODE=prod</code> in <code>.env</code> and restart the app.</div>';
+                    }
+                    if (d.sns_dispatch === 'mock_no_aws_client') {
+                        return '<div class="alert alert-warning mt-2 mb-0 small">No real SMS: AWS SNS is not active (missing keys or client init failed). Set <code>AWS_ACCESS_KEY_ID</code> / <code>AWS_SECRET_ACCESS_KEY</code> / <code>AWS_REGION</code> in <code>.env</code> and restart.</div>';
+                    }
+                    if (d.sns_dispatch === 'no_valid_phones') {
+                        return '<div class="alert alert-warning mt-2 mb-0 small">No SMS sent: every selected customer still has the placeholder phone (<code>+91XXXXXXXXXX</code>). Add real numbers in Customers.</div>';
+                    }
+                    if (d.sns_dispatch === 'live_all_skipped_allowlist') {
+                        return '<div class="alert alert-warning mt-2 mb-0 small">AWS did not send: every number was skipped. Check <code>SNS_ALLOWED_PHONES</code> in <code>.env</code> includes your recipients (E.164), or remove the variable to allow all.</div>';
+                    }
+                    return '';
+                })();
+                const snsTableHtml = (() => {
+                    if (!d.send_requested || !Array.isArray(d.sns_delivery_results) || d.sns_delivery_results.length === 0) return '';
+                    const rows = d.sns_delivery_results.map(l => {
+                        const st = escapeHtml(l.status || '');
+                        const ph = escapeHtml(String(l.phone_tail || ''));
+                        const det = escapeHtml(l.detail || '');
+                        const mid = l.message_id ? ` <code class="text-muted small">${escapeHtml(l.message_id)}</code>` : '';
+                        return `<tr><td><span class="badge bg-secondary">${st}</span></td><td>…${ph}</td><td class="text-break">${det}${mid}</td></tr>`;
+                    }).join('');
+                    const hasFail = (d.messages_failed || 0) > 0;
+                    const hasSkip = (d.messages_skipped || 0) > 0;
+                    const tier = hasFail ? 'danger' : (hasSkip ? 'warning' : 'secondary');
+                    return `<div class="alert alert-${tier} mt-2 mb-0"><strong>Per-recipient SNS</strong> (${d.sns_delivery_results.length} row(s)) — sent ${d.messages_sent ?? 0}, failed <strong>${d.messages_failed ?? 0}</strong>, skipped ${d.messages_skipped ?? 0}<div class="table-responsive mt-2"><table class="table table-sm mb-0 small align-middle"><thead><tr><th>Status</th><th>Phone</th><th>Detail / id</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+                })();
                 
                 document.getElementById('sms-campaign-info').innerHTML = `
                     <div class="alert alert-success">
                         <strong>Campaign ID:</strong> ${d.campaign_id}<br>
                         <strong>Messages Generated:</strong> ${d.messages_generated}<br>
-                        ${d.messages_sent !== null ? `<strong>Messages Sent:</strong> ${d.messages_sent}` : '<strong>Status:</strong> Preview Only (not sent)'}
+                        ${d.from_cache ? '<strong>LLM:</strong> Skipped (cache hit: same message + customers)<br>' : ''}
+                        ${d.send_requested
+                            ? `<strong>Messages Sent (AWS):</strong> ${d.messages_sent ?? 0}` +
+                              (d.messages_skipped ? `<br><strong>Skipped (allowlist):</strong> ${d.messages_skipped}` : '') +
+                              (d.messages_failed ? `<br><strong>Failed:</strong> ${d.messages_failed}` : '') +
+                              `<br><small class="text-muted">Dispatch: ${d.sns_dispatch || '—'}</small>`
+                            : '<strong>Status:</strong> Preview only — SMS was not sent. Enable “Send SMS immediately” and run again to deliver.'}
+                        ${snsWarn}
+                        ${snsTableHtml}
                     </div>
                 `;
                 
@@ -1454,7 +1494,16 @@
                 `).join('');
                 
                 document.getElementById('sms-result-container').classList.remove('d-none');
-                showSuccess('SMS campaign generated! 📩');
+                const delFail = (d.messages_failed || 0) > 0;
+                const delSkip = (d.messages_skipped || 0) > 0;
+                if (d.send_requested && (delFail || delSkip)) {
+                    showWarning(
+                        'SMS delivery incomplete — open the campaign box below for each number and the exact error.',
+                        `Sent ${d.messages_sent ?? 0} · Failed ${d.messages_failed ?? 0} · Skipped ${d.messages_skipped ?? 0}`
+                    );
+                } else {
+                    showSuccess('SMS campaign generated! 📩');
+                }
                 
                 // Clear form
                 document.getElementById('sms-product').value = '';

@@ -92,6 +92,9 @@ WORKERS="${WORKERS:-1}"
 
 echo "Starting AdPulseAI"
 echo "- ENV_MODE=$ENV_MODE"
+if [[ "${ENV_MODE}" == "test" ]] && [[ -n "${AWS_ACCESS_KEY_ID:-}" ]]; then
+  echo "- Note: ENV_MODE=test — SNS SMS is simulated (no carrier delivery). Use ENV_MODE=prod for real SMS."
+fi
 echo "- HOST=$HOST"
 echo "- PORT=$PORT"
 echo "- UVICORN_RELOAD=$UVICORN_RELOAD WORKERS=$WORKERS"

@@ -1,0 +1,1032 @@
+A  
+project report 
+on 
+ADPULSEAI - A GENERATIVE AI MARKETING AND PERSUASIVE
+MESSAGE INTELLIGENCE PLATFORM 
+
+Submitted in Partial Fulfilment of the Requirements for the Award of the Degree of  
+MASTER OF COMPUTER APPLICATIONS  
+in 
+KAKATIYA UNIVERSITY
+ 
+ By 
+V. SURYA PRAKASH   (25000I0063) 
+CH. SAGAR                   (25000I0038) 
+K. ANIL                         (25000I0008) 
+Under the guidance of 
+
+
+Dr. B. RAMA
+(Associate Professor) 
+
+DEPARTMENT OF COMPUTER SCIENCE, 
+KAKATIYA UNIVERSITY VIDHYARANYAPUR, WARANGAL – 506009 
+2024-2026
+DEPARTMENT OF COMPUTER SCIENCE, KAKATIYA UNIVERSITY 
+Vidyaranyapuri, Hanamkonda, Warangal – 506009 
+
+
+
+
+ 
+ 
+C E R T I F I C A T E 
+ 
+ 
+This is to certify that V. SURYA PRAKASH (25000I0063), CH. SAGAR (25000I0038), K. ANIL (25000I0008), students of MCA have satisfactorily completed the dissertation work entitled “ADPULSEAI - A GENERATIVE AI MARKETING AND PERSUASIVE MESSAGE INTELLIGENCE PLATFORM” in the partial fulfilment of the requirements of the MCA during this academic year 2024-2026 
+ 
+ 
+
+
+
+ 
+ 
+PROJECT GUIDE                                           Head                        	                        External
+
+ACKNOWLEDGEMENT 
+ 
+We thank the Almighty for giving us courage and perseverance in completing the project. This project itself is an acknowledgement of all those people who have given us their heartfelt cooperation in making this project a success. 
+ 
+We are greatly indebted to the project guide Dr. B. Rama, Associate Professor, Head of the Department, Kakatiya University, for her valuable advice at every stage of this work. We feel that without her supervision and many hours of devoted guidance, stimulating and constructive criticism, this would never have come out in this form. 
+
+We are also thankful to all the faculty members Dr. B. Manjula, Associate Professor, Dr. D. Ramesh, Associate Professor, Dr. CH. Neelima, Assistant Professor, Dr. Saloni Fatima, Assistant Professor, P. Poojitha of the Department, for providing excellent facilities, motivation, and valuable guidance throughout the project work. With their co-operation and encouragement, we have completed the project work on time. 
+ 
+Last but not least, we would like to express our deep sense of gratitude and earnest thanksgiving to our dear parents for their moral support and heartfelt cooperation in doing the project. We would also like to thank all the non-teaching staff and our friends, whose direct or indirect help enabled us to complete this work successfully. 
+ 
+ 
+V. SURYA PRAKASH    (25000I0063) 
+CH. SAGAR                    (25000I0038) 
+K. ANIL                          (25000I0008)
+
+
+
+
+
+
+DECLARATION BY THE CANDIDATES 
+ 
+ 
+ 
+V. SURYA PRAKASH (25000I0063), CH. SAGAR (25000I0038), K. ANIL  (25000I0008) to hear by certify that the project report entitled “ADPULSEAI - A GENERATIVE AI MARKETING AND PERSUASIVE MESSAGE INTELLIGENCE PLATFORM” under the guidance Dr. B. Rama, Associate Professor, Head of the Department, Department Of Computer Science, Kakatiya University (KUCS), Warangal, submitted in partial fulfillment of the requirements for the Award of the Degree of MCA. 
+This is a record of Bonafide work carried out by us, and the results embodied in this Project Report have not been produced/copied from any source. The results embodied in this Project Report have not been submitted to any other University or Institute for the Award of any other Degree or Diploma. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ V. SURYA PRAKASH     (25000I0063)
+CH. SAGAR                     (25000I0038) 
+K. ANIL                            (25000I0008)
+
+
+
+
+
+
+
+ABSTRACT
+AdPulseAI is an online platform that uses artificial intelligence to make professional marketing and business insights more accessible for small and mid-sized businesses. Many small businesses cannot afford dedicated copywriters, data analysts, or marketing strategists. As a result, product promotion often becomes inconsistent, generic, or dependent on manual effort. AdPulseAI addresses this gap by transforming basic product details into platform-ready ad copy, search engine descriptions, target audience suggestions, and personalized text message campaign content.
+The system is designed as a shared online application with three levels of access: Super Admin, Merchant Admin, and Employee. The Super Admin manages the platform overall and monitors usage activity. The Merchant Admin controls a specific business instance, staff accounts, customers, and campaign usage. Employees perform operational tasks such as entering product details, generating ad copy, executing personalized text message campaigns, and reviewing their own history. This hierarchy allows businesses to share one platform while keeping each business's data separate.
+The system runs on high-performance web technology. The user interface is a simple, responsive web page. It stores information in a simple file-based database, which holds records for businesses, users, customers, campaigns, and ad history. The application integrates with Google's Gemini tool for content creation, and supports local AI models as an alternative.
+The core intelligence of AdPulseAI is its smart message creation process. The system collects product data, business context, brand voice, and customer details, then structures them into clear instructions that guide the AI engine. The output can include social media copy, descriptions for search engines, short promotional messages, and personalized text message content. This report documents the project background, requirements, system analysis, architecture, implementation logic, screenshots, testing strategy, conclusion, future scope, and references.
+
+
+
+
+
+
+
+TABLE OF CONTENTS
+S.No
+Title
+Page No
+1
+Introduction
+10
+1.1
+Project Scope
+10
+1.2
+Project Purpose
+10
+1.3
+Project Features
+11
+1.4
+Motivation
+11
+1.5
+Project Objectives
+11
+1.6
+Stakeholders And Users
+12
+1.7
+Expected Benefits
+12
+2
+Literature Review
+13
+2.1
+Related Research Work
+13
+2.2
+Review of Techniques and Models
+14
+2.3
+Research Gap Identified
+15
+3
+System Analysis
+16
+3.1
+Problem Definition
+16
+3.2
+Proposed System
+16
+3.3
+Feasibility Study
+20
+3.4
+System Requirements
+17
+4
+System Design
+18
+4.1
+Project Architecture
+18
+4.2
+ER Diagram
+19
+4.3
+Use Case Diagram
+20
+4.4
+Sequence Diagram
+21
+4.5
+Activity Diagram
+21
+4.6
+Class Diagram
+23
+4.7
+Database Design
+23
+4.8
+Module Breakdown
+24
+5
+Implementation
+26
+5.1
+System Overview
+26
+5.2
+Frontend Implementation
+26
+5.3
+Backend Implementation
+26
+5.4
+Authentication and RBAC Implementation
+26
+5.5
+JSON Database Service
+27
+5.6
+Generative AI Ad Synthesis Algorithm
+27
+5.7
+PMI SMS Campaign Logic
+28
+5.8
+Role-Based Access Control Logic
+28
+5.9
+API Communication Flow
+29
+5.10
+Installation and Configuration
+30
+5.11
+Deployment Considerations
+30
+6
+Output Screenshots
+31
+6.1
+Web Screenshots
+31
+6.2
+Dashboard and Generation Workspace
+35
+6.3
+Merchant, Customer, and Campaign Management View
+36
+6.4
+Expanded Platform Monitoring and Output View
+37
+7
+Testing
+39
+7.1
+Testing Objectives
+39
+7.2
+Types of Testing
+39
+7.3
+Testing Environment
+39
+7.4
+Test Cases
+39
+7.5
+Test Results Summary
+40
+7.6
+Quality Observations
+40
+8
+Conclusion & Future Scope
+42
+
+
+References
+44
+
+
+Github Link
+45
+
+
+Bibliography
+46
+
+
+LIST OF FIGURES
+Fig No.
+List of Figures
+Page No.
+4.1
+AdPulseAI High-Level System Architecture
+18
+4.2
+AdPulseAI Multi-Tenant Database Schema
+19
+4.3
+Role-Based Access Control and Use Case Diagram
+20
+4.4
+Generative AI Ad Synthesis Sequence Diagram
+21
+4.5
+Ad Generation Activity Flow
+22
+4.6
+Service and Entity Class Model
+23
+6.1
+Output Screenshots
+31
+6.2
+AdPulseAI dashboard and generation workspace
+36
+6.3
+AdPulseAI merchant, customer, and campaign management view
+37
+6.4
+AdPulseAI expanded platform monitoring and output view
+38
+
+
+
+LIST OF TABLES
+TABLE NO
+TABLE NAME
+PAGE NO
+1.6
+TEST CASES
+12
+3.4.1
+Hardware Requirements
+17
+3.4.2
+Software Requirements
+17
+4.7
+Database Design and Data Dictionary
+23
+4.8
+Module Breakdown
+24
+5.9
+API Communication Flow
+29
+7.4
+Test Cases
+38
+
+
+
+LIST OF SCREENSHOTS
+TABLE NO
+TABLE NAME
+PAGE NO
+4.1
+High-Level System Architecture
+18
+4.2
+Multi-Tenant Database Schema
+19
+4.3
+Role-Based Access Control and Use Case Diagram
+20
+4.4
+Generative AI Ad Synthesis Sequence Diagram
+21
+4.5
+Ad Generation Activity Flow
+22
+4.6
+Service and Entity Class Model
+23
+6.1
+Output Screenshots
+31
+6.2
+Dashboard and Generation workspace
+35
+6.3
+Merchant, Customer, and Campaign management view
+36
+6.4
+Expanded platform monitoring and output view
+37
+
+
+
+
+Chapter 1
+INTRODUCTION
+
+1.1 PROJECT SCOPE
+
+The scope of AdPulseAI is to build a cloud-ready generative AI platform that supports the complete marketing-content workflow for small and medium-sized businesses. The system begins with raw product information entered by a user and converts it into structured advertising content, SEO metadata, customer-facing SMS messages, and generation history records.
+The scope includes a browser-based single-page interface, a FastAPI backend, JWT authentication, multi-tenant data separation, AI generation through Gemini or local Ollama, AWS SNS based SMS dispatch, and persistent storage through a lightweight JSON database. The system is intentionally designed to remain simple enough for small teams while still demonstrating serious software engineering concepts.
+The present implementation focuses on content generation, PMI campaign logic, role-based access, customer and merchant management, and telemetry. It does not yet include payment processing, campaign performance analytics from real social media platforms, or enterprise-grade relational database clustering. Those features are considered future extensions.
+
+1.2 PROJECT PURPOSE
+
+The purpose of AdPulseAI is to reduce the marketing workload faced by small businesses. Business owners often need product descriptions, social media posts, SEO snippets, SMS messages, and audience insights, but they may not have the time or budget to produce this content professionally. AdPulseAI automates this work through a guided AI workflow.
+A second purpose is to convert a research-style Persuasive Message Intelligence concept into a production-oriented platform. Instead of generating one generic promotional message, the system uses merchant context and customer data to create personalised campaign messages that can be delivered through SMS.
+A third purpose is to demonstrate a clean multi-tenant architecture. The platform can support multiple merchants while isolating each merchant's users, customers, campaigns, and history. This makes the project useful not only as an AI application but also as an example of role-aware backend system design.
+
+1.3 PROJECT FEATURES
+
+AdPulseAI provides multi-platform ad generation for channels such as Facebook, Instagram, WhatsApp, SMS, and SEO descriptions. It also supports merchant-specific brand voice settings so that generated content can remain consistent with the tone of a business.
+The system includes three role levels. The Super Admin can view platform telemetry, manage merchants, and configure global settings. Merchant Admins can manage employees, customers, ad generations, and SMS campaigns inside their own business instance. Employees can generate content, run permitted campaigns, and view their own history.
+Other important features include JWT-based authentication, JSON persistence, LLM provider routing, local Ollama fallback, Gemini cloud generation, AWS SNS campaign dispatch, customer opt-in checks, history logging, and test-mode behavior that can mock costly external services.
+
+1.4 MOTIVATION
+
+The project is motivated by the reality that digital marketing is now continuous and multi-channel. A small business may need a product caption for Instagram, a Facebook promotion, a short WhatsApp message, SEO keywords, and SMS campaign copy for the same product. Creating each manually can be slow and inconsistent.
+Generative AI can reduce this burden, but a simple chatbot is not enough for business use. The system must know the merchant context, enforce role permissions, store generation history, keep customer data isolated, and provide a repeatable campaign workflow. AdPulseAI is motivated by this need for structure around AI generation.
+The project is also motivated by the opportunity to explore practical prompt engineering. The quality of AI output depends not only on the model but also on the context, constraints, and output schema supplied to it. AdPulseAI turns raw business data into a controlled prompt that can produce more useful marketing collateral.
+
+1.5 PROJECT OBJECTIVES
+
+The first objective is to design a web platform that generates marketing content from unstructured product input. The second objective is to implement role-based access control across Super Admin, Merchant Admin, and Employee users. The third objective is to store merchant data, customer data, campaign records, and generation history in a structured multi-tenant schema.
+Additional objectives include integrating Gemini and Ollama provider routing, representing AWS SNS based SMS dispatch, explaining the PMI campaign algorithm, documenting the API workflow, and providing screenshots and testing evidence suitable for academic evaluation.
+
+1.6 STAKEHOLDERS AND USERS
+Stakeholder
+Responsibility
+Benefit
+Super Admin
+Manages platform settings, merchants, and global telemetry.
+Central control of the SaaS platform.
+Merchant Admin
+Manages business users, customers, and campaigns.
+Business-level control and visibility.
+Employee
+Generates ad copy and runs permitted campaign workflows.
+Fast content generation without broad privileges.
+Customer
+Receives opt-in promotional content.
+More relevant promotional messaging.
+Developer
+Maintains backend, frontend, AI routing, and deployment scripts.
+Clear modular architecture.
+
+
+1.7 EXPECTED BENEFITS
+Reduces manual marketing copywriting effort for small teams.
+Improves consistency of brand voice across multiple promotional channels.
+Allows merchants to run personalized SMS campaigns using customer context.
+Provides multi-tenant data isolation across businesses.
+Supports cloud-based Gemini generation and local Ollama fallback.
+Creates a documented history of generated ads and campaign activity.
+
+Chapter 2.
+LITERATURE REVIEW
+
+2.1 Related Research Work
+Reference research paper: Developing Personalised Marketing Service Using Generative AI by Gun Ho Lee; Kyoung Jun Lee; Baek Jeong; Taekyung Kim All Authors
+https://ieeexplore.ieee.org/document/10419357
+In 2025, Chandra Sekhar [20] (referenced via [20]) analyzes Regression Analysis for Measuring AI Message Correlation. This study employs SPSS25 to investigate the extent and direction of the impact of independent variables (like AI disclosure or event dates) on the dependent variable of message effectiveness, providing a quantitative framework for assessing Generative AI outputs.
+
+
+In 2024, G. H. Lee, K. J. Lee, B. Jeong, and T. Kim [1] proposes Persuasive Message Intelligence (PMI) for Personalized Marketing. This paper introduces a service that utilizes GPT-4 to automate the creation of marketing messages. The system integrates demographic data, purchase history, and event specifics into specialized prompts to generate natural-sounding, highly targeted promotional content.
+
+
+In 2024, Aditya Narayan et al. [18] explores Consumer Rejection and Privacy Invasion in AI Marketing. This study investigates the "rejection" effect felt by consumers when personal information is used in AI-generated messages. It finds that while data like age and gender are generally accepted, using highly sensitive information such as personal social media posts can provoke negative emotional responses and decrease message effectiveness.
+
+
+In 2023, Kim and Huh [4] discuss AI-Based Persuasion as a Symbolic Process. This paper defines AI-based persuasion as a process where messages created or modified by AI entities are delivered to human recipients. It categorizes AI into "Thin AI" with minimal mechanical signals and "Thick AI" rich in social signals, concluding that for these messages to be persuasive, they must provide high relevance, usability, and accessibility.
+
+
+In 2023, L. S. Chen and M. J. Soni [6] analyzes Differences in Persuasiveness of AI Messages Based on Construal Level. Based on the theory of construal levels, this research assumes that individuals perceive AI at a lower, more concrete level. The study finds that AI-generated messages are more effective when they exhibit characteristics of a lower level of construal, emphasizing specific and practical details.
+
+
+In 2023, Karinshak et al. [7] examines The Effectiveness of GPT-3 in Generating Public Health Messages. This study evaluates how people perceive AI-generated vaccination messages compared to those written by human agencies like the CDC. While AI-generated messages were often perceived as more persuasive, the study notes that participants still showed a preference for human-authored messages when the AI source was explicitly disclosed.
+In 2022, Ravindra Singh [19] (referenced via [19]) discusses Sample Size Determination for Statistical Reliability in AI Surveys. This research utilizes the Gpower program to verify that a sample size of 300 respondents is sufficient for academic statistical analysis, ensuring that the results of AI-driven marketing surveys are representative and robust.
+
+
+In 2021, Matz et al. [8] analyzes Enhancing Personalized Persuasion through Large Language Models. This research demonstrates that LLMs can tailor messages to individual psychological profiles, such as BIG5 personality traits (openness, conscientiousness, extroversion). The findings indicate that psychologically tailored messages generated by AI significantly increase the effectiveness of advertising compared to non-personalized alternatives.
+
+2.2 Review of Techniques and Models
+
+Large Language Models (LLMs):
+GPT-4 and GPT-3: Identified as the core engines for generating natural language marketing content. GPT-4 is noted for superior performance in following complex prompt rules compared to other models like Bard or Llama2.
+Prompt Engineering: Utilizing System and User prompts to establish roles, rules, and formats. Techniques include "Few-shot" or "Zero-shot" prompting and using the OpenAI Cookbook guidelines.
+Persuasion Frameworks:
+Construal Level Theory: Messages are designed at a "lower" construal level (more concrete and specific) to increase appropriateness and effectiveness when generated by an AI.
+Heuristic Processing: Structuring messages to be non-assertive but highly relevant to ensure positive reception during quick, heuristic human evaluation.
+Data Integration:
+Demographic Filtering: Incorporating age and gender to personalize tone and social convention.
+Temporal and Behavioral Mapping: Using specific event dates (Day/Time) and previous purchase history to provide concrete reasons for product recommendations.
+
+2.3 Research Gap Identified 
+
+Admin governance: A notable shortcoming in many existing systems is the failure to enforce clean role separation. This often results in employees being granted excessive access, and business owners struggling to determine which staff member produced specific campaign content. AdPulseAI mitigates these limitations through Role-Based Access Control (RBAC), merchant_id scoping, and comprehensive history logging.
+Lack of Usage Telemetry: Many existing systems do not provide transparent metrics or an accessible historical log of generated content and prompts, which hinders administrative oversight and accountability.
+Real-world Field Testing: The existing literature largely depends on controlled surveys and hypothetical scenarios. Consequently, there is a critical need for longitudinal studies to measure actual conversion rates and purchase behaviors within live retail environments utilizing automated AI pipelines.
+Personalization frameworks exist, but are often single-channel
+Template-based systems often become repetitive and struggle to adapt to unique product requirements. While generic AI tools can generate appealing text, they frequently lack persistent merchant context and database-backed history. Furthermore, manual SMS platforms can broadcast messages, but typically fail to personalize content or track AI-generated usage.
+
+
+Chapter 3
+SYSTEM ANALYSIS
+3.1 PROBLEM DEFINITION
+
+Small and medium-sized enterprises often need frequent, professional marketing content but do not have dedicated marketing staff. Product details may exist as informal notes, short descriptions, or fragmented customer insights. Converting that raw information into polished ads for different channels requires time, skill, and consistency.
+A second problem is personalization. Bulk SMS campaigns are easy to send but often perform poorly when every customer receives the same message. A useful system should consider customer profile, demographics, or purchase context while respecting opt-in status and merchant boundaries.
+A third problem is access control. A platform serving multiple businesses must prevent one merchant from seeing another merchant's customers, employees, or history. It must also prevent employees from using admin-only functions. AdPulseAI defines the problem as a combined AI generation, campaign automation, and multi-tenant security challenge.
+
+3.2 PROPOSED SYSTEM
+
+The proposed system is a cloud-ready web platform named AdPulseAI. It allows users to enter product details and brand voice preferences, then generates structured marketing content through a language model. The backend gathers merchant context, validates the user token, builds a PMI prompt, routes the request to Gemini or Ollama, logs the output, and returns the generated content to the browser.
+The system also supports personalized SMS campaign logic. Merchant customers are retrieved from the JSON database, opt-in status is checked, messages are generated or customized, and AWS SNS is used conceptually to dispatch the campaign. Usage is logged for telemetry and accountability.
+
+3.3 FEASIBILITY STUDY
+Technical feasibility is strong because the project uses established technologies: Python (3.14.4), FastAPI (v0.136.1), Uvicorn (0.46.0), Vanilla JavaScript, Bootstrap 5, JWT, JSON files, Gemini API, Ollama, and AWS SNS. The platform can run locally for development and can be deployed to an AWS EC2 instance for demonstration.
+Economic feasibility is also strong. The system can be hosted on low-cost infrastructure such as an AWS t2.micro instance and can use cost-efficient models such as Gemini Flash. For small businesses, the system can reduce the need for external copywriting and manual campaign preparation.
+Operational feasibility is supported by the simple browser interface and role hierarchy. Users do not need to understand prompt engineering, API routing, or SMS infrastructure. They interact with a guided workflow while the backend handles authentication, context gathering, AI calls, and logging.
+
+3.4 SYSTEM REQUIREMENTS
+
+3.4.1 Hardware Requirements
+Requirement
+Minimum
+Recommended
+Deployment Instance
+AWS EC2 t2.micro/t2.small
+t2.small or higher for heavier traffic
+Processor
+1 vCPU
+2 vCPU or higher
+Memory
+1 GB RAM
+2 GB RAM or higher
+Storage
+8 GB EBS
+20 GB EBS for logs and history
+Network
+HTTP and API ports open
+HTTPS with domain and certificate
+
+
+3.4.2 Software Requirements
+Software
+Purpose
+Version / Notes
+Python
+Backend runtime
+3.14.4
+FastAPI
+API framework
+0.136.1
+Uvicorn
+Application server
+0.46.0
+HTML/CSS/JavaScript
+Frontend
+HTML5/v22.21.1
+Bootstrap 5
+Responsive UI styling
+Bootstrap Icons optional
+Gemini API
+Cloud AI generation
+gemini-2.5-flash or compatible
+Ollama
+Local model fallback
+llama2 or compatabile
+AWS SNS/SMS
+SMS dispatch
+Promotional campaign delivery
+JSON Database
+Lightweight persistence
+schemas/db.json
+
+
+
+Chapter 4
+SYSTEM DESIGN
+4.1 PROJECT ARCHITECTURE
+The architecture separates the browser client, AWS-hosted FastAPI application, JSON data layer, LLM router, Gemini or Ollama providers, and AWS SNS messaging service. This separation allows the platform to remain modular and cloud-ready.
+
+Figure 4.1: AdPulseAI High-Level System Architecture
+
+4.2 ENTITY RELATIONSHIP DIAGRAM
+The ER diagram places Merchant at the center of the schema. Users, Customers, SMS Campaigns, and Ad History records all connect to merchant_id, enforcing tenant isolation across the platform.
+
+Figure 4.2: AdPulseAI Multi-Tenant Database Schema
+
+4.3 USE CASE DIAGRAM
+The use case diagram maps the permissions of Super Admin, Merchant Admin, and Employee actors. It shows which workflows are global, which are merchant-scoped, and which are operational.
+
+Figure 4.3: Role-Based Access Control and Use Case Diagram
+
+4.4 SEQUENCE DIAGRAM
+The sequence diagram follows a request from POST /api/generate through authentication, database context loading, prompt construction, LLM generation, history logging, and final response.
+
+Figure 4.4: Generative AI Ad Synthesis Sequence Diagram
+
+4.5 ACTIVITY DIAGRAM
+The activity diagram summarizes the major steps performed during an ad generation request from product entry to saved history.
+
+Figure 4.5: Ad Generation Activity Flow
+
+4.6 CLASS DIAGRAM
+The class model connects key entities such as Merchant, User, and Customer with service modules such as AuthService, PromptService, and LLMService.
+
+Figure 4.6: Service and Entity Class Model
+
+4.7 DATABASE DESIGN AND DATA DICTIONARY
+
+The AdPulseAI database is represented as a JSON file for lightweight storage. The design is intentionally simple for deployment and demonstration, but the schema is structured so that it can later be migrated into PostgreSQL, MySQL, MongoDB, or another persistent database.
+
+Entity
+Field
+Description
+MERCHANT
+id
+Primary tenant identifier.
+MERCHANT
+business_name
+Name of the business using the platform.
+MERCHANT
+industry
+Industry context used in prompts and analytics.
+MERCHANT
+admin_user_id
+User account that controls the merchant.
+MERCHANT
+subscription
+Plan or account status.
+USER
+id
+Unique platform user identifier.
+USER
+merchant_id
+Tenant scope for merchant and employee users.
+USER
+role
+super_admin, merchant, or employee.
+CUSTOMER
+phone
+Destination phone number for SMS campaigns.
+CUSTOMER
+opt_in_sms
+Boolean consent flag for messaging.
+
+
+Entity
+Field
+Description
+SMS_CAMPAIGN
+campaign_id
+Unique campaign identifier.
+SMS_CAMPAIGN
+merchant_id
+Tenant that owns the campaign.
+SMS_CAMPAIGN
+product_info
+Source product or offer content.
+SMS_CAMPAIGN
+messages_gen
+Number of messages generated.
+SMS_CAMPAIGN
+messages_sent
+Number of messages dispatched.
+AD_HISTORY
+id
+Unique generation history identifier.
+AD_HISTORY
+user_id
+User who requested generation.
+AD_HISTORY
+content
+Generated ad content or structured output.
+
+4.8 MODULE BREAKDOWN
+
+Module
+Primary Function
+Users
+Super Admin Module
+Platform telemetry, merchant onboarding, global settings.
+Super Admin
+Merchant Admin Module
+Employee management, customer management, campaign oversight.
+Merchant Admin
+Employee Module
+Ad generation, SMS campaign execution, personal history.
+Employee
+Authentication Module
+JWT creation, password verification, role enforcement.
+All users
+LLM Router Module
+Provider selection between Ollama and Gemini.
+Backend
+SMS Campaign Module
+PMI personalization and AWS SNS dispatch.
+Merchant Admin, Employee
+History Module
+Stores generated content and campaign records.
+All scoped users
+
+
+
+Chapter 5
+IMPLEMENTATION
+
+5.1 SYSTEM OVERVIEW
+
+The AdPulseAI implementation uses a browser client and a FastAPI backend. The client submits product information, brand voice settings, and campaign preferences through REST requests. The backend validates the token, retrieves merchant context, builds prompts, calls an AI provider, saves history, and returns structured content.
+The system is designed to run in local development or on a cloud server. A virtual environment can be used for Python dependencies, and Docker may be used for packaging. The deployment target described in the project information is an AWS EC2 instance running the FastAPI application through Uvicorn.
+5.2 FRONTEND IMPLEMENTATION
+
+The frontend uses HTML5, CSS3, Vanilla JavaScript, Bootstrap 5, and Bootstrap Icons. This lightweight approach avoids the complexity of heavy frontend frameworks while still supporting a responsive interface. JavaScript handles form submission, token storage, API requests, role-based UI visibility, and output rendering.
+The single page application structure is suitable for the project because most workflows are form-driven and dashboard-driven. Users can generate copy, view history, manage customers, and configure campaigns without full page reloads.
+5.3 BACKEND IMPLEMENTATION
+
+The backend is built with FastAPI, a high-performance asynchronous Python framework. Uvicorn serves the application through the ASGI interface. Backend responsibilities include authentication, authorization, routing, database service access, prompt construction, LLM provider calls, SMS dispatch, and response formatting.
+The backend is organized conceptually into api/main.py, api/routers, and api/services. Routers expose HTTP endpoints, while services handle focused business tasks such as auth_svc, db_svc, prompt_service, llm_service, sms_service, generation_service, and insight_service.
+5.4 AUTHENTICATION AND RBAC IMPLEMENTATION
+
+AdPulseAI uses JSON Web Tokens to represent authenticated sessions. A token contains user claims such as role and merchant_id. The backend decodes this token on protected routes and verifies whether the user has the required privilege level for the requested operation.
+The RBAC hierarchy is Super Admin, Merchant Admin, and Employee. Super Admin users can manage platform-wide resources. Merchant Admin users can manage their own merchant data. Employees can perform operational tasks but cannot access global telemetry or unrelated merchant data.
+5.5 JSON DATABASE SERVICE
+
+The JSON database service reads and writes structured data from schemas/db.json. Although a JSON file is not a replacement for a production database at scale, it is useful for a lightweight academic project because it keeps persistence transparent and easy to inspect.
+Every merchant-scoped entity includes merchant_id. This field is essential for tenant isolation. When a Merchant Admin or Employee requests data, the db_svc filters by merchant_id so that only records belonging to that merchant are returned.
+5.6 GENERATIVE AI AD SYNTHESIS ALGORITHM
+
+The generative AI algorithm is the core engine of AdPulseAI. It receives product data, target platforms, merchant context, and brand voice. It then creates a prompt that asks the LLM to return structured ad copy for each required channel.
+The algorithm is designed to return predictable content, ideally in JSON format, so that the frontend can display it in tabs or sections. Prompt constraints help avoid vague output and encourage platform-specific copy.
+
+@app.post("/api/generate", response_model=AdResponse)
+async def generate_personalized_ad(
+    request: AdRequest,
+    merchant=Depends(auth_svc.get_current_user),
+    service: BaseAdService = Depends(get_llm_service)
+):
+    ...
+    pmi_prompt = build_social_media_ad_context(
+        ...
+        product_info=request.product_info,
+        voice=request.voice,
+        ...
+    )
+
+    content = service.generate_response(pmi_prompt, request.voice)
+    ...
+
+5.7 PMI SMS CAMPAIGN LOGIC
+
+The PMI campaign logic personalizes promotional messages for customer segments. It loops through the merchant's customer database, checks opt-in status, generates a personalized message, dispatches it through AWS SNS, and records campaign telemetry.
+
+
+@app.post("/api/sms/campaign", response_model=CampaignSMSResponse)
+async def create_sms_campaign(...):
+    db = db_svc.get_data()
+    merchant_id = user.get("merchant_id")
+
+    customers = [c for c in db.get("customers", []) if c["id"] in request.customer_ids]
+    ...
+    if not from_cache:
+        service = get_llm_service()
+        for customer in customers:
+            customer_data = build_sms_campaign_customer_context(...)
+            message_content = service.generate_response(customer_data, request.voice, prompt_type="sms_campaign")
+            generated_messages.append({...})
+
+
+5.8 ROLE-BASED ACCESS CONTROL LOGIC
+
+The role-checking dependency acts as a gatekeeper for API endpoints. It decodes the token, reads the user's role, compares it against the required role, and raises an access error if the user does not have enough privilege.
+@app.post("/token")
+async def login(username: str = Form(...), password: str = Form(...)):
+    db = db_svc.get_data()
+
+    user = None
+    for u in db.get("users", []):
+        if u.get("username") == username:
+            user = u
+            break
+
+    if not user or not auth_svc.verify_password(password, user["password_hash"]):
+        raise HTTPException(status_code=400, detail="Invalid Credentials")
+
+    token_data = {"sub": username, "role": user["role"]}
+    if user.get("merchant_id"):
+        token_data["merchant_id"] = user["merchant_id"]
+    return {
+        "access_token": auth_svc.create_token(token_data),
+        "role": user["role"],
+        "merchant_id": user.get("merchant_id"),
+        "name": user.get("name", username),
+        "email": user.get("email", "") 
+   }
+
+5.9 API COMMUNICATION FLOW
+
+Endpoint / Function
+Method
+Purpose
+/api/login
+POST
+Authenticate a user and return JWT token.
+/api/generate
+POST
+Generate AI ad copy from product data and brand voice.
+/api/customers
+GET/POST
+List or create merchant-scoped customers.
+/api/sms/campaign
+POST
+Run PMI SMS campaign through eligible customers.
+/api/history
+GET
+Return scoped generation history.
+/api/admin/merchants
+GET/POST/DELETE
+Super Admin merchant management.
+/api/admin/telemetry
+GET
+Super Admin platform usage metrics.
+
+
+The exact route names can be adjusted in the final backend implementation. The table documents the logical communication surface implied by the architecture, diagrams, and supplied project descriptions.
+5.10 INSTALLATION AND CONFIGURATION
+
+
+Install Python 3.10 or higher.
+Create and activate a virtual environment.
+Install backend dependencies from requirements.txt.
+Create a .env file with GEMINI_API_KEY, JWT_SECRET, and other settings.
+Configure AWS credentials if SNS dispatch is enabled.
+Start the backend using uvicorn api.main:app --host 0.0.0.0 --port 8000 or run.py
+Open the frontend in the browser or serve it behind the configured web server.
+5.11 DEPLOYMENT CONSIDERATIONS
+
+For deployment, the application can be hosted on AWS EC2. A security group should allow the required HTTP or HTTPS ports. In production, HTTPS should be enabled, environment variables should be stored securely, and the JSON database should be replaced with a managed database if data volume grows.
+Docker can simplify deployment by packaging the FastAPI app, dependencies, and startup command. Logs should be retained for debugging, and external API keys should never be committed to source control.
+
+Chapter 6
+OUTPUT SCREENSHOTS
+
+
+6.1 Web Screenshots
+Login Page
+
+Admin - Home Screen
+
+
+
+Admin - Manage Merchants
+
+
+Mechant (Sagar Ch) - Home Screen
+
+
+
+
+
+
+
+Merchant - SMS Campaign
+
+Merchant - Manage Employees
+
+Mechant - Customer Database
+
+
+
+Merchant - History
+
+
+User - Home Screen
+
+
+
+	6.2 DASHBOARD AND GENERATION WORKSPACE
+The following screenshot demonstrates the implemented user interface for one major AdPulseAI workflow. It shows how the platform presents dashboard controls, generation outputs, management panels, or monitoring information to the user.
+
+Figure 6.2: Dashboard and Generation workspace
+6.3 MERCHANT, CUSTOMER, AND CAMPAIGN MANAGEMENT VIEW
+The following screenshot demonstrates the implemented user interface for one major AdPulseAI workflow. It shows how the platform presents dashboard controls, generation outputs, management panels, or monitoring information to the user.
+
+Figure 6.3: Merchant, Customer, and Campaign management view
+6.4 EXPANDED PLATFORM MONITORING AND OUTPUT VIEW
+The following screenshot demonstrates the implemented user interface for one major AdPulseAI workflow. It shows how the platform presents dashboard controls, generation outputs, management panels, or monitoring information to the user.
+
+Figure 6.4: Expanded platform monitoring and output view
+
+Chapter 7
+TESTING
+7.1 TESTING OBJECTIVES
+Testing verifies that AdPulseAI works as a coherent AI-powered marketing platform. The main objectives are to confirm authentication, role-based access, merchant isolation, ad generation, history logging, customer management, PMI SMS flow, and UI responsiveness.
+Because some external services may cost money or require credentials, test mode can mock Gemini and AWS SNS behavior. This allows developers to verify the application logic without sending real messages or consuming AI credits.
+7.2 TYPES OF TESTING
+Unit testing checks focused functions such as password hashing, JWT decoding, role hierarchy comparison, prompt formatting, customer filtering, and response parsing. Integration testing checks the connection between API routes, services, JSON storage, LLM routing, and SMS dispatch.
+Functional testing verifies full user workflows: login, merchant selection, product input, ad generation, history view, customer creation, campaign execution, and admin telemetry. Security testing verifies that an Employee cannot access Super Admin or unrelated merchant data.
+7.3 TESTING ENVIRONMENT
+The testing environment uses Python 3.14.4 or higher, FastAPI, Uvicorn, a modern browser, and local JSON storage. Test credentials can be created for all three roles. For external integrations, dummy keys or test-mode configuration should be used unless real Gemini and AWS SNS/SMS services are intentionally being tested.
+The frontend is tested in common browser sizes to confirm responsive behavior. The backend is tested using browser actions and API clients such as curl, Postman, or FastAPI's built-in documentation interface.
+7.4 TEST CASES
+Test ID
+Scenario
+Expected Result
+Status
+TC-01
+Login as Super Admin.
+Global dashboard and merchant tools are available.
+Pass
+TC-02
+Login as Merchant Admin.
+Only scoped merchant data is visible.
+Pass
+TC-03
+Login as Employee.
+Only operational tools and own history are visible.
+Pass
+TC-04
+Generate ad copy from product input.
+Structured ad response is displayed and logged.
+Pass
+TC-05
+Run campaign with opt-in customers.
+Eligible messages are generated and dispatch is attempted.
+Pass
+TC-06
+Access another merchant's data.
+Request is denied or returns no records.
+Pass
+TC-07
+Switch LLM provider setting.
+Router selects Ollama or Gemini according to environment.
+Pass
+TC-08
+Missing AI key in cloud mode.
+System reports a controlled configuration error.
+Conditional
+TC-09
+View generation history.
+History is filtered by user or merchant role.
+Pass
+TC-10
+Resize browser screen.
+Interface remains usable and readable.
+Pass
+
+
+7.5 TEST RESULTS SUMMARY
+Testing Area
+Result
+Observation
+Functional Testing
+Successful
+Core workflows are represented and navigable.
+Authentication Testing
+Successful
+JWT and role checks protect route access.
+Multi-Tenant Testing
+Successful
+merchant_id scoping isolates business data.
+AI Integration
+Successful with key
+Gemini requires valid API key; Ollama requires local model.
+SMS Integration
+Conditional
+AWS SNS requires valid credentials and phone permissions.
+UI Testing
+Successful
+Screenshots show dashboard and management views.
+
+
+7.6 QUALITY OBSERVATIONS
+The most important quality observation is that AdPulseAI separates generation from governance. The system can generate persuasive marketing content, but the merchant remains responsible for reviewing claims, tone, compliance, and suitability before publication.
+A second observation is that tenant isolation is central to the design. Every data retrieval operation should filter by merchant_id unless the requesting user is a Super Admin. This rule protects customer privacy and prevents accidental cross-business exposure.
+A third observation is that external services should fail gracefully. If Gemini, Ollama, or AWS SNS is unavailable, the platform should return a clear error message and avoid corrupting history records.
+
+Chapter 8
+CONCLUSION & FUTURE SCOPE
+8.1 CONCLUSION
+
+AdPulseAI successfully demonstrates how generative AI can be integrated into a structured marketing automation platform for small and medium-sized enterprises. The project goes beyond simple text generation by adding merchant context, role-based access control, customer management, SMS campaign logic, provider routing, and history logging.
+The system shows how a lightweight technology stack can still support a meaningful business workflow. FastAPI provides a clean backend, Vanilla JavaScript and Bootstrap provide a responsive interface, Gemini and Ollama provide flexible generation options, and AWS SNS represents scalable campaign dispatch.
+The project also demonstrates the importance of governance around AI. By using RBAC, merchant_id scoping, prompt constraints, and history logging, AdPulseAI presents a safer and more practical approach to AI adoption in business marketing.
+
+8.2 FUTURE SCOPE
+Add per-merchant brand kits with tone rules, forbidden phrases, and compliance checks.
+Integrate email campaign generation and landing page copy generation.
+Add A/B testing and campaign performance feedback loops.
+Migrate JSON storage to PostgreSQL or MongoDB for production scale.
+Add OAuth login and stronger audit logging.
+Support scheduled campaign delivery and throttling.
+Add analytics dashboards for message open rates, conversions, and content performance.
+Allow admins to configure model priority between multiple local and cloud LLMs.
+
+
+REFERENCES
+Reference research paper: Developing Personalised Marketing Service Using Generative AI by Gun Ho Lee; Kyoung Jun Lee; Baek Jeong; Taekyung Kim All Authors
+https://ieeexplore.ieee.org/document/10419357
+
+
+In 2025, Chandra Sekhar [20] (referenced via [20]) analyzes Regression Analysis for Measuring AI Message Correlation. This study employs SPSS25 to investigate the extent and direction of the impact of independent variables (like AI disclosure or event dates) on the dependent variable of message effectiveness, providing a quantitative framework for assessing Generative AI outputs.
+
+
+In 2024, G. H. Lee, K. J. Lee, B. Jeong, and T. Kim [1] proposes Persuasive Message Intelligence (PMI) for Personalized Marketing. This paper introduces a service that utilizes GPT-4 to automate the creation of marketing messages. The system integrates demographic data, purchase history, and event specifics into specialized prompts to generate natural-sounding, highly targeted promotional content.
+
+
+In 2024, Aditya Narayan et al. [18] explores Consumer Rejection and Privacy Invasion in AI Marketing. This study investigates the "rejection" effect felt by consumers when personal information is used in AI-generated messages. It finds that while data like age and gender are generally accepted, using highly sensitive information such as personal social media posts can provoke negative emotional responses and decrease message effectiveness.
+
+
+In 2023, Kim and Huh [4] discuss AI-Based Persuasion as a Symbolic Process. This paper defines AI-based persuasion as a process where messages created or modified by AI entities are delivered to human recipients. It categorizes AI into "Thin AI" with minimal mechanical signals and "Thick AI" rich in social signals, concluding that for these messages to be persuasive, they must provide high relevance, usability, and accessibility.
+
+
+In 2023, L. S. Chen and M. J. Soni [6] analyzes Differences in Persuasiveness of AI Messages Based on Construal Level. Based on the theory of construal levels, this research assumes that individuals perceive AI at a lower, more concrete level. The study finds that AI-generated messages are more effective when they exhibit characteristics of a lower level of construal, emphasizing specific and practical details.
+In 2023, Karinshak et al. [7] examines The Effectiveness of GPT-3 in Generating Public Health Messages. This study evaluates how people perceive AI-generated vaccination messages compared to those written by human agencies like the CDC. While AI-generated messages were often perceived as more persuasive, the study notes that participants still showed a preference for human-authored messages when the AI source was explicitly disclosed.
+
+
+In 2022, Ravindra Singh [19] (referenced via [19]) discusses Sample Size Determination for Statistical Reliability in AI Surveys. This research utilizes the Gpower program to verify that a sample size of 300 respondents is sufficient for academic statistical analysis, ensuring that the results of AI-driven marketing surveys are representative and robust.
+
+
+In 2021, Matz et al. [8] analyzes Enhancing Personalized Persuasion through Large Language Models. This research demonstrates that LLMs can tailor messages to individual psychological profiles, such as BIG5 personality traits (openness, conscientiousness, extroversion). The findings indicate that psychologically tailored messages generated by AI significantly increase the effectiveness of advertising compared to non-personalized alternatives.
+
+
+GITHUB LINK
+Repository Link: https://github.com/anilkumaran/AdPulseAI
+
+
+
+
+
+
+BIBLIOGRAPHY
+IEEE Paper, Developing Personalized Marketing Service Using Generative AI by Gun Ho Lee, Kyoung Jun Lee, Baek Jeong, Taekyung Kim 
+https://ieeexplore.ieee.org/document/10419357
+Python documentation, https://www.python.org/downloads/release/python-3140/
+FastAPI, Python framework for building APIs 
+https://github.com/fastapi/fastapi
+Google AI Documentation, Gemini API and prompt design documentation https://ai.google.dev/gemini-api/docs
+Amazon Web Services Documentation, Amazon Simple Notification and Message Service Developer Guide.
+https://aws.amazon.com/sns/
+https://aws.amazon.com/end-user-messaging/
+OWASP Foundation. Web Application Security and Authentication Guidelines.
+https://owasp.org/site-documentation/
+Bootstrap Documentation. Responsive frontend component and layout framework.
+https://getbootstrap.com/
+
+
+
+

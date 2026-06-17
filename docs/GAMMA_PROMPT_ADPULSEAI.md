@@ -1,6 +1,6 @@
-# Gamma Prompt — AdPulseAI Project PPT (self-contained)
+# AdPulseAI Project PPT (self-contained)
 
-You are Gamma. Generate an **8-slide** project presentation in **16:9**.
+Generate an **8-slide** project presentation in **16:9**.
 
 ## Visual style (match the provided sample deck look)
 
@@ -23,7 +23,7 @@ If you cannot reference the sample deck directly, approximate it using:
 ## Important constraints
 
 - AdPulseAI is a **multi-tenant** marketing automation platform with roles: **Super Admin / Merchant Admin / Employee**
-- Local-first LLM routing: default is **Ollama (Llama) → Gemini fallback** (Gemini is optional/conditional)
+- Cloud-first LLM routing: default is **Gemini →  fallback Ollama (Llama2)** (llama2 is optional/conditional)
 - SMS sending uses **AWS SNS** (mock mode may exist for testing)
 - Avoid fake performance claims. Use “pilot targets” / “estimated” language unless numbers are provided.
 
@@ -88,7 +88,7 @@ Two-column layout, matching the sample:
 
 - Production-ready PMI evolution: SMS + social platforms in one tool
 - Role-based system: Super Admin governance + merchant isolation
-- LLM routing: local-first (Ollama) with cloud fallback (Gemini)
+- LLM routing: cloud-first (Gemini) with with local fallback (Ollama) 
 - Integrated campaign history + telemetry for monitoring and iteration
 
 Quote:
@@ -158,7 +158,7 @@ Important: label numbers as **Pilot targets** if not measured.
 
 - Reduces time to create multi-platform campaigns from a single product brief
 - Brings PMI-style personalization into a practical tool with governance
-- Supports local-first operation with optional cloud fallback
+- Supports cloud-first operation with optional local fallback
 
 **🚀 Future Roadmap**
 
@@ -169,4 +169,6 @@ Important: label numbers as **Pilot targets** if not measured.
 
 Footer (small):
 
-Prepared By: V. Surya Prakash, Ch. Sagar, K. Anil • Project Guide: Dr. B. Rama
+Prepared By: V. Surya Prakash, Ch. Sagar, K. Anil
+
+• Project Guide: Dr. B. Rama

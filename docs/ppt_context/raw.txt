@@ -1,0 +1,177 @@
+AdPulseAI
+GenAI-Powered Multi-Channel Ad
+Synthesis + PMI Messaging
+Generate platform-ready advertisements for Facebook, Instagram, Twitter, WhatsApp,
+and SMS, while running personalised SMS campaigns using customer context and
+role-based governance.
+Prepared By:
+V. Surya Prakash (2500010063)
+K. Anil (25000I0011)
+Ch. Sagar (25000I0038)
+Project Guide: Dr. B. Rama
+
+
+
+slide  2
+
+Abstract
+Small and medium enterprises face significant challenges with limited
+marketing budgets and expertise. AdPulseAl addresses this gap through
+Generative Al automation, transforming product information into ready-
+to-publish campaigns across multiple platforms.
+The platform extends PMI (Personalized Messaging Infrastructure
+beyond SMS-only operations to an omnichannel content generation
+system. It incorporates role-based governance with usage telemetry for
+safer, more controlled platform operations.
+"Turning raw product notes into ready-to-publish campaigns."
+Prompt Templates
+Structured templates for
+consistent brand voice
+SMS
+Real Time
+Generates messages in real
+time
+守
+LLM Router
+Ollama → Gemini fallback
+喝
+Campaign History
+Complete audit trail
+
+
+slide 3 
+
+
+Introduction
+Multi-Platform Challenge
+Digital marketing demands consistent content across diverse channels and formats, each with unique
+specifications and audience expectations.
+Manual Process Bottleneck
+Manual copywriting and audience segmentation consume valuable time for small teams with limited
+resources.
+Unified Workflow Solution
+AdPulseAl provides a streamlined workflow: input product details, generate content, reuse and iterate
+efficiently.
+Personalized Campaigns
+Customer-targeted personalization for SMS campaigns, inspired by PMI principles, with demographic
+context integration.
+One input → Five platforms - consistent brand voice, faster execution.
+
+
+
+slide 4
+Literature Review
+• Existing Landscape vs. *t Proposed Innovation
+Existing Landscape
+• Generative Al used for ad copy and brand messaging
+• Personalization frameworks exist but are often single-
+channel
+• Many tools lack admin governance and multi-tenant isolation
+• SMS delivery relies on external gateways with limited
+scalability
+"From siloed tools to an integrated omnichannel system."
+AdPulseAI Innovation
+• Production-ready PMI evolution: SMS + social platforms
+unified
+• Role-based system with Super Admin governance
+• LLM routing: local-first (Ollama) with cloud fallback (Gemini)
+• Integrated campaign history + telemetry for monitoring
+
+
+
+slide 5
+
+Methodology
+* Ad Synthesis Engine
+• Structured prompt templates produce
+platform-specific content blocks
+• Voice and persona settings ensure
+consistent brand tone
+• Copy-ready output editable per
+platform requirements
+M PMI SMS Campaigns
+• Customer selection with
+demographic personalization
+• Preview mode for safety validation
+• Cost estimation for budget planning
+→ Interface & Roles
+• Single-page web Ul with role-based
+workflows
+• Super Admin: telemetry and
+merchant management
+• Merchant Admin: campaigns and
+customer management
+System Architecture
+FastAPI backend • Olama (Llama) local LLM • Gemini cloud fallback (optional) • JSON database for campaign history • Vanilla JavaScript
+frontend with responsive design
+
+
+slide 6
+
+Experimental Study
+Evaluation Setup & Methodology
+Study Design
+• Dataset: Sample product briefs
+with de-identified customer
+profiles
+• Metrics: Content usefulness,
+clarity, brand consistency, time-
+to-first-draft, usability
+• Comparison: Manual
+copywriting vs. AdPulseAl
+generation with edits
+Review Process
+• Blind review by mixed group o f
+students and small business
+users
+• Platform format correctness
+validation (length/style
+constraints)
+• Campaign flow validation:
+selection → preview → s
+
+
+slide 7
+Key Results
+Pilot Study Metrics
+90%
+Faster Drafting
+Time reduction vs manual copywriting
+Initial User Feedback
+"Faster drafting across all platforms
+from one input"
+85%
+5s
+Format Compliance
+Platform-specific constraints met
+Response Time
+Average generation latency
+"Easy to reuse and iterate on generated
+content"
+"Clear SMS previews reduce sending
+
+
+slide 8
+Conclusion & Future Work
+V Impact
+Efficiency Gains
+Reduces time to create multi-platform
+campaigns from a single product brief,
+enabling rapid iteration and testing.
+Future Roadmap
+Practical MI Integration
+Brings PMI-style personalization into a
+production-ready tool with governance
+and audit capabilities.
+Flexible Deployment
+Supports local-first operation with optional
+cloud fallback, balancing cost, privacy,
+and performance needs.
+Model Expansion
+Add local models with dynamic priority configuration
+Channel Growth
+Email, SEO landing copy, enhanced analytics
+Brand Kits
+Per-merchant style rules, compliance checks
+A/B Testing
+Performance feedback loops, campaign optimization

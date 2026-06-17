@@ -234,9 +234,162 @@
             "is_active": true,
             "created_at": "2026-05-03T11:47:14.976529",
             "updated_at": "2026-05-03T11:47:14.976549"
+        },
+        {
+            "id": "CUST005",
+            "merchant_id": "MERCH002",
+            "name": "Anil Kumar",
+            "phone": "+919502199255",
+            "email": "anil.kumar.customer@gmail.com",
+            "gender": "Male",
+            "age": 28,
+            "city": "Hyderabad",
+            "state": "Telangana",
+            "total_purchases": 0,
+            "total_spent": 0,
+            "last_purchase_date": null,
+            "preferences_categories": [],
+            "opt_in_sms": true,
+            "opt_in_whatsapp": true,
+            "opt_in_email": true,
+            "is_active": true,
+            "created_at": "2026-04-27T12:00:00Z",
+            "updated_at": "2026-05-03T22:02:14.676061"
         }
     ],
     "ad_generation_history": [
+        {
+            "id": 61,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503232347\nSource: cache (no LLM)\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Your tech upgrade starts now! Sagar Fashion has incredible laptop deals just for you.\nCo...\n",
+            "campaign_id": "CAMP20260503232347",
+            "created_at": "2026-05-03T23:23:48.553916",
+            "timestamp": "2026-05-03 23:23"
+        },
+        {
+            "id": 60,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503224830\nSource: cache (no LLM)\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Your tech upgrade starts now! Sagar Fashion has incredible laptop deals just for you.\nCo...\n",
+            "campaign_id": "CAMP20260503224830",
+            "created_at": "2026-05-03T22:48:31.752641",
+            "timestamp": "2026-05-03 22:48"
+        },
+        {
+            "id": 59,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503224718\nSource: cache (no LLM)\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Your tech upgrade starts now! Sagar Fashion has incredible laptop deals just for you.\nCo...\n",
+            "campaign_id": "CAMP20260503224718",
+            "created_at": "2026-05-03T22:47:18.215604",
+            "timestamp": "2026-05-03 22:47"
+        },
+        {
+            "id": 58,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503224700\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Your tech upgrade starts now! Sagar Fashion has incredible laptop deals just for you.\nCo...\n",
+            "campaign_id": "CAMP20260503224700",
+            "created_at": "2026-05-03T22:47:01.138558",
+            "timestamp": "2026-05-03 22:47"
+        },
+        {
+            "id": 57,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503224156\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83d\ude80 Your next laptop upgrade is here with unbeatable deals at Sagar Fashion! Special for you...\n",
+            "campaign_id": "CAMP20260503224156",
+            "created_at": "2026-05-03T22:41:56.973127",
+            "timestamp": "2026-05-03 22:41"
+        },
+        {
+            "id": 56,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503223420\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83d\ude80 Looking for a new laptop? Sagar Fashion has amazing deals just for you in Hyderabad! Don...\n",
+            "campaign_id": "CAMP20260503223420",
+            "created_at": "2026-05-03T22:34:21.180136",
+            "timestamp": "2026-05-03 22:34"
+        },
+        {
+            "id": 55,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503223105\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Supercharge your tech! Sagar Fashion just launched amazing laptop deals \u2013 perfect for yo...\n",
+            "campaign_id": "CAMP20260503223105",
+            "created_at": "2026-05-03T22:31:06.094325",
+            "timestamp": "2026-05-03 22:31"
+        },
+        {
+            "id": 54,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503222743\nSource: cache (no LLM)\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Big news! Sagar Fashion has unmissable laptop deals just for you in Hyderabad. Don't mis...\n",
+            "campaign_id": "CAMP20260503222743",
+            "created_at": "2026-05-03T22:27:44.515492",
+            "timestamp": "2026-05-03 22:27"
+        },
+        {
+            "id": 53,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503222731\nSource: cache (no LLM)\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Big news! Sagar Fashion has unmissable laptop deals just for you in Hyderabad. Don't mis...\n",
+            "campaign_id": "CAMP20260503222731",
+            "created_at": "2026-05-03T22:27:31.020240",
+            "timestamp": "2026-05-03 22:27"
+        },
+        {
+            "id": 52,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503222714\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83c\udf89 Big news! Sagar Fashion has unmissable laptop deals just for you in Hyderabad. Don't mis...\n",
+            "campaign_id": "CAMP20260503222714",
+            "created_at": "2026-05-03T22:27:14.587607",
+            "timestamp": "2026-05-03 22:27"
+        },
+        {
+            "id": 51,
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "target_customer": "SMS Campaign (1 customers)",
+            "product_info": "Laptop",
+            "prompt_preview": "Laptop",
+            "full_content": "SMS Campaign: CAMP20260503220242\nProduct: Laptop\nCustomers: 1\nMessages: 1\n\nSample Messages:\n- Anil Kumar: Hey Anil! \ud83d\udd25 Ready to upgrade? We've got amazing deals on Laptops just for you!\nContact information:\n...\n",
+            "campaign_id": "CAMP20260503220242",
+            "created_at": "2026-05-03T22:02:43.657925",
+            "timestamp": "2026-05-03 22:02"
+        },
         {
             "id": 50,
             "user_id": "merchant2",
@@ -787,6 +940,171 @@
     ],
     "sms_campaigns": [
         {
+            "id": 33,
+            "campaign_id": "CAMP20260503232347",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 1,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T23:23:48.529127",
+            "timestamp": "2026-05-03 23:23:48"
+        },
+        {
+            "id": 32,
+            "campaign_id": "CAMP20260503224830",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:48:31.735737",
+            "timestamp": "2026-05-03 22:48:31"
+        },
+        {
+            "id": 31,
+            "campaign_id": "CAMP20260503224718",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:47:18.187265",
+            "timestamp": "2026-05-03 22:47:18"
+        },
+        {
+            "id": 30,
+            "campaign_id": "CAMP20260503224700",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:47:01.119346",
+            "timestamp": "2026-05-03 22:47:01"
+        },
+        {
+            "id": 29,
+            "campaign_id": "CAMP20260503224156",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:41:56.958965",
+            "timestamp": "2026-05-03 22:41:56"
+        },
+        {
+            "id": 28,
+            "campaign_id": "CAMP20260503223420",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:34:21.164218",
+            "timestamp": "2026-05-03 22:34:21"
+        },
+        {
+            "id": 27,
+            "campaign_id": "CAMP20260503223105",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:31:06.083733",
+            "timestamp": "2026-05-03 22:31:06"
+        },
+        {
+            "id": 26,
+            "campaign_id": "CAMP20260503222743",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:27:44.499611",
+            "timestamp": "2026-05-03 22:27:44"
+        },
+        {
+            "id": 25,
+            "campaign_id": "CAMP20260503222731",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:27:31.007605",
+            "timestamp": "2026-05-03 22:27:31"
+        },
+        {
+            "id": 24,
+            "campaign_id": "CAMP20260503222714",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": null,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:27:14.573481",
+            "timestamp": "2026-05-03 22:27:14"
+        },
+        {
+            "id": 23,
+            "campaign_id": "CAMP20260503220242",
+            "user_id": "merchant2",
+            "merchant_id": "MERCH002",
+            "type": "personalized_campaign",
+            "product": "Laptop",
+            "total_generated": 1,
+            "messages_sent": 0,
+            "customer_ids": [
+                "CUST005"
+            ],
+            "created_at": "2026-05-03T22:02:43.644485",
+            "timestamp": "2026-05-03 22:02:43"
+        },
+        {
             "id": 22,
             "campaign_id": "CAMP20260503114128",
             "user_id": "merchant2",
@@ -1146,14 +1464,14 @@
         "updated_at": "2026-01-01T10:00:00Z"
     },
     "telemetry": {
-        "total_api_calls": 50,
-        "total_sms_sent": 10,
-        "total_campaigns": 21,
+        "total_api_calls": 61,
+        "total_sms_sent": 11,
+        "total_campaigns": 32,
         "total_merchants": 3,
-        "total_customers": 4,
+        "total_customers": 5,
         "total_users": 6,
-        "last_api_call_timestamp": "2026-05-03T11:41:28.883768",
-        "last_updated": "2026-05-03T11:41:28.883870"
+        "last_api_call_timestamp": "2026-05-03T23:23:48.553916",
+        "last_updated": "2026-05-03T23:23:48.553960"
     },
     "purchase_history": [
         {

@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from datetime import datetime
 from fastapi import FastAPI, Depends, HTTPException, Form
@@ -6,8 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .schemas.ad_schemas import AdRequest, AdResponse, SettingsUpdate
 from .schemas.sms_schemas import (
-    SMSSendRequest, BulkSMSRequest, CampaignSMSRequest,
-    SMSResponse, BulkSMSResponse, CampaignSMSResponse
+    SMSSendRequest,
+    BulkSMSRequest,
+    CampaignSMSRequest,
+    SMSResponse,
+    BulkSMSResponse,
+    CampaignSMSResponse,
+    SNSDeliveryLine,
 )
 from .services.auth_service import auth_svc
 from .services.db_service import db_svc
@@ -18,6 +24,43 @@ from .services.prompt_service import (
 )
 from .services.settings_service import get_settings_service, SettingsService
 from .services.sns_service import sns_service
+from .services.sms_campaign_cache import (
+    make_sms_campaign_cache_key,
+    sms_campaign_generation_cache,
+)
+
+_log = logging.getLogger(__name__)
+
+
+def _sms_campaign_temp(msg: str, *args: object) -> None:
+    """TODO: remove temporary SMS trace logs after root-cause."""
+    _log.warning("[SMS_DEBUG_TEMP] " + msg, *args)
+
+
+def _mask_phone_tail(p: str) -> str:
+    if not p or len(p) < 5:
+        return "(redacted)"
+    return "***" + p[-4:]
+
+
+def _sns_delivery_lines_from_bulk(bulk: dict) -> list[SNSDeliveryLine]:
+    lines: list[SNSDeliveryLine] = []
+    for r in bulk.get("results") or []:
+        ph = str(r.get("phone") or "")
+        tail = ph[-4:] if len(ph) >= 4 else "?"
+        raw_detail = str(r.get("message") or "")
+        if len(raw_detail) > 2000:
+            raw_detail = raw_detail[:2000] + "…"
+        mid = r.get("message_id")
+        lines.append(
+            SNSDeliveryLine(
+                status=str(r.get("status") or "unknown"),
+                phone_tail=tail,
+                detail=raw_detail or None,
+                message_id=str(mid) if mid else None,
+            )
+        )
+    return lines
 
 
 app = FastAPI(title="AdPulseAI - Personalization PMI")
@@ -155,9 +198,14 @@ async def send_bulk_sms(
 async def create_sms_campaign(
     request: CampaignSMSRequest,
     user=Depends(auth_svc.get_current_user),
-    service: BaseAdService = Depends(get_llm_service)
 ):
     """Generate per-customer SMS via LLM; optionally send with SNS."""
+    _sms_campaign_temp(
+        "campaign start send_immediately=%s customer_ids=%s product_len=%s",
+        request.send_immediately,
+        request.customer_ids,
+        len(request.product_info or ""),
+    )
     db = db_svc.get_data()
     merchant_id = user.get("merchant_id")
 
@@ -171,42 +219,127 @@ async def create_sms_campaign(
     if not customers:
         raise HTTPException(status_code=404, detail="No customers found with provided IDs")
 
-    generated_messages = []
+    cache_key = make_sms_campaign_cache_key(request.product_info, request.customer_ids)
+    cached_by_customer = sms_campaign_generation_cache.get(cache_key)
 
-    for customer in customers:
-        customer_data = build_sms_campaign_customer_context(
-            company_name=company_name,
-            company_website=company_website,
-            company_phone=company_phone,
-            product_info=request.product_info,
-            customer_name=customer["name"],
-            gender=str(customer.get("gender", "N/A")),
-            age=str(customer.get("age", "N/A")),
-            city=str(customer.get("city", "N/A")),
+    generated_messages = []
+    from_cache = False
+
+    if cached_by_customer is not None:
+        missing = [c["id"] for c in customers if c["id"] not in cached_by_customer]
+        if not missing:
+            from_cache = True
+            _sms_campaign_temp(
+                "cache HIT key_prefix=%s customers=%s (LLM skipped)",
+                cache_key[:16],
+                len(customers),
+            )
+            for customer in customers:
+                cid = customer["id"]
+                generated_messages.append({
+                    "customer_id": cid,
+                    "name": customer["name"],
+                    "phone": customer.get("phone", "+91XXXXXXXXXX"),
+                    "message": cached_by_customer[cid].strip(),
+                })
+        else:
+            _sms_campaign_temp(
+                "cache PARTIAL miss key_prefix=%s missing_customer_ids=%s (LLM will run)",
+                cache_key[:16],
+                missing,
+            )
+    else:
+        _sms_campaign_temp(
+            "cache MISS key_prefix=%s — LLM will run (new product + customer combo, empty/missing cache file, or SMS_CAMPAIGN_CACHE_ENABLED=0)",
+            cache_key[:16],
         )
 
-        message_content = service.generate_response(customer_data, request.voice, prompt_type="sms_campaign")
+    if not from_cache:
+        service = get_llm_service()
+        for customer in customers:
+            customer_data = build_sms_campaign_customer_context(
+                company_name=company_name,
+                company_website=company_website,
+                company_phone=company_phone,
+                product_info=request.product_info,
+                customer_name=customer["name"],
+                gender=str(customer.get("gender", "N/A")),
+                age=str(customer.get("age", "N/A")),
+                city=str(customer.get("city", "N/A")),
+            )
 
-        generated_messages.append({
-            "customer_id": customer["id"],
-            "name": customer["name"],
-            "phone": customer.get("phone", "+91XXXXXXXXXX"),
-            "message": message_content.strip()
-        })
+            message_content = service.generate_response(
+                customer_data, request.voice, prompt_type="sms_campaign"
+            )
+
+            generated_messages.append({
+                "customer_id": customer["id"],
+                "name": customer["name"],
+                "phone": customer.get("phone", "+91XXXXXXXXXX"),
+                "message": message_content.strip(),
+            })
+
+        sms_campaign_generation_cache.set(
+            cache_key,
+            {m["customer_id"]: m["message"] for m in generated_messages},
+        )
+
+    _sms_campaign_temp(
+        "after generation from_cache=%s rows=%s phones_sample=%s",
+        from_cache,
+        len(generated_messages),
+        [_mask_phone_tail(str(m.get("phone", ""))) for m in generated_messages[:5]],
+    )
 
     campaign_id = f"CAMP{datetime.now().strftime('%Y%m%d%H%M%S')}"
 
     messages_sent = None
+    messages_skipped = None
+    messages_failed = None
+    sns_dispatch = None
+    last_sns_bulk = None
+    sns_delivery_results = None
     if request.send_immediately:
         recipients = [
             {"phone": msg["phone"], "message": msg["message"]}
             for msg in generated_messages
             if msg["phone"] != "+91XXXXXXXXXX"
         ]
+        ph_placeholder = sum(1 for m in generated_messages if m.get("phone") == "+91XXXXXXXXXX")
+        _sms_campaign_temp(
+            "sns branch recipients=%s placeholder_phones_in_campaign=%s dispatch_before=%s",
+            len(recipients),
+            ph_placeholder,
+            sns_service.dispatch_mode(),
+        )
 
-        if recipients:
+        if not recipients:
+            sns_dispatch = "no_valid_phones"
+            messages_sent = 0
+            messages_skipped = 0
+            messages_failed = 0
+            _sms_campaign_temp("no recipients after filtering placeholder phones")
+        else:
+            sns_dispatch = sns_service.dispatch_mode()
             send_result = sns_service.send_bulk_sms(recipients)
+            last_sns_bulk = send_result
+            sns_delivery_results = _sns_delivery_lines_from_bulk(send_result)
             messages_sent = send_result["sent"]
+            messages_skipped = send_result["skipped"]
+            messages_failed = send_result["failed"]
+            if sns_dispatch == "live" and messages_sent == 0 and messages_skipped and not messages_failed:
+                sns_dispatch = "live_all_skipped_allowlist"
+            _sms_campaign_temp(
+                "campaign sns result campaign_id=%s sns_dispatch=%s sent=%s skipped=%s failed=%s",
+                campaign_id,
+                sns_dispatch,
+                messages_sent,
+                messages_skipped,
+                messages_failed,
+            )
+    else:
+        sns_dispatch = "not_requested"
+        _sms_campaign_temp("send_immediately false — SNS skipped")
 
     db_svc.log_sms_campaign(
         user["sub"],
@@ -219,6 +352,8 @@ async def create_sms_campaign(
     )
 
     sms_summary = f"SMS Campaign: {campaign_id}\n"
+    if from_cache:
+        sms_summary += "Source: cache (no LLM)\n"
     sms_summary += f"Product: {request.product_info}\n"
     sms_summary += f"Customers: {len(customers)}\n"
     sms_summary += f"Messages: {len(generated_messages)}\n\n"
@@ -240,7 +375,13 @@ async def create_sms_campaign(
         campaign_id=campaign_id,
         total_customers=len(customers),
         messages_generated=len(generated_messages),
+        send_requested=request.send_immediately,
         messages_sent=messages_sent,
+        messages_skipped=messages_skipped,
+        messages_failed=messages_failed,
+        from_cache=from_cache,
+        sns_dispatch=sns_dispatch,
+        sns_delivery_results=sns_delivery_results,
         preview=generated_messages[:5],
     )
 
